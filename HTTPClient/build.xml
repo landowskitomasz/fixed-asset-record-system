@@ -1,0 +1,48 @@
+<!--
+  ~ Licensed to the Apache Software Foundation (ASF) under one
+  ~ or more contributor license agreements. See the NOTICE file
+  ~ distributed with this work for additional information
+  ~ regarding copyright ownership. The ASF licenses this file
+  ~ to you under the Apache License, Version 2.0 (the
+  ~ "License"); you may not use this file except in compliance
+  ~ with the License. You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~ KIND, either express or implied. See the License for the
+  ~ specific language governing permissions and limitations
+  ~ under the License.
+  -->
+
+<project name="HTTPClient" basedir="." default="compile">
+
+    <property environment="env"/>
+	<property name="src.dir"     value="src"/>
+    <property name="build.dir"   value="build"/>
+    <property name="classes.dir" value="${build.dir}/classes"/>
+    <property name="dist.dir"     value="dist"/>
+
+
+    <target name="compile">
+    	<mkdir dir="${classes.dir}"/>
+    	<mkdir dir="${dist.dir}"/>
+    	
+        <javac debug="on" 
+               fork="true"
+               destdir="${classes.dir}" 
+               srcdir="${src.dir}">
+        </javac>
+    	
+    	<jar destfile="${dist.dir}/HttpClient.jar">
+    	    <fileset dir="${classes.dir}"/>
+    	</jar>
+    </target>
+
+	<target name="clean">
+        <delete dir="${dist.dir}"/>
+		<delete dir="${build.dir}"/>
+    </target>
+</project>
