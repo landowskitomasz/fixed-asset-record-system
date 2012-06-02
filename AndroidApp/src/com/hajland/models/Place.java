@@ -3,6 +3,8 @@ package com.hajland.models;
 public class Place 
 {
 	private String guid;
+	
+	private int id;
 	 
     private String owner; // optional field
  
@@ -38,6 +40,14 @@ public class Place
 	 */
 	public void setGuid(String guid) {
 		this.guid = guid;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	/**
@@ -192,5 +202,11 @@ public class Place
 	 */
 	public void setStreet(String street) {
 		this.street = street;
+	}
+	
+	@Override
+	public String toString()
+	{
+		return this.city + ", " + this.building + "\n\t piêtro: " + this.floor + ", pokój: " + this.roomNumber;
 	}
 }

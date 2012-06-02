@@ -5,6 +5,8 @@ import java.util.Date;
 public class Employee 
 {
 	private String guid;
+	
+	private int id;
 	 
     private String owner; // optional field
  
@@ -18,7 +20,7 @@ public class Employee
  
     private String name;
  
-    private int pesel;
+    private String pesel;
  
     private String placeOfBirth;
  
@@ -30,6 +32,14 @@ public class Employee
 
 	public void setGuid(String guid) {
 		this.guid = guid;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getOwner() {
@@ -80,11 +90,11 @@ public class Employee
 		this.name = name;
 	}
 
-	public int getPesel() {
+	public String getPesel() {
 		return pesel;
 	}
 
-	public void setPesel(int pesel) {
+	public void setPesel(String pesel) {
 		this.pesel = pesel;
 	}
 
@@ -102,5 +112,11 @@ public class Employee
 
 	public void setSurname(String surname) {
 		this.surname = surname;
+	}
+	
+	@Override
+	public String toString()
+	{
+		return this.name + " " + this.surname + "\n\t email: " + this.email+ "\n\t PESEL: " + this.pesel;
 	}
 }

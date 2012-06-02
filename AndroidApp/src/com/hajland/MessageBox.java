@@ -24,7 +24,10 @@ public class MessageBox {
 		{
 	        dlgAlert.setPositiveButton("OK",new DialogInterface.OnClickListener() {
 	            public void onClick(DialogInterface dialog, int whichButton) {
-	                 callback.onFinished(MessageBoxResult.Ok);
+	            	if(callback != null)
+	            	{
+	            		callback.onFinished(MessageBoxResult.Ok);
+	            	}
 	            }
 	       });
 		}

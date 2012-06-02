@@ -1,30 +1,65 @@
 package com.hajland;
 
+import com.hajland.logic.ClearingCallback;
+import com.hajland.logic.ClearingStatus;
 import com.hajland.logic.Engine;
 import com.hajland.logic.LoginCallback;
+import com.hajland.logic.Settings;
+import com.hajland.logic.SynchronizationStatus;
+import com.hajland.logic.SynchronizeCallback;
+import com.hajland.models.User;
 import com.mobeelizer.mobile.android.api.MobeelizerLoginStatus;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.opengl.Visibility;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 public class MainPage extends Activity {
-    /** Called when the activity is first created. */
+
+    private ProgressDialog dialog;
+    
+    public static final String PREFS_NAME = "applicationSettingsFile";
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        Settings.getInstance().init(getSharedPreferences(PREFS_NAME, 0));
         this.disableButtons();
+        this.dialog = ProgressDialog.show(MainPage.this, "Inicjacja", "Proszê czekaj, trwa inicjowanie aplikacji..");
         Engine.getInstance().login(new LoginCallback(){
         	public void onLoginFinished(final MobeelizerLoginStatus status)
         	{
+        		dialog.cancel();
         		if(status == MobeelizerLoginStatus.OK)
         		{
 	        		MessageBox.ShowToast("Login finished!", getApplicationContext());
-	        		enableButtons();
+	        		User user = Engine.getInstance().getUserIdentyfication().getCurrentUser();
+	        		TextView loginStatus = (TextView)MainPage.this.findViewById(R.id.loginStatus);
+	        		if(user != null)
+	        		{
+		        		enableButtons();
+		        		loginStatus.setText("Jesteœ zidentyfikowany jako: \n\t"+user.getName() + " " + user.getSurname());
+
+		            	Button loginButton = (Button)MainPage.this.findViewById(R.id.loginButton);
+		            	loginButton.setText(R.string.changeLogin);
+	        		}
+	        		else
+	        		{
+		        		loginStatus.setText(R.string.loginStatusDefault);
+	        			enableSyncAllButton();
+		            	Button loginButton = (Button)MainPage.this.findViewById(R.id.loginButton);
+		            	loginButton.setText(R.string.confirmLogin);
+	        		}
         		}
         		else
         		{
@@ -32,6 +67,52 @@ public class MainPage extends Activity {
         		}
         	}
         });
+    }
+    
+    @Override
+    public void onStop(){
+        super.onStop();
+    	//Engine.getInstance().logout();
+    }
+    
+    public void onLogin(View target) 
+    {
+		AlertDialog.Builder alert = new AlertDialog.Builder(this);                 
+		alert.setTitle("Identyfikacja");  
+		alert.setMessage("Login:");                
+		final EditText input = new EditText(this); 
+		alert.setView(input);
+
+		alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {  
+		    public void onClick(DialogInterface dialog, int whichButton) {  
+		        String value = input.getText().toString();
+		    	if(Engine.getInstance().getUserIdentyfication().tryIdentifyUser(value))
+		    	{
+	        		User user = Engine.getInstance().getUserIdentyfication().getCurrentUser();
+	        		TextView loginStatus = (TextView)MainPage.this.findViewById(R.id.loginStatus);
+	        		loginStatus.setText("Jesteœ zidentyfikowany jako: \n\t"+user.getName() + " " + user.getSurname());
+					MessageBox.Show("Sukces", "U¿ytkownik zidentyfikowany prawid³owo.", ButtonType.Ok, MainPage.this, null);
+		    		enableButtons();
+	            	Button loginButton = (Button)MainPage.this.findViewById(R.id.loginButton);
+	            	loginButton.setText(R.string.changeLogin);
+		    	}
+		    	else
+		    	{
+		    		Engine.getInstance().getUserIdentyfication().forgetUser();
+					MessageBox.Show("B³¹d", "Nie rozpoznano u¿ytkownika, spróbuj ponownie.", ButtonType.Ok, MainPage.this, null);
+	            	Button loginButton = (Button)MainPage.this.findViewById(R.id.loginButton);
+	            	loginButton.setText(R.string.confirmLogin);
+	            	
+	        		TextView loginStatus = (TextView)MainPage.this.findViewById(R.id.loginStatus);
+	            	loginStatus.setText(R.string.loginStatusDefault);
+        			MainPage.this.disableButtons();
+	            	MainPage.this.enableSyncAllButton();
+		    	}
+		        return;                  
+		       }  
+		});  
+		alert.show();
+    		
     }
     
     public void onBeginWork(View target) 
@@ -42,110 +123,34 @@ public class MainPage extends Activity {
     
     public void onSynchronize(View target) 
     {
-    /*	MobeelizerSyncStatus allstat =  Mobeelizer.syncAll();
-		MessageBox.ShowToast(" "+ allstat, getApplicationContext());
-		
-    	MobeelizerDatabase database = Mobeelizer.getDatabase();
-    	Employee employee = new Employee();
-    	employee.setId(1);
-    	employee.setEmail("landowskitomasz@gmail.com");
-    	employee.setName("Tomasz");
-    	employee.setSurname("Landowski");
-    	employee.setDateOfBirth(new Date(Date.UTC(1989, 8, 31, 0, 0, 0)));
-    	employee.setPesel(89083112);
-    	employee.setPlaceOfBirth("Nowy Targ");
-    	database.save(employee);
-    	employee = new Employee();
-    	employee.setId(2);
-    	employee.setEmail("mhajduczek@gmail.com");
-    	employee.setName("Marcin");
-    	employee.setSurname("Hajduczek");
-    	employee.setDateOfBirth(new Date(Date.UTC(1989, 3, 12, 0, 0, 0)));
-    	employee.setPesel(89012112);
-    	employee.setPlaceOfBirth("Leszczyny");
-    	database.save(employee);
-    	
-    	Place place = new Place();
-    	place.setId(1);
-    	place.setCity("Kraków");
-    	place.setBuilding("SSE1");
-    	place.setCountry("Polska");
-    	place.setFloor(0);
-    	place.setPostalCode("34-400");
-    	place.setProvince("Ma³opolska");
-    	place.setRoomNumber(13);
-    	place.setStreet("Jana Paw³a II");
-    	database.save(place);
-    	place = new Place();
-    	place.setId(2);
-    	place.setCity("Kraków");
-    	place.setBuilding("SSE1");
-    	place.setCountry("Polska");
-    	place.setFloor(0);
-    	place.setPostalCode("34-400");
-    	place.setProvince("Ma³opolska");
-    	place.setRoomNumber(14);
-    	place.setStreet("Jana Paw³a II");
-    	database.save(place);
-    	place = new Place();
-    	place.setId(3);
-    	place.setCity("Kraków");
-    	place.setBuilding("SSE1");
-    	place.setCountry("Polska");
-    	place.setFloor(0);
-    	place.setPostalCode("34-400");
-    	place.setProvince("Ma³opolska");
-    	place.setRoomNumber(15);
-    	place.setStreet("Jana Paw³a II");
-    	database.save(place);
-    	place = new Place();
-    	place.setId(4);
-    	place.setCity("Kraków");
-    	place.setBuilding("SSE2");
-    	place.setCountry("Polska");
-    	place.setFloor(0);
-    	place.setPostalCode("34-400");
-    	place.setProvince("Ma³opolska");
-    	place.setRoomNumber(134);
-    	place.setStreet("Jana Paw³a II");
-    	database.save(place);
-    	
-    	Equipment equipment = new Equipment();
-    	equipment.setId(1);
-    	equipment.setBrand("AMD");
-    	equipment.setModel("PC");
-    	equipment.setSerialNumer("SF5SDF345DSGF5");
-    	database.save(equipment);
-    	equipment = new Equipment();
-    	equipment.setId(2);
-    	equipment.setBrand("AMD");
-    	equipment.setModel("Monitor");
-    	equipment.setSerialNumer("SF5SHFG45DSGF5");
-    	database.save(equipment);
-    	
-    	User user = new User();
-    	user.setId(1);
-    	user.setLogin("tomasz.landowski");
-    	user.setName("Tomasz");
-    	user.setSurname("Landowski");
-    	database.save(user);
-    	user = new User();
-    	user.setId(2);
-    	user.setLogin("hajduczek.marcin");
-    	user.setName("Marcin");
-    	user.setSurname("Hajduczek");
-    	database.save(user);
-    	
-    	MobeelizerSyncStatus stat =  Mobeelizer.sync();
-    	if(stat == MobeelizerSyncStatus.FINISHED_WITH_SUCCESS)
-    	{
-    		MessageBox.ShowToast("Synchoronized!", getApplicationContext());
-    	}
-    	else
-    	{
-    		MobeelizerSyncStatus status =  Mobeelizer.checkSyncStatus();
-    		MessageBox.ShowToast("Failed: " + stat, getApplicationContext());
-    	}*/
+    	dialog = ProgressDialog.show(this, "Synchronizacja", "Proszê czekaj, trwa zatwierdzanie Twojej pracy...");
+    	Engine.getInstance().synchronize(new SynchronizeCallback(){
+    		public void onFinished(SynchronizationStatus status)
+    		{
+    			dialog.cancel();
+    			if(status == SynchronizationStatus.SUCCESS)
+    			{
+    				MessageBox.Show("Sukces", "Synchronizacja danych roboczych z serwerem zakoñczy³a siê powodzeniem.", ButtonType.Ok, MainPage.this, null);
+    			}
+    			else if(status == SynchronizationStatus.CONFLICTS)
+    			{
+    				MessageBox.Show("B³¹d", "Wyst¹pi³y konflikty, czy chcesz je rozwi¹zaæ teraz?.", ButtonType.YesNo, MainPage.this, new MessageBoxCallback(){
+
+						public void onFinished(MessageBoxResult result) {
+							if(result == MessageBoxResult.Yes)
+							{
+								// TODO: Navigate to resolve conflict page 
+							}
+						}
+    					
+    				});
+    			}
+    			else if(status == SynchronizationStatus.FATALERROR)
+    			{
+    				MessageBox.Show("B³¹d", "Synchronizacja danych roboczych z serwerem nie powiod³a siê, spróbuje ponownie póŸniej.", ButtonType.Ok, MainPage.this, null);
+    			}
+    		}
+    	});
     }
     
     public void onClear(View target) 
@@ -153,7 +158,23 @@ public class MainPage extends Activity {
 		MessageBox.Show("Uwaga", "Jesteœ pewny ¿e chcesz wyczyœciæ œrodowisko pracy? To usunie wszystkie dotychczasowe zmiany.", ButtonType.YesNo, this, new MessageBoxCallback(){
 			public void onFinished(MessageBoxResult result)
 			{
-				
+				if(result == MessageBoxResult.Yes)
+				{
+					dialog = ProgressDialog.show(MainPage.this, "Czyszczenie", "Pobieranie aktualnego œrodowiska pracy...");
+					Engine.getInstance().clearWorkingEnvironment(new ClearingCallback(){
+						public void onClearingFinished(ClearingStatus status) {
+							dialog.cancel();
+							if(status == ClearingStatus.Finished)
+							{
+								MessageBox.Show("Sukces", "Czyszczenie œrodowiska pracy zakoñczy³o siê sukcesem.", ButtonType.Ok, MainPage.this, null);
+							}
+							else if (status == ClearingStatus.Failed)
+							{
+								MessageBox.Show("B³¹d!", "Czyszczenie œrodowiska pracy nie powiod³o siê, spróbuj ponownie póŸniej.", ButtonType.Ok, MainPage.this, null);
+							}
+						}
+					});
+				}
 			}
 		});
     }
@@ -176,6 +197,10 @@ public class MainPage extends Activity {
     	begin.setEnabled(true);
     	clear.setEnabled(true);
     	synchronize.setEnabled(true);
-    
     }
+
+	private void enableSyncAllButton() {
+    	Button clear = (Button)this.findViewById(R.id.clearButton);
+    	clear.setEnabled(true);
+	}
 }

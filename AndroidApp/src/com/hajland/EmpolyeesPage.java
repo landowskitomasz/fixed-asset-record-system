@@ -2,7 +2,6 @@ package com.hajland;
 
 
 import java.util.ArrayList;
-import java.util.Dictionary;
 import java.util.List;
 
 import com.hajland.logic.Engine;
@@ -11,16 +10,17 @@ import com.hajland.models.Place;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.AdapterView.OnItemClickListener;
 
 public class EmpolyeesPage extends Activity 
 {
@@ -71,7 +71,8 @@ public class EmpolyeesPage extends Activity
     	for(int i =0; i< employees.size(); ++i)
     	{
     		Employee employee = employees.get(i);
-    		String item = employee.getName()+ " " + employee.getSurname() + "\n"+ employee.getEmail(); 
+    		Place employeePlace = Engine.getInstance().getMapper().getEmployeePlace(employee);
+    		String item = employee.getName()+ " " + employee.getSurname() + "\n"+ employee.getEmail() + "\nPokój: "+ ((employeePlace == null)?"brak":employeePlace.getFloor()+employeePlace.getRoomNumber()+ " ("+ employeePlace.getBuilding()+ " " + employeePlace.getCity() + ")"); 
     		items[i] = item;
     	}
     	
@@ -80,12 +81,34 @@ public class EmpolyeesPage extends Activity
 	
 		builder.setItems(items, new DialogInterface.OnClickListener() {
 		    public void onClick(DialogInterface dialog, int item) {
-		    	Engine.getInstance().getMapper().map(place, employees.get(item));
-		    	refreshEmployeesList();
+		    	addEmployee(employees.get(item));
 		    }
 		});
 		AlertDialog alert = builder.create();
 		alert.show();
+    }
+    
+    private void addEmployee(final Employee employee)
+    {
+    	Place employeePlace = Engine.getInstance().getMapper().getEmployeePlace(employee);
+		if(employeePlace != null)
+		{
+			MessageBox.Show("Uwaga!", "Na pewno chcesz dodaæ pracownika który jest przypisany do pokoju "+ employeePlace.getFloor()+employeePlace.getRoomNumber()+ " ("+ employeePlace.getBuilding()+ " " + employeePlace.getCity() + ")"+", od tej pory zmieni miejsce pracy!", ButtonType.YesNo, this, new MessageBoxCallback(){
+				public void onFinished(MessageBoxResult result)
+				{
+					if(result == MessageBoxResult.Yes)
+					{
+				    	Engine.getInstance().getMapper().map(place, employee);
+				    	refreshEmployeesList();
+					}
+				}
+			});
+		}
+		else
+		{
+	    	Engine.getInstance().getMapper().map(place, employee);
+	    	refreshEmployeesList();
+		}
     }
     
     private void refreshEmployeesList()
@@ -94,7 +117,7 @@ public class EmpolyeesPage extends Activity
         this.fillEmployeesList(employees);
     }
     
-    private void fillEmployeesList(List<Employee> employeesList)
+    private void fillEmployeesList(final List<Employee> employeesList)
     {
     	ListView listView = (ListView)this.findViewById(R.id.employeesListView);
     	if(employeesList.isEmpty())
@@ -109,6 +132,18 @@ public class EmpolyeesPage extends Activity
     	{
 	    	listView.setAdapter(new ArrayAdapter<Employee>(this, R.layout.places_list_item, employeesList));
 	        listView.setTextFilterEnabled(true);
+	        listView.setOnItemClickListener(new OnItemClickListener() {
+	            public void onItemClick(AdapterView<?> parent, View view, int position, long id) 
+	            {
+	          	Employee employee = employeesList.get((int)id);
+	            	Intent sec = new Intent(EmpolyeesPage.this, EquipmentPage.class);
+	            	Bundle b = new Bundle();
+	            	b.putInt("employeeId", employee.getId());
+	                Log.i("EmplyeePage", "Id =" + employee.getId());
+	            	sec.putExtras(b);
+	            	startActivity(sec);
+	            }
+	          });
 	        enableRemoveButton();
     	}
     }

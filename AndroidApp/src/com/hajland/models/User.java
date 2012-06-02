@@ -10,7 +10,7 @@ public class User
  
     private boolean modified; // optional field
  
-    private String id;
+    private int id;
  
     private String login;
  
@@ -50,11 +50,11 @@ public class User
 		this.modified = modified;
 	}
 
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 

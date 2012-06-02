@@ -7,5 +7,8 @@
     <string name="addButtonContent">Dodaj</string>
     <string name="removeButtonContent">Usuń</string>
     <string name="pickEmployeeTitle">Wybierz pracownika którego chcesz dodać:</string>
+    <string name="confirmLogin">Wprowadź </string>
+    <string name="changeLogin">Zmień</string>
+    <string name="loginStatusDefault">Aby rozpocząć pracę musisz wprowadzić nazwę użytkownika, który wprowadza zmiany.</string>
 
 </resources>
