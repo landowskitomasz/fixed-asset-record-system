@@ -1,14 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Ewidencja œrodków trwa³ych</string>
-    <string name="beginWorkButtonText">Rozpocznij/Kontynuuj pracê</string>
-    <string name="synchronizeButtonText">Wyœlij wykonan¹ pracê</string>
-    <string name="clearButtonText">Pobierz/wyczyœæ œrodowisko pracy</string>
+    <string name="app_name">Ewidencja Å›rodkÃ³w trwaÅ‚ych</string>
+    <string name="beginWorkButtonText">Rozpocznij/Kontynuuj pracÄ™</string>
+    <string name="synchronizeButtonText">WyÅ›lij wykonanÄ… pracÄ™</string>
+    <string name="clearButtonText">Pobierz/wyczyÅ›Ä‡ Å›rodowisko pracy</string>
     <string name="addButtonContent">Dodaj</string>
-    <string name="removeButtonContent">Usuñ</string>
-    <string name="pickEmployeeTitle">Wybierz pracownika którego chcesz dodaæ:</string>
-    <string name="confirmLogin">WprowadŸ </string>
-    <string name="changeLogin">Zmieñ</string>
-    <string name="loginStatusDefault">Aby rozpocz¹æ pracê musisz wprowadziæ nazwê u¿ytkownika, który wprowadza zmiany.</string>
+    <string name="removeButtonContent">UsuÅ„</string>
+    <string name="pickEmployeeTitle">Wybierz pracownika ktÃ³rego chcesz dodaÄ‡:</string>
+    <string name="confirmLogin">WprowadÅº</string>
+    <string name="changeLogin">ZmieÅ„</string>
+    <string name="loginStatusDefault">Aby rozpoczÄ…Ä‡ pracÄ™ musisz wprowadziÄ‡ nazwÄ™ uÅ¼ytkownika, ktÃ³ry wprowadza zmiany.</string>
 
 </resources>
