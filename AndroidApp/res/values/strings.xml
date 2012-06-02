@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Ewidencja środków trwałych</string>
+    <string name="beginWorkButtonText">Rozpocznij/Kontynuuj pracę</string>
+    <string name="synchronizeButtonText">Wyślij wykonaną pracę</string>
+    <string name="clearButtonText">Pobierz/wyczyść środowisko pracy</string>
+    <string name="addButtonContent">Dodaj</string>
+    <string name="removeButtonContent">Usuń</string>
+    <string name="pickEmployeeTitle">Wybierz pracownika którego chcesz dodać:</string>
+
+</resources>
