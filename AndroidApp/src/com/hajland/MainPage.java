@@ -8,14 +8,13 @@ import com.hajland.logic.Settings;
 import com.hajland.logic.SynchronizationStatus;
 import com.hajland.logic.SynchronizeCallback;
 import com.hajland.models.User;
+import com.mobeelizer.mobile.android.Mobeelizer;
 import com.mobeelizer.mobile.android.api.MobeelizerLoginStatus;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.opengl.Visibility;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -31,45 +30,95 @@ public class MainPage extends Activity {
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
+    	Log.i("MainPage", "oncreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         Settings.getInstance().init(getSharedPreferences(PREFS_NAME, 0));
-        this.disableButtons();
-        this.dialog = ProgressDialog.show(MainPage.this, "Inicjacja", "Proszê czekaj, trwa inicjowanie aplikacji..");
-        Engine.getInstance().login(new LoginCallback(){
-        	public void onLoginFinished(final MobeelizerLoginStatus status)
-        	{
-        		dialog.cancel();
-        		if(status == MobeelizerLoginStatus.OK)
-        		{
-	        		MessageBox.ShowToast("Login finished!", getApplicationContext());
-	        		User user = Engine.getInstance().getUserIdentyfication().getCurrentUser();
-	        		TextView loginStatus = (TextView)MainPage.this.findViewById(R.id.loginStatus);
-	        		if(user != null)
-	        		{
-		        		enableButtons();
-		        		loginStatus.setText("Jesteœ zidentyfikowany jako: \n\t"+user.getName() + " " + user.getSurname());
-
-		            	Button loginButton = (Button)MainPage.this.findViewById(R.id.loginButton);
-		            	loginButton.setText(R.string.changeLogin);
-	        		}
-	        		else
-	        		{
-		        		loginStatus.setText(R.string.loginStatusDefault);
-	        			enableSyncAllButton();
-		            	Button loginButton = (Button)MainPage.this.findViewById(R.id.loginButton);
-		            	loginButton.setText(R.string.confirmLogin);
-	        		}
-        		}
-        		else
-        		{
-        			MessageBox.ShowToast("Login failed!", getApplicationContext());
-        		}
-        	}
-        });
+        loginMobeelizer();
+       
     }
     
     @Override
+    public void onStart()
+    {
+    	super.onStart();
+    	if(Mobeelizer.isLoggedIn())
+    	{
+    		this.checkConflictStatus();
+    	}
+    }
+    
+    private void loginMobeelizer()
+    {
+    	 this.disableButtons();
+         this.dialog = ProgressDialog.show(MainPage.this, "Inicjacja", "Proszê czekaj, trwa inicjowanie aplikacji..");
+         Engine.getInstance().login(new LoginCallback(){
+         	public void onLoginFinished(final MobeelizerLoginStatus status)
+         	{
+         		dialog.cancel();
+         		if(status == MobeelizerLoginStatus.OK)
+         		{
+ 	        		MessageBox.ShowToast("Login finished!", getApplicationContext());	
+ 	        		checkIdentyficationStatus();
+ 	        		checkConflictStatus();
+         		}
+         		else
+         		{
+         			MessageBox.ShowToast("Login failed!", getApplicationContext());
+         		}
+         	}
+         });
+    }
+    
+    private void checkConflictStatus()
+    {
+    	Log.i("MainPage", "check conflict status");
+		if(Settings.getInstance().isConflicted())
+    	{
+	    	Log.i("MainPage", "there are conflict");
+	    	MainPage.this.disableButtons();
+    		MainPage.this.enableResolveButton();
+    	}
+    	else
+    	{
+	    	Log.i("MainPage", "conflict status false");
+			this.enableButtons();
+    		MainPage.this.disableResolveButton();
+    	}
+    }
+    
+    private void checkIdentyficationStatus()
+    {
+    	User user = Engine.getInstance().getUserIdentyfication().getCurrentUser();
+		TextView loginStatus = (TextView)MainPage.this.findViewById(R.id.loginStatus);
+		if(user != null)
+		{
+    		enableButtons();
+    		loginStatus.setText("Jesteœ zidentyfikowany jako: \n\t"+user.getName() + " " + user.getSurname());
+
+        	Button loginButton = (Button)MainPage.this.findViewById(R.id.loginButton);
+        	loginButton.setText(R.string.changeLogin);
+		}
+		else
+		{
+    		loginStatus.setText(R.string.loginStatusDefault);
+			enableSyncAllButton();
+        	Button loginButton = (Button)MainPage.this.findViewById(R.id.loginButton);
+        	loginButton.setText(R.string.confirmLogin);
+		}
+    }
+    
+    private void disableResolveButton() {
+    	Button button = (Button)this.findViewById(R.id.resolveButton);
+    	button.setEnabled(false);
+	}
+
+	private void enableResolveButton() {
+    	Button button = (Button)this.findViewById(R.id.resolveButton);
+    	button.setEnabled(true);
+	}
+
+	@Override
     public void onStop(){
         super.onStop();
     	//Engine.getInstance().logout();
@@ -113,6 +162,12 @@ public class MainPage extends Activity {
 		});  
 		alert.show();
     		
+    }
+    
+    public void onResolve(View target) 
+    {
+    	Intent sec = new Intent(MainPage.this, ConflictsPage.class);
+    	startActivity(sec);
     }
     
     public void onBeginWork(View target) 

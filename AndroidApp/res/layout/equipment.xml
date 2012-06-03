@@ -15,7 +15,7 @@
           android:layout_height="wrap_content" >
       </ListView>
   </LinearLayout>
-  <LinearLayout  android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_weight="1">
+  <LinearLayout  android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_weight="1" android:baselineAligned="false">
       <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_weight="1">
       		<Button
       		    android:id="@+id/removeEquipmentButton"

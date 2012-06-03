@@ -1,13 +1,10 @@
 package com.hajland;
 
-import java.security.acl.Owner;
 import java.util.ArrayList;
 import java.util.List;
-
 import com.hajland.logic.Engine;
 import com.hajland.models.Employee;
 import com.hajland.models.Equipment;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -95,7 +92,7 @@ public class EquipmentPage extends Activity {
     			{
     				if(result == MessageBoxResult.Yes)
     				{
-    			    	Engine.getInstance().getMapper().map(employee, equipment);
+    			    	Engine.getInstance().getMapper().changeMaping(employee, equipment);
     			    	refreshEquipmentList();
     				}
     			}

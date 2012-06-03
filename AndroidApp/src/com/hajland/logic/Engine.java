@@ -2,16 +2,9 @@ package com.hajland.logic;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import android.util.Log;
-
-import com.hajland.ButtonType;
-import com.hajland.MainPage;
-import com.hajland.MessageBox;
 import com.hajland.models.Employee;
 import com.hajland.models.Equipment;
 import com.hajland.models.Mapping;
-import com.hajland.models.User;
 import com.mobeelizer.mobile.android.Mobeelizer;
 import com.mobeelizer.mobile.android.api.MobeelizerDatabase;
 import com.mobeelizer.mobile.android.api.MobeelizerLoginCallback;
@@ -32,9 +25,19 @@ public class Engine
 	
 	private final String password = "hajland";
 
-	private List<Employee> employeeInConflictList = new ArrayList<Employee>();
+	private List<Mapping> employeeInConflictList = new ArrayList<Mapping>();
 
-	private List<Equipment> equipmentInConflictList = new ArrayList<Equipment>();
+	private List<Mapping> equipmentInConflictList = new ArrayList<Mapping>();
+	
+	public List<Mapping> getEmployeeInConflictList()
+	{
+		return this.employeeInConflictList;
+	}
+	
+	public List<Mapping> getEquipmentInConflictList ()
+	{
+		return this.equipmentInConflictList;
+	}
 	
 	private Engine()
 	{	
@@ -109,10 +112,12 @@ public class Engine
 				{
 					if(!lookForConflicts())
 					{
+		    			Settings.getInstance().setConflictStatus(false);
 						synchronizeCallback.onFinished(SynchronizationStatus.SUCCESS);
 					}
 					else
 					{
+		    			Settings.getInstance().setConflictStatus(true);
 						synchronizeCallback.onFinished(SynchronizationStatus.CONFLICTS);
 					}
 				}
@@ -124,28 +129,35 @@ public class Engine
 		});
 	}
 	
-	
-	private boolean lookForConflicts()
+	public boolean lookForConflicts()
 	{
+		equipmentInConflictList.clear();
+		employeeInConflictList.clear();
 		MobeelizerDatabase database = Mobeelizer.getDatabase();
 		List<Employee> employees = database.list(Employee.class);
 		List<Equipment> equipmentList = database.list(Equipment.class);
 		for(Employee employee: employees)
 		{
 			List<Mapping> mappings = database.find(Mapping.class).add(MobeelizerRestrictions.eq("employee", employee.getGuid())).list();
-			String placeGuid = null;
+			Mapping foundMpping = null;
+			int number = 0;
 			for(Mapping mapping: mappings)
 			{
 				if(mapping.getPlace() != null)
 				{
-					if(placeGuid == null)
+					if(foundMpping == null)
 					{
-						placeGuid = mapping.getPlace();
+						foundMpping = mapping;
 					}
 					else
 					{
-						employeeInConflictList.add(employee);
+						if(number == 1)
+						{
+							employeeInConflictList.add(foundMpping);
+						}
+						employeeInConflictList.add(mapping);
 					}
+					number++;
 				}
 			}
 		}
@@ -153,19 +165,26 @@ public class Engine
 		for(Equipment equipment: equipmentList)
 		{
 			List<Mapping> mappings = database.find(Mapping.class).add(MobeelizerRestrictions.eq("equipment", equipment.getGuid())).list();
-			String employeeGuid = null;
+
+			Mapping foundMpping = null;
+			int number = 0;
 			for(Mapping mapping: mappings)
 			{
 				if(mapping.getEmployee() != null)
 				{
-					if(employeeGuid == null)
+					if(foundMpping == null)
 					{
-						employeeGuid = mapping.getEmployee();
+						foundMpping = mapping;
 					}
 					else
 					{
-						equipmentInConflictList.add(equipment);
+						if(number == 1)
+						{
+							equipmentInConflictList.add(foundMpping);
+						}
+						equipmentInConflictList.add(mapping);
 					}
+					number++;
 				}
 			}
 		}

@@ -128,7 +128,14 @@ public class Mapper
 		mapping.setCreatedBy(Engine.getInstance().getUserIdentyfication().getCurrentUser().getId());
 		mapping.setCreationDate(new Date());
 		database.save(mapping);
-		
+	}
+	
+	public void changeMaping(Employee employee, Equipment equipment) {
+		Mapping mapping = database.find(Mapping.class).add(MobeelizerRestrictions.eq("equipment", equipment.getGuid())).uniqueResult();
+		mapping.setEmployee(employee.getGuid());
+		mapping.setCreationDate(new Date());
+		mapping.setCreatedBy(Engine.getInstance().getUserIdentyfication().getCurrentUser().getId());
+		database.save(mapping);
 	}
 
 	public void removeMapping(Employee employee, Equipment equipment) {
@@ -155,6 +162,25 @@ public class Mapper
 		mapping.setCreatedBy(Engine.getInstance().getUserIdentyfication().getCurrentUser().getId());
 		mapping.setCreationDate(new Date());
 		database.save(mapping);
+	}
+	public void changeMaping(Place place, Employee employee) {
+		Mapping mapping = null;
+		List<Mapping> mappings = database.find(Mapping.class).add(MobeelizerRestrictions.eq("employee", employee.getGuid())).list();
+		for(int i =0 ; i < mappings.size(); ++i)
+		{
+			if(mappings.get(i).getPlace() != null)
+			{
+				mapping = mappings.get(i);
+				break;
+			}
+		}
+		if(mapping != null)
+		{
+			mapping.setPlace(place.getGuid());
+			mapping.setCreationDate(new Date());
+			mapping.setCreatedBy(Engine.getInstance().getUserIdentyfication().getCurrentUser().getId());
+			database.save(mapping);
+		}
 	}
 
 	public void removeMapping(Place place, Employee employee) {
@@ -188,4 +214,10 @@ public class Mapper
 		}
 		return null;
 	}
+
+	public void removeMapping(Mapping mapping) {
+		database.delete(Mapping.class, mapping.getGuid());
+		Log.i("Mapper", "mapping deleted");
+	}
+
 }

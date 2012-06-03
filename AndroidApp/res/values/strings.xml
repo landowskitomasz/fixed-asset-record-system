@@ -9,5 +9,6 @@
     <string name="confirmLogin">Wprowadź</string>
     <string name="changeLogin">Zmień</string>
     <string name="loginStatusDefault">Aby rozpocząć pracę musisz wprowadzić nazwę użytkownika, który wprowadza zmiany.</string>
-
+	<string name="resolveConflictButton">Rozwiąż konflikt</string>
+	<string name="conflictsPageHeader">Przypisania powodujące konflikty:</string>
 </resources>

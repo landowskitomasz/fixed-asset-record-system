@@ -98,7 +98,7 @@ public class EmpolyeesPage extends Activity
 				{
 					if(result == MessageBoxResult.Yes)
 					{
-				    	Engine.getInstance().getMapper().map(place, employee);
+				    	Engine.getInstance().getMapper().changeMaping(place, employee);
 				    	refreshEmployeesList();
 					}
 				}

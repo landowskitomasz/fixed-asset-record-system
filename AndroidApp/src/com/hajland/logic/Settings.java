@@ -33,4 +33,15 @@ public class Settings {
 	    editor.putInt("user", id);
 	    editor.commit();
 	}
+
+	public boolean isConflicted() {
+		return preferences.getBoolean("confict",false);
+	}
+	
+	public void setConflictStatus(boolean status)
+	{
+		SharedPreferences.Editor editor = preferences.edit();
+	    editor.putBoolean("confict",status);
+	    editor.commit();
+	}
 }

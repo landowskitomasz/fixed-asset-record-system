@@ -5,35 +5,24 @@
     android:layout_height="fill_parent">
 
   <LinearLayout  android:orientation="vertical"  android:layout_width="fill_parent"  android:layout_height="fill_parent" android:layout_weight="1">
-      <TextView android:id="@+id/placeTitle" android:layout_width="fill_parent" android:layout_height="wrap_content"  android:textSize="20dip" ></TextView>
+      <TextView android:id="@+id/placeTitle" android:layout_width="fill_parent" android:layout_height="wrap_content"  android:textSize="20dip" android:text="@string/conflictsPageHeader" ></TextView>
       <View
     android:layout_width="fill_parent"
     android:layout_height="1dp"
     android:background="@android:color/darker_gray"/>
       <ListView
-          android:id="@+id/employeesListView"
+          android:id="@+id/conflictsListView"
           android:layout_width="match_parent"
           android:layout_height="wrap_content" >
       </ListView>
   </LinearLayout>
   <LinearLayout  android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_weight="1" android:baselineAligned="false">
-      <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_weight="1">
       		<Button
-      		    android:id="@+id/removeEmployeeButton"
+      		    android:id="@+id/removeMappingButton"
       		    android:layout_width="fill_parent"
       		    android:layout_height="wrap_content"
       		    android:height="100dip"
       		    android:text="@string/removeButtonContent" 
-      		    android:onClick="onRemoveEmployee"/>
-	  </LinearLayout>
-      <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_weight="1">
-      		<Button
-      		    android:id="@+id/addEmployeeButton"
-      		    android:layout_width="fill_parent"
-      		    android:layout_height="wrap_content"
-      		    android:height="100dip"
-      		    android:text="@string/addButtonContent" 
-      		    android:onClick="onAddEmployee"/>   
-	  </LinearLayout>   	
+      		    android:onClick="onRemoveMapping"/>	
     </LinearLayout>
 </LinearLayout>
