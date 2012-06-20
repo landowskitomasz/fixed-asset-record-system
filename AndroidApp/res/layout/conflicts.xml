@@ -6,7 +6,8 @@
     android:background="@color/white">
 
   <LinearLayout  android:orientation="vertical"  android:layout_width="fill_parent"  android:layout_height="fill_parent" android:layout_weight="1">
-      <TextView android:id="@+id/placeTitle" android:layout_width="fill_parent" android:layout_height="wrap_content"  android:textSize="20dip" android:text="@string/conflictsPageHeader" ></TextView>
+      <TextView android:id="@+id/placeTitle" android:layout_width="fill_parent" android:layout_height="wrap_content"  android:textSize="20dip" android:text="@string/conflictsPageHeader" 
+          android:background="@color/black"></TextView>
       <View
     android:layout_width="fill_parent"
     android:layout_height="1dp"
@@ -22,8 +23,12 @@
       		    android:id="@+id/removeMappingButton"
       		    android:layout_width="fill_parent"
       		    android:layout_height="wrap_content"
+            	android:background="@drawable/main_page_button_style"
+				android:drawableLeft="@drawable/remove_icon"
+            	android:textColor="@color/white"
       		    android:height="100dip"
       		    android:text="@string/removeButtonContent" 
-      		    android:onClick="onRemoveMapping"/>	
+      		    android:onClick="onRemoveMapping"
+      		    android:layout_margin="5dip"/>	
     </LinearLayout>
 </LinearLayout>

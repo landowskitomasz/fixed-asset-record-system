@@ -61,28 +61,9 @@ public class MainPage extends Activity {
          		if(status == MobeelizerLoginStatus.OK)
          		{
  	        		MessageBox.ShowToast("Login finished!", getApplicationContext());	
- 	        		
- 	        		/*User user = new User();
- 	        		user.setId(4);
- 	        		user.setLogin("user");
- 	        		user.setName("Tomasz");
- 	        		user.setSurname("Landowski");
- 	        		try
- 	        		{
- 	        			user.setPassword(SHA1.doSHA1("password"));
- 	        		}
- 	        		catch(NoSuchAlgorithmException e)
- 	        		{
- 	        			
- 	        		}
- 	        		catch(UnsupportedEncodingException e)
- 	        		{
- 	        			
- 	        		}
- 	        		Mobeelizer.getDatabase().save(user);*/
- 	        		
- 	        		checkConflictStatus();
+ 	        		MainPage.this.enableLoginButton();
  	        		checkIdentyficationStatus();
+ 	        		checkConflictStatus();
          		}
          		else
          		{
@@ -237,7 +218,8 @@ public class MainPage extends Activity {
 						public void onFinished(MessageBoxResult result) {
 							if(result == MessageBoxResult.Yes)
 							{
-								// TODO: Navigate to resolve conflict page 
+						    	Intent sec = new Intent(MainPage.this, ConflictsPage.class);
+						    	startActivity(sec);
 							}
 						}
     					
@@ -282,11 +264,11 @@ public class MainPage extends Activity {
     	Button begin = (Button)this.findViewById(R.id.beginButton);
     	Button clear = (Button)this.findViewById(R.id.clearButton);
     	Button synchronize = (Button)this.findViewById(R.id.synchronizeButton);
-    	Button loginButton = (Button)this.findViewById(R.id.loginButton);
+    //	Button loginButton = (Button)this.findViewById(R.id.loginButton);
     	begin.setEnabled(false);
     	clear.setEnabled(false);
     	synchronize.setEnabled(false);
-    	loginButton.setEnabled(false);
+    //	loginButton.setEnabled(false);
     }
     
     private void enableButtons()
@@ -304,5 +286,11 @@ public class MainPage extends Activity {
 	private void enableSyncAllButton() {
     	Button clear = (Button)this.findViewById(R.id.clearButton);
     	clear.setEnabled(true);
+	}
+	
+	private void enableLoginButton()
+	{
+    	Button loginButton = (Button)this.findViewById(R.id.loginButton);
+    	loginButton.setEnabled(true);
 	}
 }
