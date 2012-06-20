@@ -2,10 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_height="fill_parent" 
+    android:background="@color/white">
 
   <LinearLayout  android:orientation="vertical"  android:layout_width="fill_parent"  android:layout_height="fill_parent" android:layout_weight="1">
-      <TextView android:id="@+id/placeTitle" android:layout_width="fill_parent" android:layout_height="wrap_content"  android:textSize="20dip" ></TextView>
+      <TextView 
+          android:id="@+id/placeTitle" 
+          android:layout_width="fill_parent" 
+          android:layout_height="wrap_content"  
+          android:textSize="20dip"
+   		  android:background="@color/black" ></TextView>
       <View
     android:layout_width="fill_parent"
     android:layout_height="1dp"
@@ -22,18 +28,26 @@
       		    android:id="@+id/removeEmployeeButton"
       		    android:layout_width="fill_parent"
       		    android:layout_height="wrap_content"
+            android:background="@drawable/main_page_button_style"
+			android:drawableLeft="@drawable/remove_icon"
+            android:textColor="@color/white"
       		    android:height="100dip"
       		    android:text="@string/removeButtonContent" 
-      		    android:onClick="onRemoveEmployee"/>
+      		    android:onClick="onRemoveEmployee"
+      		    android:layout_margin="5dip"/>
 	  </LinearLayout>
       <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_weight="1">
       		<Button
       		    android:id="@+id/addEmployeeButton"
       		    android:layout_width="fill_parent"
       		    android:layout_height="wrap_content"
+            android:background="@drawable/main_page_button_style"
+			android:drawableLeft="@drawable/add_icon"
+            android:textColor="@color/white"
       		    android:height="100dip"
       		    android:text="@string/addButtonContent" 
-      		    android:onClick="onAddEmployee"/>   
+      		    android:onClick="onAddEmployee"
+      		    android:layout_margin="5dip"/>   
 	  </LinearLayout>   	
     </LinearLayout>
 </LinearLayout>

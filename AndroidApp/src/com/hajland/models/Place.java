@@ -24,7 +24,7 @@ public class Place
  
     private String province;
  
-    private int roomNumber;
+    private String roomNumber;
  
     private String street;
 
@@ -179,14 +179,14 @@ public class Place
 	/**
 	 * @return the roomNumber
 	 */
-	public int getRoomNumber() {
+	public String getRoomNumber() {
 		return roomNumber;
 	}
 
 	/**
 	 * @param roomNumber the roomNumber to set
 	 */
-	public void setRoomNumber(int roomNumber) {
+	public void setRoomNumber(String roomNumber) {
 		this.roomNumber = roomNumber;
 	}
 

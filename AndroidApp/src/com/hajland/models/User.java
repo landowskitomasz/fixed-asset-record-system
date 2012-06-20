@@ -17,6 +17,8 @@ public class User
     private String name;
  
     private String surname;
+    
+    private String password;
 
 	public String getGuid() {
 		return guid;
@@ -86,6 +88,14 @@ public class User
 	 */
 	public void setSurname(String surname) {
 		this.surname = surname;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
  
 }

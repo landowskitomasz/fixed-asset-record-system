@@ -6,9 +6,9 @@
     <string name="addButtonContent">Dodaj</string>
     <string name="removeButtonContent">Usuń</string>
     <string name="pickEmployeeTitle">Wybierz pracownika którego chcesz dodać:</string>
-    <string name="confirmLogin">Wprowadź</string>
+    <string name="confirmLogin">Zaloguj</string>
     <string name="changeLogin">Zmień</string>
-    <string name="loginStatusDefault">Aby rozpocząć pracę musisz wprowadzić nazwę użytkownika, który wprowadza zmiany.</string>
+    <string name="loginStatusDefault">Aby rozpocząć pracę musisz się zalogować do systemu.</string>
 	<string name="resolveConflictButton">Rozwiąż konflikt</string>
 	<string name="conflictsPageHeader">Przypisania powodujące konflikty:</string>
 </resources>

@@ -4,6 +4,7 @@ package com.hajland;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hajland.adapters.EmployeeArrayAdapter;
 import com.hajland.logic.Engine;
 import com.hajland.models.Employee;
 import com.hajland.models.Place;
@@ -130,7 +131,7 @@ public class EmpolyeesPage extends Activity
     	}
     	else
     	{
-	    	listView.setAdapter(new ArrayAdapter<Employee>(this, R.layout.places_list_item, employeesList));
+	    	listView.setAdapter(new EmployeeArrayAdapter(this, employeesList));
 	        listView.setTextFilterEnabled(true);
 	        listView.setOnItemClickListener(new OnItemClickListener() {
 	            public void onItemClick(AdapterView<?> parent, View view, int position, long id) 

@@ -1,9 +1,13 @@
 package com.hajland;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
+
 import com.hajland.logic.ClearingCallback;
 import com.hajland.logic.ClearingStatus;
 import com.hajland.logic.Engine;
 import com.hajland.logic.LoginCallback;
+import com.hajland.logic.SHA1;
 import com.hajland.logic.Settings;
 import com.hajland.logic.SynchronizationStatus;
 import com.hajland.logic.SynchronizeCallback;
@@ -16,10 +20,14 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 public class MainPage extends Activity {
@@ -59,8 +67,28 @@ public class MainPage extends Activity {
          		if(status == MobeelizerLoginStatus.OK)
          		{
  	        		MessageBox.ShowToast("Login finished!", getApplicationContext());	
- 	        		checkIdentyficationStatus();
+ 	        		
+ 	        		/*User user = new User();
+ 	        		user.setId(4);
+ 	        		user.setLogin("user");
+ 	        		user.setName("Tomasz");
+ 	        		user.setSurname("Landowski");
+ 	        		try
+ 	        		{
+ 	        			user.setPassword(SHA1.doSHA1("password"));
+ 	        		}
+ 	        		catch(NoSuchAlgorithmException e)
+ 	        		{
+ 	        			
+ 	        		}
+ 	        		catch(UnsupportedEncodingException e)
+ 	        		{
+ 	        			
+ 	        		}
+ 	        		Mobeelizer.getDatabase().save(user);*/
+ 	        		
  	        		checkConflictStatus();
+ 	        		checkIdentyficationStatus();
          		}
          		else
          		{
@@ -89,12 +117,22 @@ public class MainPage extends Activity {
     
     private void checkIdentyficationStatus()
     {
-    	User user = Engine.getInstance().getUserIdentyfication().getCurrentUser();
+    	User user = null;
+    	try 
+    	{
+    		user = Engine.getInstance().getUserIdentyfication().getCurrentUser();
+		} 
+    	catch (IllegalStateException e) 
+    	{
+			MessageBox.Show("B³¹d", "Wystapi³y problemu z list¹ u¿ytkowników, pobierz œrodowisko pracy od nowa, jeœli problem siê powtózy skontaktuj siê z administratorem.", ButtonType.Ok, this, null);
+		}
+    	
+    
 		TextView loginStatus = (TextView)MainPage.this.findViewById(R.id.loginStatus);
 		if(user != null)
 		{
     		enableButtons();
-    		loginStatus.setText("Jesteœ zidentyfikowany jako: \n\t"+user.getName() + " " + user.getSurname());
+    		loginStatus.setText("Jesteœ zalogowany jako: \n\t"+user.getName() + " " + user.getSurname());
 
         	Button loginButton = (Button)MainPage.this.findViewById(R.id.loginButton);
         	loginButton.setText(R.string.changeLogin);
@@ -102,6 +140,7 @@ public class MainPage extends Activity {
 		else
 		{
     		loginStatus.setText(R.string.loginStatusDefault);
+       	    this.disableButtons();
 			enableSyncAllButton();
         	Button loginButton = (Button)MainPage.this.findViewById(R.id.loginButton);
         	loginButton.setText(R.string.confirmLogin);
@@ -128,19 +167,26 @@ public class MainPage extends Activity {
     {
 		AlertDialog.Builder alert = new AlertDialog.Builder(this);                 
 		alert.setTitle("Identyfikacja");  
-		alert.setMessage("Login:");                
+		alert.setMessage("Podaj login i has³o:");        
+		final LinearLayout list = new LinearLayout(this);
+		list.setOrientation(1);
 		final EditText input = new EditText(this); 
-		alert.setView(input);
+		final EditText password = new EditText(this);
+		password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+		list.addView(input);
+		list.addView(password);
+		alert.setView(list);
 
 		alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {  
 		    public void onClick(DialogInterface dialog, int whichButton) {  
-		        String value = input.getText().toString();
-		    	if(Engine.getInstance().getUserIdentyfication().tryIdentifyUser(value))
+		        String userLogin = input.getText().toString();
+		        String userPassword = password.getText().toString();
+		    	if(Engine.getInstance().getUserIdentyfication().tryIdentifyUser(userLogin, userPassword))
 		    	{
 	        		User user = Engine.getInstance().getUserIdentyfication().getCurrentUser();
 	        		TextView loginStatus = (TextView)MainPage.this.findViewById(R.id.loginStatus);
-	        		loginStatus.setText("Jesteœ zidentyfikowany jako: \n\t"+user.getName() + " " + user.getSurname());
-					MessageBox.Show("Sukces", "U¿ytkownik zidentyfikowany prawid³owo.", ButtonType.Ok, MainPage.this, null);
+	        		loginStatus.setText("Jesteœ zalogowany jako: \n\t"+user.getName() + " " + user.getSurname());
+					MessageBox.Show("Sukces", "U¿ytkownik zalogowany prawid³owo.", ButtonType.Ok, MainPage.this, null);
 		    		enableButtons();
 	            	Button loginButton = (Button)MainPage.this.findViewById(R.id.loginButton);
 	            	loginButton.setText(R.string.changeLogin);
@@ -148,7 +194,7 @@ public class MainPage extends Activity {
 		    	else
 		    	{
 		    		Engine.getInstance().getUserIdentyfication().forgetUser();
-					MessageBox.Show("B³¹d", "Nie rozpoznano u¿ytkownika, spróbuj ponownie.", ButtonType.Ok, MainPage.this, null);
+					MessageBox.Show("B³¹d", "Logowanie nie powiod³o siê, spróbuj ponownie.", ButtonType.Ok, MainPage.this, null);
 	            	Button loginButton = (Button)MainPage.this.findViewById(R.id.loginButton);
 	            	loginButton.setText(R.string.confirmLogin);
 	            	
@@ -162,6 +208,8 @@ public class MainPage extends Activity {
 		});  
 		alert.show();
     		
+    	
+    	
     }
     
     public void onResolve(View target) 

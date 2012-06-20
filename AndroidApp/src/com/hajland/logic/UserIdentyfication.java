@@ -1,5 +1,11 @@
 package com.hajland.logic;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
+import java.util.List;
+
+import android.util.Log;
+
 import com.hajland.models.User;
 import com.mobeelizer.mobile.android.api.MobeelizerDatabase;
 import com.mobeelizer.mobile.android.api.MobeelizerRestrictions;
@@ -15,8 +21,9 @@ public class UserIdentyfication {
 	}
 	
 
-	public boolean tryIdentifyUser(String login)
+	public boolean tryIdentifyUser(String login, String password)
 	{
+		
 		User user = this.database.find(User.class).add(MobeelizerRestrictions.eq("login", login)).uniqueResult();
 		if(user == null)
 		{
@@ -24,8 +31,17 @@ public class UserIdentyfication {
 		}
 		else
 		{
-			setCurrentUser(user);
-			return true;
+			try
+			{
+				if(SHA1.doSHA1(password).equals(user.getPassword()))
+				{
+					setCurrentUser(user);
+					return true;
+				}
+			}
+			catch(NoSuchAlgorithmException e){}
+			catch(UnsupportedEncodingException e){}
+			return false;
 		}
 	}
 

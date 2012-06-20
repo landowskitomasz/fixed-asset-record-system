@@ -2,6 +2,8 @@ package com.hajland;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.hajland.adapters.EquipmentArrayAdapter;
 import com.hajland.logic.Engine;
 import com.hajland.models.Employee;
 import com.hajland.models.Equipment;
@@ -130,7 +132,7 @@ public class EquipmentPage extends Activity {
     	}
     	else
     	{
-	    	listView.setAdapter(new ArrayAdapter<Equipment>(this, R.layout.places_list_item, equipmentList));
+	    	listView.setAdapter(new EquipmentArrayAdapter(this, equipmentList));
 	        listView.setTextFilterEnabled(true);
 	        enableRemoveButton();
     	}
