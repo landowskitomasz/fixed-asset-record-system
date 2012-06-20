@@ -1,13 +1,9 @@
 package com.hajland;
 
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
-
 import com.hajland.logic.ClearingCallback;
 import com.hajland.logic.ClearingStatus;
 import com.hajland.logic.Engine;
 import com.hajland.logic.LoginCallback;
-import com.hajland.logic.SHA1;
 import com.hajland.logic.Settings;
 import com.hajland.logic.SynchronizationStatus;
 import com.hajland.logic.SynchronizeCallback;
@@ -22,12 +18,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 public class MainPage extends Activity {
@@ -92,7 +86,8 @@ public class MainPage extends Activity {
          		}
          		else
          		{
-         			MessageBox.ShowToast("Login failed!", getApplicationContext());
+         			MainPage.this.disableResolveButton();
+         			MessageBox.Show("B³¹d", "Inicjalizacja aplikacji siê nie powiod³a, prawdodpodobnie nie masz dostêpu do internetu", ButtonType.Ok, MainPage.this, null);
          		}
          	}
          });
@@ -287,9 +282,11 @@ public class MainPage extends Activity {
     	Button begin = (Button)this.findViewById(R.id.beginButton);
     	Button clear = (Button)this.findViewById(R.id.clearButton);
     	Button synchronize = (Button)this.findViewById(R.id.synchronizeButton);
+    	Button loginButton = (Button)this.findViewById(R.id.loginButton);
     	begin.setEnabled(false);
     	clear.setEnabled(false);
     	synchronize.setEnabled(false);
+    	loginButton.setEnabled(false);
     }
     
     private void enableButtons()
@@ -297,9 +294,11 @@ public class MainPage extends Activity {
     	Button begin = (Button)this.findViewById(R.id.beginButton);
     	Button clear = (Button)this.findViewById(R.id.clearButton);
     	Button synchronize = (Button)this.findViewById(R.id.synchronizeButton);
+    	Button loginButton = (Button)this.findViewById(R.id.loginButton);
     	begin.setEnabled(true);
     	clear.setEnabled(true);
     	synchronize.setEnabled(true);
+    	loginButton.setEnabled(true);
     }
 
 	private void enableSyncAllButton() {

@@ -2,10 +2,6 @@ package com.hajland.logic;
 
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
-import java.util.List;
-
-import android.util.Log;
-
 import com.hajland.models.User;
 import com.mobeelizer.mobile.android.api.MobeelizerDatabase;
 import com.mobeelizer.mobile.android.api.MobeelizerRestrictions;
