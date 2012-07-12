@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="test-src"/>
+	<classpathentry kind="lib" path="bootstrap"/>
+	<classpathentry kind="lib" path="lib/hibernate-all.jar"/>
+	<classpathentry kind="lib" path="lib/testng-jdk15.jar"/>
+	<classpathentry kind="lib" path="lib/jboss-embedded-api.jar"/>
+	<classpathentry kind="lib" path="lib/core.jar"/>
+	<classpathentry kind="lib" path="lib/thirdparty-all.jar"/>
+	<classpathentry kind="lib" path="lib/jboss-embedded-all.jar"/>
+	<classpathentry kind="lib" path="/EwidServerAdmin/WebContent"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/EwidServerAdmin"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/EwidServerAdmin-ejb"/>
+	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jre6">
+		<attributes>
+			<attribute name="owner.project.facets" value="java"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

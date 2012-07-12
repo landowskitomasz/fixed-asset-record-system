@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<application xmlns="http://schema.mobeelizer.com/application" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" application="EwidencjaTes" conflictMode="OVERWRITE" vendor="hajduczek">
+  <devices>
+    <device name="HttpClient"/>
+    <device name="mobile"/>
+  </devices>
+  <groups>
+    <group name="admin"/>
+    <group name="users"/>
+  </groups>
+  <roles>
+    <role device="HttpClient" group="admin"/>
+    <role device="mobile" group="users"/>
+  </roles>
+  <models>
+    <model name="Employee">
+      <fields>
+        <field name="id" required="true" type="INTEGER">
+          <credentials>
+            <credential createAllowed="ALL" readAllowed="ALL" role="admin-HttpClient" updateAllowed="ALL"/>
+            <credential createAllowed="ALL" readAllowed="ALL" role="users-mobile" updateAllowed="ALL"/>
+          </credentials>
+        </field>
+        <field name="dateOfBirth" required="true" type="DATE">
+          <credentials>
+            <credential createAllowed="ALL" readAllowed="ALL" role="admin-HttpClient" updateAllowed="ALL"/>
+            <credential createAllowed="ALL" readAllowed="ALL" role="users-mobile" updateAllowed="ALL"/>
+          </credentials>
+        </field>
+        <field name="surname" required="true" type="TEXT">
+          <credentials>
+            <credential createAllowed="ALL" readAllowed="ALL" role="admin-HttpClient" updateAllowed="ALL"/>
+            <credential createAllowed="ALL" readAllowed="ALL" role="users-mobile" updateAllowed="ALL"/>
+          </credentials>
+        </field>
+        <field name="pesel" required="true" type="TEXT">
+          <credentials>
+            <credential createAllowed="ALL" readAllowed="ALL" role="admin-HttpClient" updateAllowed="ALL"/>
+            <credential createAllowed="ALL" readAllowed="ALL" role="users-mobile" updateAllowed="ALL"/>
+          </credentials>
+        </field>
+        <field name="email" required="true" type="TEXT">
+          <credentials>
+            <credential createAllowed="ALL" readAllowed="ALL" role="admin-HttpClient" updateAllowed="ALL"/>
+            <credential createAllowed="ALL" readAllowed="ALL" role="users-mobile" updateAllowed="ALL"/>
+          </credentials>
+        </field>
+        <field name="placeOfBirth" required="true" type="TEXT">
+          <credentials>
+            <credential createAllowed="ALL" readAllowed="ALL" role="admin-HttpClient" updateAllowed="ALL"/>
+            <credential createAllowed="ALL" readAllowed="ALL" role="users-mobile" updateAllowed="ALL"/>
+          </credentials>
+        </field>
+        <field name="name" required="true" type="TEXT">
+          <credentials>
+            <credential createAllowed="ALL" readAllowed="ALL" role="admin-HttpClient" updateAllowed="ALL"/>
+            <credential createAllowed="ALL" readAllowed="ALL" role="users-mobile" updateAllowed="ALL"/>
+          </credentials>
+        </field>
+      </fields>
+      <credentials>
+        <credential createAllowed="ALL" deleteAllowed="ALL" readAllowed="ALL" resolveConflictAllowed="true" role="admin-HttpClient" updateAllowed="ALL"/>
+        <credential createAllowed="ALL" deleteAllowed="ALL" readAllowed="ALL" resolveConflictAllowed="true" role="users-mobile" updateAllowed="ALL"/>
+      </credentials>
+    </model>
+    <model name="User">
+      <fields>
+        <field name="login" required="true" type="TEXT">
+          <credentials>
+            <credential createAllowed="ALL" readAllowed="ALL" role="admin-HttpClient" updateAllowed="ALL"/>
+            <credential createAllowed="ALL" readAllowed="ALL" role="users-mobile" updateAllowed="ALL"/>
+          </credentials>
+        </field>
+        <field name="id" required="true" type="INTEGER">
+          <credentials>
+            <credential createAllowed="ALL" readAllowed="ALL" role="admin-HttpClient" updateAllowed="ALL"/>
+            <credential createAllowed="ALL" readAllowed="ALL" role="users-mobile" updateAllowed="ALL"/>
+          </credentials>
+        </field>
+        <field name="surname" required="true" type="TEXT">
+          <credentials>
+            <credential createAllowed="ALL" readAllowed="ALL" role="admin-HttpClient" updateAllowed="ALL"/>
+            <credential createAllowed="ALL" readAllowed="ALL" role="users-mobile" updateAllowed="ALL"/>
+          </credentials>
+        </field>
+        <field defaultValue="" name="password" required="true" type="TEXT">
+          <credentials>
+            <credential createAllowed="ALL" readAllowed="ALL" role="admin-HttpClient" updateAllowed="ALL"/>
+            <credential createAllowed="ALL" readAllowed="ALL" role="users-mobile" updateAllowed="ALL"/>
+          </credentials>
+        </field>
+        <field name="name" required="true" type="TEXT">
+          <credentials>
+            <credential createAllowed="ALL" readAllowed="ALL" role="admin-HttpClient" updateAllowed="ALL"/>
+            <credential createAllowed="ALL" readAllowed="ALL" role="users-mobile" updateAllowed="ALL"/>
+          </credentials>
+        </field>
+      </fields>
+      <credentials>
+        <credential createAllowed="ALL" deleteAllowed="ALL" readAllowed="ALL" resolveConflictAllowed="true" role="admin-HttpClient" updateAllowed="ALL"/>
+        <credential createAllowed="ALL" deleteAllowed="ALL" readAllowed="ALL" resolveConflictAllowed="true" role="users-mobile" updateAllowed="ALL"/>
+      </credentials>
+    </model>
+    <model name="Mapping">
+      <fields>
+        <field name="creationDate" required="true" type="DATE">
+          <credentials>
+            <credential createAllowed="ALL" readAllowed="ALL" role="admin-HttpClient" updateAllowed="ALL"/>
+            <credential createAllowed="ALL" readAllowed="ALL" role="users-mobile" updateAllowed="ALL"/>
+          </credentials>
+        </field>
+        <field name="createdBy" required="true" type="INTEGER">
+          <credentials>
+            <credential createAllowed="ALL" readAllowed="ALL" role="admin-HttpClient" updateAllowed="ALL"/>
+            <credential createAllowed="ALL" readAllowed="ALL" role="users-mobile" updateAllowed="ALL"/>
+          </credentials>
+        </field>
+        <field name="place" required="false" type="BELONGS_TO">
+          <credentials>
+            <credential createAllowed="ALL" readAllowed="ALL" role="admin-HttpClient" updateAllowed="ALL"/>
+            <credential createAllowed="ALL" readAllowed="ALL" role="users-mobile" updateAllowed="ALL"/>
+          </credentials>
+          <options>
+            <option name="analyzeConflict">true</option>
+            <option name="model">Place</option>
+          </options>
+        </field>
+        <field name="equipment" required="false" type="BELONGS_TO">
+          <credentials>
+            <credential createAllowed="ALL" readAllowed="ALL" role="admin-HttpClient" updateAllowed="ALL"/>
+            <credential createAllowed="ALL" readAllowed="ALL" role="users-mobile" updateAllowed="ALL"/>
+          </credentials>
+          <options>
+            <option name="analyzeConflict">true</option>
+            <option name="model">Equipment</option>
+          </options>
+        </field>
+        <field name="employee" required="true" type="BELONGS_TO">
+          <credentials>
+            <credential createAllowed="ALL" readAllowed="ALL" role="admin-HttpClient" updateAllowed="ALL"/>
+            <credential createAllowed="ALL" readAllowed="ALL" role="users-mobile" updateAllowed="ALL"/>
+          </credentials>
+          <options>
+            <option name="analyzeConflict">true</option>
+            <option name="model">Employee</option>
+          </options>
+        </field>
+      </fields>
+      <credentials>
+        <credential createAllowed="ALL" deleteAllowed="ALL" readAllowed="ALL" resolveConflictAllowed="true" role="admin-HttpClient" updateAllowed="ALL"/>
+        <credential createAllowed="ALL" deleteAllowed="ALL" readAllowed="ALL" resolveConflictAllowed="true" role="users-mobile" updateAllowed="ALL"/>
+      </credentials>
+    </model>
+    <model name="Place">
+      <fields>
+        <field name="id" required="true" type="INTEGER">
+          <credentials>
+            <credential createAllowed="ALL" readAllowed="ALL" role="admin-HttpClient" updateAllowed="ALL"/>
+            <credential createAllowed="ALL" readAllowed="ALL" role="users-mobile" updateAllowed="ALL"/>
+          </credentials>
+        </field>
+        <field name="floor" required="true" type="INTEGER">
+          <credentials>
+            <credential createAllowed="ALL" readAllowed="ALL" role="admin-HttpClient" updateAllowed="ALL"/>
+            <credential createAllowed="ALL" readAllowed="ALL" role="users-mobile" updateAllowed="ALL"/>
+          </credentials>
+        </field>
+        <field name="postalCode" required="false" type="TEXT">
+          <credentials>
+            <credential createAllowed="ALL" readAllowed="ALL" role="admin-HttpClient" updateAllowed="ALL"/>
+            <credential createAllowed="ALL" readAllowed="ALL" role="users-mobile" updateAllowed="ALL"/>
+          </credentials>
+        </field>
+        <field name="country" required="false" type="TEXT">
+          <credentials>
+            <credential createAllowed="ALL" readAllowed="ALL" role="admin-HttpClient" updateAllowed="ALL"/>
+            <credential createAllowed="ALL" readAllowed="ALL" role="users-mobile" updateAllowed="ALL"/>
+          </credentials>
+        </field>
+        <field name="province" required="false" type="TEXT">
+          <credentials>
+            <credential createAllowed="ALL" readAllowed="ALL" role="admin-HttpClient" updateAllowed="ALL"/>
+            <credential createAllowed="ALL" readAllowed="ALL" role="users-mobile" updateAllowed="ALL"/>
+          </credentials>
+        </field>
+        <field name="street" required="false" type="TEXT">
+          <credentials>
+            <credential createAllowed="ALL" readAllowed="ALL" role="admin-HttpClient" updateAllowed="ALL"/>
+            <credential createAllowed="ALL" readAllowed="ALL" role="users-mobile" updateAllowed="ALL"/>
+          </credentials>
+        </field>
+        <field defaultValue="" name="roomNumber" required="true" type="TEXT">
+          <credentials>
+            <credential createAllowed="ALL" readAllowed="ALL" role="admin-HttpClient" updateAllowed="ALL"/>
+            <credential createAllowed="ALL" readAllowed="ALL" role="users-mobile" updateAllowed="ALL"/>
+          </credentials>
+        </field>
+        <field name="city" required="false" type="TEXT">
+          <credentials>
+            <credential createAllowed="ALL" readAllowed="ALL" role="admin-HttpClient" updateAllowed="ALL"/>
+            <credential createAllowed="ALL" readAllowed="ALL" role="users-mobile" updateAllowed="ALL"/>
+          </credentials>
+        </field>
+        <field name="building" required="true" type="TEXT">
+          <credentials>
+            <credential createAllowed="ALL" readAllowed="ALL" role="admin-HttpClient" updateAllowed="ALL"/>
+            <credential createAllowed="ALL" readAllowed="ALL" role="users-mobile" updateAllowed="ALL"/>
+          </credentials>
+        </field>
+      </fields>
+      <credentials>
+        <credential createAllowed="ALL" deleteAllowed="ALL" readAllowed="ALL" resolveConflictAllowed="true" role="admin-HttpClient" updateAllowed="ALL"/>
+        <credential createAllowed="ALL" deleteAllowed="ALL" readAllowed="ALL" resolveConflictAllowed="true" role="users-mobile" updateAllowed="ALL"/>
+      </credentials>
+    </model>
+    <model name="Equipment">
+      <fields>
+        <field name="id" required="true" type="INTEGER">
+          <credentials>
+            <credential createAllowed="ALL" readAllowed="ALL" role="admin-HttpClient" updateAllowed="ALL"/>
+            <credential createAllowed="ALL" readAllowed="ALL" role="users-mobile" updateAllowed="ALL"/>
+          </credentials>
+        </field>
+        <field name="serialNumer" required="true" type="TEXT">
+          <credentials>
+            <credential createAllowed="ALL" readAllowed="ALL" role="admin-HttpClient" updateAllowed="ALL"/>
+            <credential createAllowed="ALL" readAllowed="ALL" role="users-mobile" updateAllowed="ALL"/>
+          </credentials>
+        </field>
+        <field name="brand" required="true" type="TEXT">
+          <credentials>
+            <credential createAllowed="ALL" readAllowed="ALL" role="admin-HttpClient" updateAllowed="ALL"/>
+            <credential createAllowed="ALL" readAllowed="ALL" role="users-mobile" updateAllowed="ALL"/>
+          </credentials>
+        </field>
+        <field name="model" required="true" type="TEXT">
+          <credentials>
+            <credential createAllowed="ALL" readAllowed="ALL" role="admin-HttpClient" updateAllowed="ALL"/>
+            <credential createAllowed="ALL" readAllowed="ALL" role="users-mobile" updateAllowed="ALL"/>
+          </credentials>
+        </field>
+      </fields>
+      <credentials>
+        <credential createAllowed="ALL" deleteAllowed="ALL" readAllowed="ALL" resolveConflictAllowed="true" role="admin-HttpClient" updateAllowed="ALL"/>
+        <credential createAllowed="ALL" deleteAllowed="ALL" readAllowed="ALL" resolveConflictAllowed="true" role="users-mobile" updateAllowed="ALL"/>
+      </credentials>
+    </model>
+  </models>
+</application>

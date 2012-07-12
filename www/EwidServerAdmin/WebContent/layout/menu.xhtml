@@ -1,0 +1,54 @@
+<rich:toolBar
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:rich="http://richfaces.org/rich" height="30px">
+    <rich:toolBarGroup>
+        <h:outputText value="#{projectName}:" rendered="#{identity.loggedIn}"/>
+        <!-- s:link id="menuHomeId" view="/home.xhtml" value="Home" propagation="none"/-->
+        
+        <s:link id="menuRecordId" view="/record.xhtml" value="Record" propagation="none" 
+        	rendered="#{identity.loggedIn and identity.hasRole('record-r')}"
+        	styleClass="#{view.viewId == '/record.xhtml' ? 'current_menu' : ''}"/>
+        <rich:toolTip for="menuRecordId" value="Ewidencja środków trwałych"/>
+        
+        <s:link id="menuMappingsId" view="/mappings.xhtml" value="Mappings" propagation="none" 
+        	rendered="#{identity.loggedIn and identity.hasRole('mappings-r')}"
+        	styleClass="#{view.viewId == '/mappings.xhtml' ? 'current_menu' : ''}"/>
+        <rich:toolTip for="menuMappingsId" value="Mapowania sprzęt-pracownik-lokalizacja"/>
+        
+        <s:link id="menuEmployeesId" view="/employees.xhtml" value="Employees" propagation="none" 
+        	rendered="#{identity.loggedIn and identity.hasRole('employees-r')}"
+        	styleClass="#{view.viewId == '/employees.xhtml' ? 'current_menu' : ''}"/>
+        <rich:toolTip for="menuEmployeesId" value="Pracownicy"/>
+        
+        <s:link id="menuEquipmentsId" view="/equipment.xhtml" value="Equipment" propagation="none" 
+        	rendered="#{identity.loggedIn and identity.hasRole('equipment-r')}"
+        	styleClass="#{view.viewId == '/equipment.xhtml' ? 'current_menu' : ''}"/>
+        <rich:toolTip for="menuEquipmentsId" value="Sprzęt"/>
+        
+        <s:link id="menuLocationsId" view="/locations.xhtml" value="Locations" propagation="none" 
+        	rendered="#{identity.loggedIn and identity.hasRole('locations-r')}"
+        	styleClass="#{view.viewId == '/locations.xhtml' ? 'current_menu' : ''}"/>
+        <rich:toolTip for="menuLocationsId" value="Lokalizacje"/>
+        
+        <s:link id="menuReportsId" view="/reports.xhtml" value="Reports" propagation="none" 
+        	rendered="#{identity.loggedIn and identity.hasRole('reports-r')}"
+        	styleClass="#{view.viewId == '/reports.xhtml' ? 'current_menu' : ''}"/>
+    	<rich:toolTip for="menuReportsId" value="Raporty"/>
+        
+        <s:link id="menuAdminPanelId" view="/adminPanel.xhtml" value="AdminPanel" propagation="none" 
+        	rendered="#{identity.loggedIn and identity.hasRole('users-r')}"
+        	styleClass="#{view.viewId == '/adminPanel.xhtml' ? 'current_menu' : ''}"/>
+    	<rich:toolTip for="menuAdminPanelId" value="Panel administracyjny"/>
+        
+    </rich:toolBarGroup>
+    <!-- @newMenuItem@ -->
+    <rich:toolBarGroup location="right">
+        <h:outputText id="menuWelcomeId" value="signed in as: #{credentials.username}" rendered="#{identity.loggedIn}"/>
+        <s:link id="menuLoginId" view="/login.xhtml" value="Login" rendered="#{not identity.loggedIn}" propagation="none"/>
+        <s:link id="menuLogoutId" view="/mappings.xhtml" action="#{identity.logout}" value="Logout" rendered="#{identity.loggedIn}" propagation="none"/>
+    </rich:toolBarGroup>
+</rich:toolBar>

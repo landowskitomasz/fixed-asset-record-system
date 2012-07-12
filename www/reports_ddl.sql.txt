@@ -1,0 +1,107 @@
+--RAPORTY
+
+create table events 
+(
+	id integer auto_increment,
+	object_type_id integer,
+	action_id integer,
+	event_date datetime,
+	primary key (id)
+)ENGINE=INNODB;
+
+create table object_types 
+(
+	id integer auto_increment,
+	name varchar(16),
+	primary key (id)
+)ENGINE=INNODB;
+
+create table actions 
+(
+	id integer auto_increment,
+	name varchar(16),
+	primary key (id)
+)ENGINE=INNODB;
+
+alter table events add constraint events_object_type_fk 
+foreign key (object_type_id) references object_types(id);
+
+alter table events add constraint events_action_fk 
+foreign key (action_id) references actions(id);
+
+insert into object_types (id, name) values (1,'user');
+insert into object_types (id, name) values (2,'employee');
+insert into object_types (id, name) values (3,'equipment');
+insert into object_types (id, name) values (4,'localization');
+insert into object_types (id, name) values (5,'mapping');
+insert into object_types (id, name) values (6,'fixed_asset');
+
+insert into actions (id, name) values (1,'add');
+insert into actions (id, name) values (2,'edit');
+insert into actions (id, name) values (3,'delete');
+
+CREATE VIEW last_month_report AS
+select 
+sum(case when object_type_id=1 and action_id=1 then 1 else 0 end) as user_add,
+sum(case when object_type_id=1 and action_id=2 then 1 else 0 end) as user_edit,
+sum(case when object_type_id=1 and action_id=3 then 1 else 0 end) as user_delete,
+sum(case when object_type_id=2 and action_id=1 then 1 else 0 end) as employee_add,
+sum(case when object_type_id=2 and action_id=2 then 1 else 0 end) as employee_edit,
+sum(case when object_type_id=2 and action_id=3 then 1 else 0 end) as employee_delete,
+sum(case when object_type_id=3 and action_id=1 then 1 else 0 end) as equipment_add,
+sum(case when object_type_id=3 and action_id=2 then 1 else 0 end) as equipment_edit,
+sum(case when object_type_id=3 and action_id=3 then 1 else 0 end) as equipment_delete,
+sum(case when object_type_id=4 and action_id=1 then 1 else 0 end) as localization_add,
+sum(case when object_type_id=4 and action_id=2 then 1 else 0 end) as localization_edit,
+sum(case when object_type_id=4 and action_id=3 then 1 else 0 end) as localization_delete,
+sum(case when object_type_id=5 and action_id=1 then 1 else 0 end) as mapping_add,
+sum(case when object_type_id=5 and action_id=2 then 1 else 0 end) as mapping_edit,
+sum(case when object_type_id=5 and action_id=3 then 1 else 0 end) as mapping_delete,
+sum(case when object_type_id=6 and action_id=1 then 1 else 0 end) as fixed_asset_add,
+sum(case when object_type_id=6 and action_id=2 then 1 else 0 end) as fixed_asset_edit,
+sum(case when object_type_id=6 and action_id=3 then 1 else 0 end) as fixed_asset_delete
+from events WHERE YEAR(event_date) = YEAR(CURDATE()) AND MONTH(event_date) = MONTH(CURDATE());
+
+CREATE VIEW last_year_report AS
+select 
+sum(case when object_type_id=1 and action_id=1 then 1 else 0 end) as user_add,
+sum(case when object_type_id=1 and action_id=2 then 1 else 0 end) as user_edit,
+sum(case when object_type_id=1 and action_id=3 then 1 else 0 end) as user_delete,
+sum(case when object_type_id=2 and action_id=1 then 1 else 0 end) as employee_add,
+sum(case when object_type_id=2 and action_id=2 then 1 else 0 end) as employee_edit,
+sum(case when object_type_id=2 and action_id=3 then 1 else 0 end) as employee_delete,
+sum(case when object_type_id=3 and action_id=1 then 1 else 0 end) as equipment_add,
+sum(case when object_type_id=3 and action_id=2 then 1 else 0 end) as equipment_edit,
+sum(case when object_type_id=3 and action_id=3 then 1 else 0 end) as equipment_delete,
+sum(case when object_type_id=4 and action_id=1 then 1 else 0 end) as localization_add,
+sum(case when object_type_id=4 and action_id=2 then 1 else 0 end) as localization_edit,
+sum(case when object_type_id=4 and action_id=3 then 1 else 0 end) as localization_delete,
+sum(case when object_type_id=5 and action_id=1 then 1 else 0 end) as mapping_add,
+sum(case when object_type_id=5 and action_id=2 then 1 else 0 end) as mapping_edit,
+sum(case when object_type_id=5 and action_id=3 then 1 else 0 end) as mapping_delete,
+sum(case when object_type_id=6 and action_id=1 then 1 else 0 end) as fixed_asset_add,
+sum(case when object_type_id=6 and action_id=2 then 1 else 0 end) as fixed_asset_edit,
+sum(case when object_type_id=6 and action_id=3 then 1 else 0 end) as fixed_asset_delete
+from events WHERE YEAR(event_date) = YEAR(CURDATE());
+
+CREATE VIEW summary_report AS
+select 
+sum(case when object_type_id=1 and action_id=1 then 1 else 0 end) as user_add,
+sum(case when object_type_id=1 and action_id=2 then 1 else 0 end) as user_edit,
+sum(case when object_type_id=1 and action_id=3 then 1 else 0 end) as user_delete,
+sum(case when object_type_id=2 and action_id=1 then 1 else 0 end) as employee_add,
+sum(case when object_type_id=2 and action_id=2 then 1 else 0 end) as employee_edit,
+sum(case when object_type_id=2 and action_id=3 then 1 else 0 end) as employee_delete,
+sum(case when object_type_id=3 and action_id=1 then 1 else 0 end) as equipment_add,
+sum(case when object_type_id=3 and action_id=2 then 1 else 0 end) as equipment_edit,
+sum(case when object_type_id=3 and action_id=3 then 1 else 0 end) as equipment_delete,
+sum(case when object_type_id=4 and action_id=1 then 1 else 0 end) as localization_add,
+sum(case when object_type_id=4 and action_id=2 then 1 else 0 end) as localization_edit,
+sum(case when object_type_id=4 and action_id=3 then 1 else 0 end) as localization_delete,
+sum(case when object_type_id=5 and action_id=1 then 1 else 0 end) as mapping_add,
+sum(case when object_type_id=5 and action_id=2 then 1 else 0 end) as mapping_edit,
+sum(case when object_type_id=5 and action_id=3 then 1 else 0 end) as mapping_delete,
+sum(case when object_type_id=6 and action_id=1 then 1 else 0 end) as fixed_asset_add,
+sum(case when object_type_id=6 and action_id=2 then 1 else 0 end) as fixed_asset_edit,
+sum(case when object_type_id=6 and action_id=3 then 1 else 0 end) as fixed_asset_delete
+from events;

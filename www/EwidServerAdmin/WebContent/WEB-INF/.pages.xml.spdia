@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<diagram model-entity="SeamPagesDiagram">
+ <item ID="*" NAME="*" PATH="*" SHAPE="24,17,0,0" TYPE="page" model-entity="SeamPagesDiagramItem">
+  <output ID="/employees.xhtml" NAME="output" PATH="/employees.xhtml"
+   TARGET="#xemployees.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output ID="/equipment.xhtml" NAME="output1" PATH="/equipment.xhtml"
+   TARGET="#xequipment.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output ID="/locations.xhtml" NAME="output2" PATH="/locations.xhtml"
+   TARGET="#xlocations.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output ID="/adminPanel.xhtml" NAME="output3" PATH="/adminPanel.xhtml"
+   TARGET="#xadminPanel.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output ID="/mappings.xhtml" NAME="output4" PATH="/mappings.xhtml"
+   TARGET="#xmappings.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output ID="/reports.xhtml" NAME="output5" PATH="/reports.xhtml"
+   TARGET="#xreports.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output ID="/record.xhtml" NAME="output6" PATH="/record.xhtml"
+   TARGET="#xrecord.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+ </item>
+ <item ID="org.jboss.seam.framework.EntityNotFoundException"
+  NAME="exception:org.jboss.seam.framework.EntityNotFoundException"
+  PATH="org.jboss.seam.framework.EntityNotFoundException"
+  SHAPE="24,121,0,0" TYPE="exception" model-entity="SeamPagesDiagramItem">
+  <output ID="/error.xhtml" NAME="output" PATH="/error.xhtml"
+   TARGET="#xerror.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+ </item>
+ <item ID="javax.persistence.EntityNotFoundException"
+  NAME="exception:javax.persistence.EntityNotFoundException"
+  PATH="javax.persistence.EntityNotFoundException" SHAPE="24,225,0,0"
+  TYPE="exception" model-entity="SeamPagesDiagramItem">
+  <output ID="/error.xhtml" NAME="output" PATH="/error.xhtml"
+   TARGET="#xerror.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+ </item>
+ <item ID="javax.persistence.EntityExistsException"
+  NAME="exception:javax.persistence.EntityExistsException"
+  PATH="javax.persistence.EntityExistsException" SHAPE="24,329,0,0"
+  TYPE="exception" model-entity="SeamPagesDiagramItem">
+  <output ID="/error.xhtml" NAME="output" PATH="/error.xhtml"
+   TARGET="#xerror.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+ </item>
+ <item ID="javax.persistence.OptimisticLockException"
+  NAME="exception:javax.persistence.OptimisticLockException"
+  PATH="javax.persistence.OptimisticLockException" SHAPE="24,433,0,0"
+  TYPE="exception" model-entity="SeamPagesDiagramItem">
+  <output ID="/error.xhtml" NAME="output" PATH="/error.xhtml"
+   TARGET="#xerror.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+ </item>
+ <item ID="org.jboss.seam.security.AuthorizationException"
+  NAME="exception:org.jboss.seam.security.AuthorizationException"
+  PATH="org.jboss.seam.security.AuthorizationException"
+  SHAPE="24,537,0,0" TYPE="exception" model-entity="SeamPagesDiagramItem">
+  <output ID="/error.xhtml" NAME="output" PATH="/error.xhtml"
+   TARGET="#xerror.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+ </item>
+ <item ID="org.jboss.seam.security.NotLoggedInException"
+  NAME="exception:org.jboss.seam.security.NotLoggedInException"
+  PATH="org.jboss.seam.security.NotLoggedInException" SHAPE="24,849,0,0"
+  TYPE="exception" model-entity="SeamPagesDiagramItem">
+  <output ID="/login.xhtml" NAME="output" PATH="/login.xhtml"
+   TARGET="#xlogin.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+ </item>
+ <item ID="javax.faces.application.ViewExpiredException"
+  NAME="exception:javax.faces.application.ViewExpiredException"
+  PATH="javax.faces.application.ViewExpiredException" SHAPE="24,641,0,0"
+  TYPE="exception" model-entity="SeamPagesDiagramItem">
+  <output ID="/error.xhtml" NAME="output" PATH="/error.xhtml"
+   TARGET="#xerror.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+ </item>
+ <item ID="org.jboss.seam.ConcurrentRequestTimeoutException"
+  NAME="exception:org.jboss.seam.ConcurrentRequestTimeoutException"
+  PATH="org.jboss.seam.ConcurrentRequestTimeoutException"
+  SHAPE="24,953,0,0" TYPE="exception" model-entity="SeamPagesDiagramItem"/>
+ <item NAME="exception:" SHAPE="24,745,0,0" TYPE="exception" model-entity="SeamPagesDiagramItem">
+  <output ID="/error.xhtml" NAME="output" PATH="/error.xhtml"
+   TARGET="#xerror.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+ </item>
+ <item NAME="#xlogin.xhtml" PATH="/login.xhtml" SHAPE="344,849,0,0"
+  TYPE="page" model-entity="SeamPagesDiagramItem"/>
+ <item NAME="#xerror.xhtml" PATH="/error.xhtml" SHAPE="472,121,0,0"
+  TYPE="page" model-entity="SeamPagesDiagramItem"/>
+ <item NAME="#xemployees.xhtml" PATH="/employees.xhtml"
+  SHAPE="376,249,0,0" TYPE="page" model-entity="SeamPagesDiagramItem"/>
+ <item NAME="#xequipment.xhtml" PATH="/equipment.xhtml"
+  SHAPE="472,449,0,0" TYPE="page" model-entity="SeamPagesDiagramItem"/>
+ <item NAME="#xlocations.xhtml" PATH="/locations.xhtml"
+  SHAPE="472,553,0,0" TYPE="page" model-entity="SeamPagesDiagramItem"/>
+ <item NAME="#xadminPanel.xhtml" PATH="/adminPanel.xhtml"
+  SHAPE="472,657,0,0" TYPE="page" model-entity="SeamPagesDiagramItem"/>
+ <item NAME="#xreports.xhtml" PATH="/reports.xhtml" SHAPE="472,473,0,0"
+  TYPE="page" model-entity="SeamPagesDiagramItem"/>
+ <item NAME="#xrecord.xhtml" PATH="/record.xhtml" SHAPE="472,889,0,0"
+  TYPE="page" model-entity="SeamPagesDiagramItem"/>
+ <item NAME="#xmappings.xhtml" PATH="/mappings.xhtml" SHAPE="472,17,0,0"
+  TYPE="page" model-entity="SeamPagesDiagramItem"/>
+</diagram>

@@ -1,0 +1,4 @@
+#Wed Mar 28 19:53:46 CEST 2012
+default.configuration=EwidServerAdmin-ejb
+eclipse.preferences.version=1
+hibernate3.enabled=true

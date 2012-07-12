@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config version="1.2" xmlns="http://java.sun.com/xml/ns/javaee"
+ xmlns:xi="http://www.w3.org/2001/XInclude"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd">
+ <converter>
+  <converter-id>com.ewid.ewidserveradmin.converters.EmployeesConverter</converter-id>
+  <converter-class>com.ewid.ewidserveradmin.converters.EmployeesConverter</converter-class>
+ </converter>
+ <converter>
+  <converter-id>com.ewid.ewidserveradmin.converters.EquipmentConverter</converter-id>
+  <converter-class>com.ewid.ewidserveradmin.converters.EquipmentConverter</converter-class>
+ </converter>
+ <converter>
+  <converter-id>com.ewid.ewidserveradmin.converters.PlacesConverter</converter-id>
+  <converter-class>com.ewid.ewidserveradmin.converters.PlacesConverter</converter-class>
+ </converter>
+ <converter>
+  <converter-id>com.ewid.ewidserveradmin.converters.GroupsConverter</converter-id>
+  <converter-class>com.ewid.ewidserveradmin.converters.GroupsConverter</converter-class>
+ </converter>
+ <converter>
+  <converter-id>com.ewid.ewidserveradmin.converters.PurchaseDocumentsConverter</converter-id>
+  <converter-class>com.ewid.ewidserveradmin.converters.PurchaseDocumentsConverter</converter-class>
+ </converter>
+ <converter>
+  <converter-id>com.ewid.ewidserveradmin.converters.PlaceFloorConverter</converter-id>
+  <converter-class>com.ewid.ewidserveradmin.converters.PlaceFloorConverter</converter-class>
+ </converter>
+ <converter>
+  <converter-id>com.ewid.ewidserveradmin.converters.KstConverter</converter-id>
+  <converter-class>com.ewid.ewidserveradmin.converters.KstConverter</converter-class>
+ </converter>
+ <validator>
+  <validator-id>com.ewid.ewidserveradmin.validators.EmailValidator</validator-id>
+  <validator-class>com.ewid.ewidserveradmin.validators.EmailValidator</validator-class>
+ </validator>
+ <validator>
+  <validator-id>com.ewid.ewidserveradmin.validators.PeselValidator</validator-id>
+  <validator-class>com.ewid.ewidserveradmin.validators.PeselValidator</validator-class>
+ </validator>
+ <validator>
+  <validator-id>com.ewid.ewidserveradmin.validators.LoginValidator</validator-id>
+  <validator-class>com.ewid.ewidserveradmin.validators.LoginValidator</validator-class>
+ </validator>
+ <application>
+  <view-handler>com.sun.facelets.FaceletViewHandler</view-handler>
+  <locale-config>
+   <default-locale>pl</default-locale>
+   <supported-locale>bg</supported-locale>
+   <supported-locale>de</supported-locale>
+   <supported-locale>en</supported-locale>
+   <supported-locale>fr</supported-locale>
+   <supported-locale>tr</supported-locale>
+  </locale-config>
+ </application>
+</faces-config>

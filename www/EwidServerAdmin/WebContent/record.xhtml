@@ -1,0 +1,541 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    xmlns:a4j="http://richfaces.org/a4j"
+    template="layout/template.xhtml">
+
+    <ui:define name="body">
+			
+			<rich:simpleTogglePanel switchType="client" opened="false" label="Dodaj nowy wpis" rendered="#{identity.hasRole('record-rw')}">
+	        	<a4j:outputPanel ajaxRendered="true">
+	        	<h:form>
+	        		<h:panelGrid columns="3" columnClasses="colStyle1,colStyle2">	     
+	        	        <h:outputText value="Sprzęt" />
+		                <h:selectOneMenu label="Sprzęt" value="#{recordBean.recordToAdd.equipment}" 
+		                	id="recordAddEquipment" style="width: 100%" required="true">
+		                	<s:selectItems value="#{recordBean.equipmentList}" var="equip" 
+		                		label="#{equip.brand} - #{equip.model}" id="equipmentAdd"/>
+		                	<f:converter for="equipmentAdd" converterId="com.ewid.ewidserveradmin.converters.EquipmentConverter"/>
+		                </h:selectOneMenu>
+		                <h:message for="recordAddEquipment" style="color:red" >
+		                	<f:facet name="errorMarker">
+	                            <h:graphicImage  value="/img/error.gif" />  
+	                        </f:facet>
+	                    </h:message>
+		                
+		                <h:outputText value="Data zakupu" />
+		                <rich:calendar label="Data zakupu" datePattern="dd/MM/yyyy" id="purchaseDate" 
+		                	value="#{recordBean.recordToAdd.purchaseDate}" 
+		                	cellHeight="10px" cellWidth="12px" required="true"/>
+		               	<h:message for="purchaseDate" style="color:red" >
+		                	<f:facet name="errorMarker">
+	                            <h:graphicImage  value="/img/error.gif" />  
+	                        </f:facet>
+	                    </h:message>
+		               
+		               	<h:outputText value="Data pierwszego użycia" />
+		                <rich:calendar label="Data pierwszego użycia" datePattern="dd/MM/yyyy" id="firstUseDate" 
+		                	value="#{recordBean.recordToAdd.firstUseDate}" 
+		                	cellHeight="10px" cellWidth="12px" required="true"/>
+		                <h:message for="firstUseDate" style="color:red" >
+		                	<f:facet name="errorMarker">
+	                            <h:graphicImage  value="/img/error.gif" />  
+	                        </f:facet>
+	                    </h:message>
+		                
+		                <h:outputText value="Dokument zakupu" />
+		                <h:selectOneMenu label="Dokument zakupu" value="#{recordBean.recordToAdd.purchaseDocument}" 
+		                	id="recordAddPurchaseDocumentId" style="width: 100%" required="true">
+		                	<s:selectItems value="#{recordBean.purchaseDocumentsList}" var="purchaseDoc" 
+		                		label="#{purchaseDoc.name}" id="purchaseDocAdd"/>
+		                	<f:converter for="purchaseDocAdd" converterId="com.ewid.ewidserveradmin.converters.PurchaseDocumentsConverter"/>
+		                </h:selectOneMenu>
+		                <h:message for="recordAddPurchaseDocumentId" style="color:red" >
+		                	<f:facet name="errorMarker">
+	                            <h:graphicImage  value="/img/error.gif" />  
+	                        </f:facet>
+	                    </h:message>
+		                    
+		                <h:outputText value="Opis" />
+		                <h:inputText label="Opis" value="#{recordBean.recordToAdd.description}" id="recordAddDescription" style="width: 100%" required="true">
+			                <f:validateLength minimum="1" maximum="128"/>
+	                    	<rich:ajaxValidator event="onblur"/>
+	                    </h:inputText>
+		                <h:message for="recordAddDescription" style="color:red" >
+		                	<f:facet name="errorMarker">
+	                            <h:graphicImage  value="/img/error.gif" />  
+	                        </f:facet>
+	                    </h:message>
+		                    
+		                <h:outputText value="Symbol KST" />
+		                <h:selectOneMenu label="Symbol KST" value="#{recordBean.recordToAdd.fixedAssetClassSymbol}" id="recordAddKST" style="width: 100%" required="true">
+		                	<s:selectItems value="#{recordBean.kstList}" var="kst" label="#{kst.name}" id="kstAdd"/>
+		                	<f:converter for="kstAdd" converterId="com.ewid.ewidserveradmin.converters.KstConverter"/>
+		                </h:selectOneMenu>
+		                <h:message for="recordAddKST" style="color:red">
+		                	<f:facet name="errorMarker">
+	                            <h:graphicImage  value="/img/error.gif" />  
+	                        </f:facet>
+	                    </h:message>
+		                		                    
+		                <h:outputText value="Wartość początkowa" />
+		                <h:inputText label="Wartość początkowa" value="#{recordBean.recordToAdd.initialValue}" id="recordAddInitialValue" style="width: 100%" required="true">
+			                <f:validateDoubleRange minimum = "0.00" maximum = "99999999.99"/>
+		                </h:inputText>
+		                <h:message for="recordAddInitialValue" style="color:red" >
+		                	<f:facet name="errorMarker">
+	                            <h:graphicImage  value="/img/error.gif" />  
+	                        </f:facet>
+	                    </h:message>
+		                    
+		                <h:outputText value="Kwota amortyzacji" />
+		                <h:inputText label="Kwota amortyzacji" value="#{recordBean.recordToAdd.amortizationRate}" id="recordAddAmortizationRate" style="width: 100%" required="true">
+		                	<f:validateDoubleRange minimum = "0.00" maximum = "1.00"/>
+		                </h:inputText>
+		                <h:message for="recordAddAmortizationRate" style="color:red" >
+		                	<f:facet name="errorMarker">
+	                            <h:graphicImage  value="/img/error.gif" />  
+	                        </f:facet>
+	                    </h:message>
+		                
+		                <a4j:commandButton  id="addlink" value="Dodaj"
+			                	action="#{recordBean.addRecord(recordBean.recordToAdd)}"
+		                        reRender="recordsTable,recordsCountPanel">
+		                </a4j:commandButton>
+		                
+		                <rich:toolTip for="addlink" value="Dodaj" />
+	        	</h:panelGrid>
+	        	</h:form>
+	       	</a4j:outputPanel>
+	        	
+	        </rich:simpleTogglePanel>
+			<rich:spacer height="20px"/>
+			<h:form>
+			<h:panelGrid>
+				<a4j:outputPanel id="recordsCountPanel">
+					<h:outputText value="Liczba wpisów: #{recordBean.records eq null ? 0 : recordBean.records.size() }"  style="font-weight:bold;"/>
+				</a4j:outputPanel>
+			</h:panelGrid>
+			<rich:spacer height="20px"/>
+			<rich:dataTable rows="10" value="#{recordBean.records}" var="record" width="650" id="recordsTable">
+				<f:facet name="header">
+	                <h:outputText value="Ewidencja środków trwałych" />
+	            </f:facet>
+	            <rich:column width="50px" sortBy="#{record.id}" filterBy="#{record.id}" filterEvent="onkeyup">
+	                <f:facet name="header">
+	                    <h:outputText value="ID" />
+	                </f:facet>
+	                <h:outputText value="#{record.id}" id="recordId" />
+	            </rich:column>
+	            <rich:column sortBy="#{record.equipment.brand}" filterBy="#{record.equipment.brand}" filterEvent="onkeyup">
+	                <f:facet name="header">
+	                    <h:outputText value="Środek trwały" />
+	                </f:facet>
+	                <h:outputText value="#{record.equipment.brand} - #{record.equipment.model}" id="recordEquipment" />
+	            </rich:column>
+	            <rich:column sortBy="#{record.purchaseDate}" filterBy="#{record.purchaseDate}" filterEvent="onkeyup">
+	                <f:facet name="header">
+	                    <h:outputText value="Data zakupu" />
+	                </f:facet>
+	                <h:outputText value="#{record.purchaseDate}" id="recordPurchaseDate" />
+	            </rich:column>
+	            <rich:column sortBy="#{record.firstUseDate}" filterBy="#{record.firstUseDate}" filterEvent="onkeyup">
+	                <f:facet name="header">
+	                    <h:outputText value="Data pierwszego użycia" />
+	                </f:facet>
+	                <h:outputText value="#{record.firstUseDate}" id="recordFirstUseDate" />
+	            </rich:column>
+	            <rich:column sortBy="#{record.purchaseDocument.name}" filterBy="#{record.purchaseDocument.name}" filterEvent="onkeyup">
+	                <f:facet name="header">
+	                    <h:outputText value="Dokument zakupu" />
+	                </f:facet>
+	                <h:outputText value="#{record.purchaseDocument.name}" id="recordPurchaseDocument" />
+	            </rich:column>
+				<rich:column width="200px" sortBy="#{record.description}" filterBy="#{record.description}" filterEvent="onkeyup">
+	                <f:facet name="header">
+	                    <h:outputText value="Opis" />
+	                </f:facet>
+	                <h:outputText value="#{record.description}" id="recordDescription" />
+	            </rich:column>
+	            <rich:column sortBy="#{record.fixedAssetClassSymbol.name}" filterBy="#{record.fixedAssetClassSymbol.name}" filterEvent="onkeyup">
+	                <f:facet name="header">
+	                    <h:outputText value="KŚT" />
+	                </f:facet>
+	                <h:outputText value="#{record.fixedAssetClassSymbol.name}" id="recordFixedAssetClassSymbol" />
+	            </rich:column>
+	            <rich:column sortBy="#{record.initialValue}" filterBy="#{record.initialValue}" filterEvent="onkeyup">
+	                <f:facet name="header">
+	                    <h:outputText value="Wartość początkowa" />
+	                </f:facet>
+	                <h:outputText value="#{record.initialValue}" id="recordInitialValue" />
+	            </rich:column>
+	            <rich:column sortBy="#{record.amortizationRate}" filterBy="#{record.amortizationRate}" filterEvent="onkeyup">
+	                <f:facet name="header">
+	                    <h:outputText value="Stawka amortyzacyjna" />
+	                </f:facet>
+	                <h:outputText value="#{record.amortizationRate}" id="recordAmortizationRate" />
+	            </rich:column>
+	            <!-- rich:column>
+	                <f:facet name="header">
+	                    <h:outputText value="Kwota ..." />
+	                </f:facet>
+	                <h:outputText value="" id="recordDeductionAmount" />
+	            </rich:column>
+	            <rich:column>
+	                <f:facet name="header">
+	                    <h:outputText value="Zaktualizowana wartość pocz." />
+	                </f:facet>
+	                <h:outputText value="" id="recordUpdatedInitialValue" />
+	            </rich:column>
+	            <rich:column>
+	                <f:facet name="header">
+	                    <h:outputText value="Zaktualizowana kwota..." />
+	                </f:facet>
+	                <h:outputText value="" id="recordUpdatedDeductionAmount" />
+	            </rich:column>
+	            <rich:column>
+	                <f:facet name="header">
+	                    <h:outputText value="Data likwidacji" />
+	                </f:facet>
+	                <h:outputText value="" id="recordLiquidationDate" />
+	            </rich:column>
+	            <rich:column>
+	                <f:facet name="header">
+	                    <h:outputText value="Przyczyna likwidacji" />
+	                </f:facet>
+	                <h:outputText value="" id="recordLiquidationCouse" />
+	            </rich:column>
+	            <rich:column>
+	                <f:facet name="header">
+	                    <h:outputText value="Data wpisu" />
+	                </f:facet>
+	                <h:outputText value="" id="recordCreationDate" />
+	            </rich:column>
+	            <rich:column>
+	                <f:facet name="header">
+	                    <h:outputText value="Autor wpisu" />
+	                </f:facet>
+	                <h:outputText value="" id="recordCreatedBy" />
+	            </rich:column-->
+	            <rich:column>
+	                <f:facet name="header">
+	                    <h:outputText value="Operacje" />
+	                </f:facet>
+	                <a4j:commandLink ajaxSingle="true" id="detailslink"
+                        oncomplete="#{rich:component('detailsPanel')}.show()"
+                        action="#{recordBean.setRecordToShowDetails(record)}">
+                        <h:graphicImage value="/img/details_button.png" style="border:0" />
+                    </a4j:commandLink>
+                    <rich:toolTip for="detailslink" value="Szczegóły" />
+	                <a4j:commandLink ajaxSingle="true" id="editlink" rendered="#{identity.hasRole('record-rw')}"
+                        oncomplete="#{rich:component('editPanel')}.show()"
+                        action="#{recordBean.setRecordToEdit(record)}">
+                        <h:graphicImage value="/img/edit_button.png" style="border:0" />
+                    </a4j:commandLink>
+                    <rich:toolTip for="editlink" value="Edytuj" />
+                    <a4j:commandLink ajaxSingle="true" id="deletelink" rendered="false"
+                        oncomplete="#{rich:component('deletePanel')}.show()"
+                        action="#{recordBean.setRecordToDelete(record)}">
+                        <h:graphicImage value="/img/delete_button.png" style="border:0" />
+                    </a4j:commandLink>
+                    <rich:toolTip for="deletelink" value="Usuń" />
+	            </rich:column>
+	            <f:facet name="footer">
+                	<rich:datascroller id="datascroller" />
+            	</f:facet>
+			</rich:dataTable>
+		</h:form>
+
+		<f:subview xmlns="http://www.w3.org/1999/xhtml"
+		      xmlns:ui="http://java.sun.com/jsf/facelets"
+		      xmlns:h="http://java.sun.com/jsf/html"
+		      xmlns:f="http://java.sun.com/jsf/core"
+		      xmlns:a4j="http://richfaces.org/a4j"
+		      xmlns:rich="http://richfaces.org/rich"> 
+		    <rich:modalPanel id="detailsPanel" width="600" height="420">
+		        <f:facet name="header">
+		            <h:panelGroup>
+		                <h:outputText value="Record details"></h:outputText>
+		            </h:panelGroup>
+		        </f:facet>
+		        <f:facet name="controls">
+		            <h:panelGroup>
+		            	<h:graphicImage value="/img/close.png" id="hidelink"
+	                    	styleClass="hidelink"  onclick="#{rich:component('detailsPanel')}.hide();return false;"/>
+		               	<rich:componentControl for="detailsPanel" attachTo="hidelink" operation="hide" event="onclick"/>
+		            </h:panelGroup>
+		        </f:facet>
+		        <h:outputText value="Szczegóły wpisu" style="font-weight:bold;"></h:outputText>
+		        <br/>
+		        <h:form>
+		        <rich:messages style="color:red;">
+		        	<f:facet name="errorMarker">
+	                   	<h:graphicImage  value="/img/error.gif" />  
+	               	</f:facet>
+		        </rich:messages>
+	                <a4j:outputPanel ajaxRendered="true">
+	                    <h:panelGrid columns="2" columnClasses="recordDetailsPanelCol1">
+	       
+						    <h:outputText value="ID" />
+							<h:outputText value="#{recordBean.recordToShowDetails.id}" id="recordId" />
+						    <h:outputText value="Środek trwały" />
+							<h:outputText value="#{recordBean.recordToShowDetails.equipment.brand} - #{recordBean.recordToShowDetails.equipment.model}" id="recordEquipment" />
+						    <h:outputText value="Data zakupu" />
+							<h:outputText value="#{recordBean.recordToShowDetails.purchaseDate}" id="recordPurchaseDate" />
+						    <h:outputText value="Data pierwszego użycia" />
+			                <h:outputText value="#{recordBean.recordToShowDetails.firstUseDate}" id="recordFirstUseDate" />
+        		            <h:outputText value="Dokument zakupu" />
+          				    <h:outputText value="#{recordBean.recordToShowDetails.purchaseDocument.name}" id="recordPurchaseDocument" />
+    	                    <h:outputText value="Opis" />
+    			            <h:outputText value="#{recordBean.recordToShowDetails.description}" id="recordDescription" />
+           		            <h:outputText value="KŚT" />
+            			    <h:outputText value="#{recordBean.recordToShowDetails.fixedAssetClassSymbol.name}" id="recordFixedAssetClassSymbol" />
+		                    <h:outputText value="Wartość początkowa" />
+		                	<h:outputText value="#{recordBean.recordToShowDetails.initialValue}" id="recordInitialValue" />
+		                    <h:outputText value="Stawka amortyzacyjna" />
+		                	<h:outputText value="#{recordBean.recordToShowDetails.amortizationRate}" id="recordAmortizationRate" />
+		                    <h:outputText value="Kwota umorzenia" />
+		                	<h:outputText value="#{recordBean.recordToShowDetails.deductionAmount}" id="recordDeductionAmount" />
+			        		<h:outputText value="Zaktualizowana wartość pocz." />
+			                <h:outputText value="#{recordBean.recordToShowDetails.updatedInitialValue}" id="recordUpdatedInitialValue" />
+		                    <h:outputText value="Zaktualizowana kwota umorzenia" />
+			                <h:outputText value="#{recordBean.recordToShowDetails.updatedDeductionAmount}" id="recordUpdatedDeductionAmount" />
+			                <h:outputText value="Data likwidacji" />
+			                <h:outputText value="#{recordBean.recordToShowDetails.liquidationDate}" id="recordLiquidationDate" />
+			            	<h:outputText value="Przyczyna likwidacji" />
+			                <h:outputText value="#{recordBean.recordToShowDetails.liquidationCouse}" id="recordLiquidationCouse" />
+			                <h:outputText value="Data wpisu" />
+			                <h:outputText value="#{recordBean.recordToShowDetails.creationDate}" id="recordCreationDate" />
+			                <h:outputText value="Autor wpisu" />
+			                <h:outputText value="#{recordBean.recordToShowDetails.createdBy.login}" id="recordCreatedBy" />
+			                <h:outputText value="Data ostatniej modyfikacji" />
+			                <h:outputText value="#{recordBean.recordToShowDetails.lastModify}" id="recordLastModify" />
+			                <h:outputText value="Zmodyfikowane przez" />
+			                <h:outputText value="#{recordBean.recordToShowDetails.modifyBy.login}" id="recordModifyBy" />
+            
+	                    </h:panelGrid>
+	                    <rich:message showSummary="true" showDetail="false" for="price" />
+	                </a4j:outputPanel>
+		            
+		        </h:form>
+		    </rich:modalPanel>
+		</f:subview>
+	
+		<f:subview xmlns="http://www.w3.org/1999/xhtml"
+		      xmlns:ui="http://java.sun.com/jsf/facelets"
+		      xmlns:h="http://java.sun.com/jsf/html"
+		      xmlns:f="http://java.sun.com/jsf/core"
+		      xmlns:a4j="http://richfaces.org/a4j"
+		      xmlns:rich="http://richfaces.org/rich"> 
+		    <rich:modalPanel id="editPanel" width="600" height="550">
+		        <f:facet name="header">
+		            <h:panelGroup>
+		                <h:outputText value="Record edit"></h:outputText>
+		            </h:panelGroup>
+		        </f:facet>
+		        <f:facet name="controls">
+		            <h:panelGroup>
+		                <h:graphicImage value="/img/close.png" id="hidelink2"
+	                    	styleClass="hidelink"  onclick="#{rich:component('editPanel')}.hide();return false;"/>
+		               <rich:componentControl for="editPanel" attachTo="hidelink2" operation="hide" event="onclick"/>
+		            </h:panelGroup>
+		        </f:facet>
+		        <h:outputText value="Edycja wpisu" style="font-weight:bold;"></h:outputText>
+		        <br/>
+		        <a4j:form>
+		                <a4j:outputPanel ajaxRendered="true">
+		                <h:panelGrid columns="3" columnClasses="colStyle1,colStyle2">
+		                
+		                	<h:outputText value="ID" />
+							<h:inputText value="#{recordBean.recordToEdit.id}" id="recordId" disabled="true"/>
+						    <h:message for="recordId" style="color:red" >
+			                	<f:facet name="errorMarker">
+		                            <h:graphicImage  value="/img/error.gif" />  
+		                        </f:facet>
+		                    </h:message>
+			                
+						    <h:outputText value="Środek trwały" />
+							<h:inputText value="#{recordBean.recordToEdit.equipment.brand} - #{recordBean.recordToEdit.equipment.model}" id="recordEquipment" disabled="true"/>
+						    <h:message for="recordEquipment" style="color:red" >
+			                	<f:facet name="errorMarker">
+		                            <h:graphicImage  value="/img/error.gif" />  
+		                        </f:facet>
+		                    </h:message>
+			                
+						    <h:outputText value="Data zakupu" />
+						    <rich:calendar datePattern="dd/MM/yyyy" id="purchaseDate" 
+			                	value="#{recordBean.recordToEdit.purchaseDate}" 
+			                	cellHeight="10px" cellWidth="12px" required="true"/>
+			               	<h:message for="purchaseDate" style="color:red" >
+			                	<f:facet name="errorMarker">
+		                            <h:graphicImage  value="/img/error.gif" />  
+		                        </f:facet>
+		                    </h:message>
+							
+							<h:outputText value="Data pierwszego użycia" />
+						    <rich:calendar datePattern="dd/MM/yyyy" id="firstUseDate" 
+			                	value="#{recordBean.recordToEdit.firstUseDate}" 
+			                	cellHeight="10px" cellWidth="12px" required="true"/>
+			               	<h:message for="firstUseDate" style="color:red" >
+			                	<f:facet name="errorMarker">
+		                            <h:graphicImage  value="/img/error.gif" />  
+		                        </f:facet>
+		                    </h:message>
+			                
+			                <h:outputText value="Dokument zakupu" />
+          				    <h:selectOneMenu value="#{recordBean.recordToEdit.purchaseDocument}" 
+			                	id="recordAddPurchaseDocumentId" style="width: 100%" required="true">
+			                	<s:selectItems value="#{recordBean.purchaseDocumentsList}" var="purchaseDoc" 
+			                		label="#{purchaseDoc.name}" id="purchaseDocAdd"/>
+			                	<f:converter for="purchaseDocAdd" converterId="com.ewid.ewidserveradmin.converters.PurchaseDocumentsConverter"/>
+			                </h:selectOneMenu>
+			                <h:message for="recordAddPurchaseDocumentId" style="color:red" >
+			                	<f:facet name="errorMarker">
+		                            <h:graphicImage  value="/img/error.gif" />  
+		                        </f:facet>
+		                    </h:message>
+          				    
+    	                    <h:outputText value="Opis" />
+    			            <h:inputText value="#{recordBean.recordToEdit.description}" id="recordDescription" required="true">
+    			            	<f:validateLength minimum="1" maximum="128"/>
+	                    		<rich:ajaxValidator event="onblur"/>
+    			            </h:inputText>
+           		            <h:message for="recordDescription" style="color:red" >
+			                	<f:facet name="errorMarker">
+		                            <h:graphicImage  value="/img/error.gif" />  
+		                        </f:facet>
+		                    </h:message>
+			                
+           		            <h:outputText value="KŚT" />
+            			    <h:selectOneMenu value="#{recordBean.recordToEdit.fixedAssetClassSymbol}" id="recordAddKST" style="width: 100%" required="true">
+			                	<s:selectItems value="#{recordBean.kstList}" var="kst" label="#{kst.name}" id="kstAdd"/>
+			                	<f:converter for="kstAdd" converterId="com.ewid.ewidserveradmin.converters.KstConverter"/>
+			                </h:selectOneMenu>
+			                <h:message for="recordAddKST" style="color:red" >
+			                	<f:facet name="errorMarker">
+		                            <h:graphicImage  value="/img/error.gif" />  
+		                        </f:facet>
+		                    </h:message>
+            			    
+		                    <h:outputText value="Wartość początkowa" />
+		                	<h:inputText value="#{recordBean.recordToEdit.initialValue}" id="recordInitialValue" required="true">
+		                		<f:validateDoubleRange minimum = "0.00" maximum = "99999999.99"/>
+		                	</h:inputText>
+		                    <h:message for="recordInitialValue" style="color:red" >
+			                	<f:facet name="errorMarker">
+		                            <h:graphicImage  value="/img/error.gif" />  
+		                        </f:facet>
+		                    </h:message>
+			                
+		                    <h:outputText value="Stawka amortyzacyjna" />
+		                	<h:inputText value="#{recordBean.recordToEdit.amortizationRate}" id="recordAmortizationRate"  required="true">
+		                		<f:validateDoubleRange minimum = "0.00" maximum = "1.00"/>
+		                	</h:inputText>
+		                    <h:message for="recordAmortizationRate" style="color:red" >
+			                	<f:facet name="errorMarker">
+		                            <h:graphicImage  value="/img/error.gif" />  
+		                        </f:facet>
+		                    </h:message>
+			                
+		                    <h:outputText value="Kwota umorzenia" />
+		                	<h:inputText value="#{recordBean.recordToEdit.deductionAmount}" id="recordDeductionAmount">
+		                		<f:validateDoubleRange minimum = "0.00" maximum = "99999999.99"/>
+		                	</h:inputText>
+			        		<h:message for="recordDeductionAmount" style="color:red" >
+			                	<f:facet name="errorMarker">
+		                            <h:graphicImage  value="/img/error.gif" />  
+		                        </f:facet>
+		                    </h:message>
+			                
+			        		<h:outputText value="Zaktualizowana wartość pocz." />
+			                <h:inputText value="#{recordBean.recordToEdit.updatedInitialValue}" id="recordUpdatedInitialValue">
+			                	<f:validateDoubleRange minimum = "0.00" maximum = "99999999.99"/>
+			                </h:inputText>
+		                    <h:message for="recordUpdatedInitialValue" style="color:red" >
+			                	<f:facet name="errorMarker">
+		                            <h:graphicImage  value="/img/error.gif" />  
+		                        </f:facet>
+		                    </h:message>
+			                
+		                    <h:outputText value="Zaktualizowana kwota umorzenia" />
+			                <h:inputText value="#{recordBean.recordToEdit.updatedDeductionAmount}" id="recordUpdatedDeductionAmount">
+			                	<f:validateDoubleRange minimum = "0.00" maximum = "99999999.99"/>
+			                </h:inputText>
+			                <h:message for="recordUpdatedDeductionAmount" style="color:red" >
+			                	<f:facet name="errorMarker">
+		                            <h:graphicImage  value="/img/error.gif" />  
+		                        </f:facet>
+		                    </h:message>
+			                
+			                <h:outputText value="Data likwidacji" />
+			                <h:inputText value="#{recordBean.recordToEdit.liquidationDate}" id="recordLiquidationDate" />
+			            	<h:message for="recordLiquidationDate" style="color:red" >
+			                	<f:facet name="errorMarker">
+		                            <h:graphicImage  value="/img/error.gif" />  
+		                        </f:facet>
+		                    </h:message>
+			                
+			            	<h:outputText value="Przyczyna likwidacji" />
+			                <h:inputText value="#{recordBean.recordToEdit.liquidationCouse}" id="recordLiquidationCouse">
+			                	<f:validateLength maximum="128"/>
+	                    		<rich:ajaxValidator event="onblur"/>
+			                </h:inputText>
+			                <h:message for="recordLiquidationCouse" style="color:red" >
+			                	<f:facet name="errorMarker">
+		                            <h:graphicImage  value="/img/error.gif" />  
+		                        </f:facet>
+		                    </h:message>
+			                
+			                <h:outputText value="Data wpisu" />
+			                <h:inputText value="#{recordBean.recordToEdit.creationDate}" id="recordCreationDate" disabled="true"/>
+			                <h:message for="recordCreationDate" style="color:red" >
+			                	<f:facet name="errorMarker">
+		                            <h:graphicImage  value="/img/error.gif" />  
+		                        </f:facet>
+		                    </h:message>
+			                
+			                <h:outputText value="Autor wpisu" />
+			                <h:inputText value="#{recordBean.recordToEdit.createdBy.login}" id="recordCreatedBy" disabled="true"/>
+			                <h:message for="recordCreatedBy" style="color:red" >
+			                	<f:facet name="errorMarker">
+		                            <h:graphicImage  value="/img/error.gif" />  
+		                        </f:facet>
+		                    </h:message>
+			                
+			                <h:outputText value="Data ostatniej modyfikacji" />
+			                <h:inputText value="#{recordBean.recordToEdit.lastModify}" id="recordLastModify" disabled="true"/>
+			                <h:message for="recordLastModify" style="color:red" >
+			                	<f:facet name="errorMarker">
+		                            <h:graphicImage  value="/img/error.gif" />  
+		                        </f:facet>
+		                    </h:message>
+			                
+			                <h:outputText value="Zmodyfikowane przez" />
+			                <h:inputText value="#{recordBean.recordToEdit.modifyBy.login}" id="recordModifyBy" disabled="true" />
+		                	<h:message for="recordModifyBy" style="color:red" >
+			                	<f:facet name="errorMarker">
+		                            <h:graphicImage  value="/img/error.gif" />  
+		                        </f:facet>
+		                    </h:message>
+			            	<h:panelGrid columns="2">
+			            			<a4j:commandButton  id="savelink" value="Zapisz" 
+					                	action="#{recordBean.editRecord(recordBean.recordToEdit)}"
+				                        reRender="recordsTable,recordsCountPanel" 
+				                        oncomplete="if ('#{facesContext.maximumSeverity}' == '') Richfaces.hideModalPanel('editPanel')">
+				                    </a4j:commandButton>
+				                    <rich:toolTip for="savelink" value="Zapisz" />
+			                </h:panelGrid>
+	                	</h:panelGrid>
+		    	        </a4j:outputPanel>
+		            
+		        </a4j:form>
+		    </rich:modalPanel>
+		</f:subview>
+
+    </ui:define>
+</ui:composition>

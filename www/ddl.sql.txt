@@ -1,0 +1,373 @@
+create database if not exists Ewidencja default character set = utf8;
+
+use Ewidencja;
+
+create table fixed_assets
+(
+	id integer auto_increment,
+	equipment_id integer,
+	purchase_date datetime,
+	first_use_date datetime,
+	purchase_document_id integer,
+	description varchar(128),
+	fixed_assets_classification_symbol_id integer,
+	initial_value decimal(10,2),
+	amortization_rate decimal(3,2),
+	deduction_amount decimal(10,2),
+	updated_initial_value decimal(10,2),
+	updated_deduction_amount char(10),
+	liquidation_date datetime,
+	liquidation_couse varchar(128),
+	creation_date datetime,
+	created_by integer,
+	last_modify datetime,
+	modify_by integer,
+	primary key (id)	
+)ENGINE=INNODB;
+
+create table fixed_assets_classification_symbols
+(
+	id integer auto_increment,
+	name varchar(128),
+	primary key (id)
+)ENGINE=INNODB;
+
+create table purchase_documents
+(
+	id integer auto_increment,
+	name varchar(32),
+	primary key (id)
+)ENGINE=INNODB;
+
+create table places
+(
+	id integer auto_increment,
+	country varchar(32),
+	province varchar(32),
+	city varchar(32),
+	postal_code char(12),
+	street varchar(32),
+	building varchar(16),
+	floor integer,
+	room_number varchar(16),
+	synchronized boolean,
+	guid varchar(40),
+	deleted boolean,
+	primary key (id)
+)ENGINE=INNODB;
+
+create table employees
+(
+	id integer auto_increment,
+	name varchar(16),
+	surname varchar(32),
+	date_of_birth date,
+	place_of_birth varchar(32),
+	pesel char(11),
+	email varchar(255),
+	msisdn numeric(15),
+	synchronized boolean,
+	guid varchar(40),
+	deleted boolean,
+	primary key (id)
+)ENGINE=INNODB;
+
+create table mappings
+(
+	id integer auto_increment,
+	equipment_id integer,
+	employee_id integer,
+	place_id integer,
+	creation_date datetime,
+	created_by integer,
+	last_modify datetime,
+	modify_by integer,
+	synchronized boolean,
+	guid varchar(40),
+	deleted boolean,
+	primary key (id)
+)ENGINE=INNODB;
+
+create table equipment
+(
+	id integer auto_increment,
+	brand varchar(32),
+	model varchar(32),
+	serial_number varchar(32),
+	synchronized boolean,
+	guid varchar(40),
+	deleted boolean,
+	primary key (id)
+)ENGINE=INNODB;
+
+create table users
+(
+	id integer auto_increment,
+	login varchar(32),
+	name varchar(16),
+	surname varchar(32),
+	creation_date datetime,
+	active boolean,
+	password varchar(40),
+	group_id integer,
+	synchronized boolean,
+	guid varchar(40),
+	deleted boolean,
+	primary key (id)
+)ENGINE=INNODB;
+
+create table groups
+(
+	id integer auto_increment,
+	name varchar(16),
+	active boolean,
+	create_time datetime,
+	primary key (id)
+)ENGINE=INNODB;
+
+create table groups_roles
+(
+	group_id integer,
+	role varchar(32)
+)ENGINE=INNODB;
+
+create table roles
+(
+	role varchar(32),
+	description varchar(128)
+)ENGINE=INNODB;
+
+CREATE UNIQUE INDEX roles_role_idx ON roles (role(32));
+
+alter table fixed_assets add constraint fixed_assets_equipment_fk 
+foreign key (equipment_id) references equipment(id);	
+
+alter table fixed_assets add constraint fixed_assets_purchase_document_fk 
+foreign key (purchase_document_id) references purchase_documents(id);
+
+alter table fixed_assets add constraint fixed_assets_fixed_assets_classification_fk 
+foreign key (fixed_assets_classification_symbol_id) references fixed_assets_classification_symbols(id);
+
+alter table fixed_assets add constraint fixed_assets_created_by_fk 
+foreign key (created_by) references users(id);
+
+alter table fixed_assets add constraint fixed_assets_modify_by_fk 
+foreign key (modify_by) references users(id);
+
+alter table mappings add constraint mappings_equipment_fk 
+	foreign key (equipment_id) references equipment(id);
+	
+alter table mappings add constraint mappings_employee_fk 
+	foreign key (employee_id) references employees(id);
+
+alter table mappings add constraint mappings_place_fk 
+	foreign key (place_id) references places(id);
+	
+alter table mappings add constraint mappings_created_by_fk 
+	foreign key (created_by) references users(id);
+
+alter table mappings add constraint mappings_modify_by_fk 
+	foreign key (modify_by) references users(id);
+	
+alter table users add constraint users_group_fk 
+	foreign key (group_id) references groups(id);
+
+alter table groups_roles add constraint groups_roles_group_fk 
+	foreign key (group_id) references groups(id);
+
+alter table groups_roles add constraint groups_roles_role_fk 
+	foreign key (role) references roles(role);
+	
+	
+insert into groups (id, name, active, create_time) values (1, 'admin', 1, now());
+insert into groups (id, name, active, create_time) values (2, 'accountant', 1, now());
+insert into groups (id, name, active, create_time) values (3, 'user', 1, now());
+insert into groups (id, name, active, create_time) values (4, 'supervisor', 1, now());
+
+insert into users (id, login, name, surname, active, password, group_id, creation_date) values (1,'admin','Marcin','Hajduczek',1,'qwerty',1, now());
+insert into users (id, login, name, surname, active, password, group_id, creation_date) values (2,'accountant','ksiegowy','ksiegowy',1,'qwerty',2, now());
+insert into users (id, login, name, surname, active, password, group_id, creation_date) values (3,'user','normal','user',1,'qwerty',3, now());
+insert into users (id, login, name, surname, active, password, group_id, creation_date) values (4,'supervisor','super','visor',1,'qwerty',4, now());
+
+insert into roles (role, description) values ('employees-r', 'Rola pozwalajaca na przegladanie strony z pracownikami.');
+insert into roles (role, description) values ('employees-rw', 'Rola pozwalajaca na przegladanie i edycje strony z pracownikami.');
+insert into roles (role, description) values ('employees-x', 'Rola pozwalajaca na przegladanie, edycje i wykonywanie skryptow strony z pracownikami.');
+insert into roles (role, description) values ('equipment-r', 'Rola pozwalajaca na przegladanie strony ze sprzetem.');
+insert into roles (role, description) values ('equipment-rw', 'Rola pozwalajaca na przegladanie i edycje strony ze sprzetem.');
+insert into roles (role, description) values ('equipment-x', 'Rola pozwalajaca na przegladanie, edycje i wykonywanie skryptow strony ze sprzetem.');
+insert into roles (role, description) values ('locations-r', 'Rola pozwalajaca na przegladanie strony z lokalizacjami.');
+insert into roles (role, description) values ('locations-rw', 'Rola pozwalajaca na przegladanie i edycje strony z lokalizacjami.');
+insert into roles (role, description) values ('locations-x', 'Rola pozwalajaca na przegladanie, edycje i wykonywanie skryptow strony z lokalizacjami.');
+insert into roles (role, description) values ('users-r', 'Rola pozwalajaca na przegladanie strony z zarzadzaniem uzytkownikami.');
+insert into roles (role, description) values ('users-rw', 'Rola pozwalajaca na przegladanie i edycje strony z zarzadzaniem uzytkownikami.');
+insert into roles (role, description) values ('users-x', 'Rola pozwalajaca na przegladanie, edycje i wykonywanie skryptow strony z zarzadzaniem uzytkownikami.');
+insert into roles (role, description) values ('record-r', 'Rola pozwalajaca na przegladanie strony z ewidencja srodkow trwalych.');
+insert into roles (role, description) values ('record-rw', 'Rola pozwalajaca na przegladanie i edycje strony z ewidencja srodkow trwalych.');
+insert into roles (role, description) values ('record-x', 'Rola pozwalajaca na przegladanie, edycje i wykonywanie skryptow strony z ewidencja srodkow trwalych.');
+insert into roles (role, description) values ('mappings-r', 'Rola pozwalajaca na przegladanie strony z mapowaniami.');
+insert into roles (role, description) values ('mappings-rw', 'Rola pozwalajaca na przegladanie i edycje strony z mapowaniami.');
+insert into roles (role, description) values ('mappings-x', 'Rola pozwalajaca na przegladanie, edycje i wykonywanie skryptow strony z mapowaniami.');
+insert into roles (role, description) values ('reports-r', 'Rola pozwalajaca na przegladanie strony z raportami.');
+
+
+insert into groups_roles (group_id, role) values (1, 'employees-r');
+insert into groups_roles (group_id, role) values (1, 'employees-rw');
+insert into groups_roles (group_id, role) values (1, 'employees-x');
+insert into groups_roles (group_id, role) values (1, 'equipment-r');
+insert into groups_roles (group_id, role) values (1, 'equipment-rw');
+insert into groups_roles (group_id, role) values (1, 'equipment-x');
+insert into groups_roles (group_id, role) values (1, 'locations-r');
+insert into groups_roles (group_id, role) values (1, 'locations-rw');
+insert into groups_roles (group_id, role) values (1, 'locations-x');
+insert into groups_roles (group_id, role) values (1, 'users-r');
+insert into groups_roles (group_id, role) values (1, 'users-rw');
+insert into groups_roles (group_id, role) values (1, 'users-x');
+insert into groups_roles (group_id, role) values (1, 'record-r');
+insert into groups_roles (group_id, role) values (1, 'record-rw');
+insert into groups_roles (group_id, role) values (1, 'record-x');
+insert into groups_roles (group_id, role) values (1, 'mappings-r');
+insert into groups_roles (group_id, role) values (1, 'reports-r');
+
+insert into groups_roles (group_id, role) values (2, 'employees-r');
+insert into groups_roles (group_id, role) values (2, 'employees-rw');
+insert into groups_roles (group_id, role) values (2, 'employees-x');
+insert into groups_roles (group_id, role) values (2, 'equipment-r');
+insert into groups_roles (group_id, role) values (2, 'equipment-rw');
+insert into groups_roles (group_id, role) values (2, 'equipment-x');
+insert into groups_roles (group_id, role) values (2, 'locations-r');
+insert into groups_roles (group_id, role) values (2, 'locations-rw');
+insert into groups_roles (group_id, role) values (2, 'locations-x');
+insert into groups_roles (group_id, role) values (2, 'record-r');
+insert into groups_roles (group_id, role) values (2, 'record-rw');
+insert into groups_roles (group_id, role) values (2, 'record-x');
+insert into groups_roles (group_id, role) values (2, 'mappings-r');
+insert into groups_roles (group_id, role) values (2, 'reports-r');
+
+insert into groups_roles (group_id, role) values (3, 'mappings-r');
+
+insert into groups_roles (group_id, role) values (4, 'employees-r');
+insert into groups_roles (group_id, role) values (4, 'equipment-r');
+insert into groups_roles (group_id, role) values (4, 'locations-r');
+insert into groups_roles (group_id, role) values (4, 'record-r');
+insert into groups_roles (group_id, role) values (4, 'mappings-r');
+insert into groups_roles (group_id, role) values (4, 'users-r');
+insert into groups_roles (group_id, role) values (4, 'reports-r');
+
+insert into employees (name, surname, date_of_birth, place_of_birth, pesel, email, msisdn, synchronized ) 
+values ('Jan','Kowalski','1980-01-01','Warszawa','98765432101','e@mail.pl','500500500',0);
+insert into employees (name, surname, date_of_birth, place_of_birth, pesel, email, msisdn, synchronized ) 
+values ('Jan','Nowak','1983-01-02','Warszawa','12354322101','emailghj@mail.pl','500333500',0);
+insert into employees (name, surname, date_of_birth, place_of_birth, pesel, email, msisdn, synchronized ) 
+values ('Maksymilian','Burak','1982-01-01','Wloszczowa','98765432101','etyu@mail.pl','500111500',0);
+insert into employees (name, surname, date_of_birth, place_of_birth, pesel, email, msisdn, synchronized ) 
+values ('Romek','Pomidor','1980-03-01','Wejherowo','98761132101','eghj@mail.pl','500222500',0);
+insert into employees (name, surname, date_of_birth, place_of_birth, pesel, email, msisdn, synchronized ) 
+values ('Atomek','Marchewka','1980-11-01','Opole','98733432101','eghj@mail.pl','533500500',0);
+insert into employees (name, surname, date_of_birth, place_of_birth, pesel, email, msisdn, synchronized ) 
+values ('Tomek','Seler','1980-01-30','Sanok','98765432144','eghj@mail.pl','544500500',0);
+insert into employees (name, surname, date_of_birth, place_of_birth, pesel, email, msisdn, synchronized ) 
+values ('Mateusz','Kapusta','1966-01-01','Radom','98765555101','eghj@mail.pl','544555555',0);
+insert into employees (name, surname, date_of_birth, place_of_birth, pesel, email, msisdn, synchronized ) 
+values ('Mariusz','Groch','1986-06-06','Rybnik','98765466601','ehjk@mail.pl','500533500',0);
+insert into employees (name, surname, date_of_birth, place_of_birth, pesel, email, msisdn, synchronized ) 
+values ('Ignacy','Rzodkiewka','1983-03-01','Bytom','92765432101','ejk@mail.pl','500511500',0);
+insert into employees (name, surname, date_of_birth, place_of_birth, pesel, email, msisdn, synchronized ) 
+values ('Pankracy','Arbuz','1990-04-05','Gliwice','22265432101','eyiy@mail.pl','500533300',0);
+insert into employees (name, surname, date_of_birth, place_of_birth, pesel, email, msisdn, synchronized ) 
+values ('Andrzej','Gruszka','1982-02-22','Gdynia','98445432101','eutyu@mail.pl','500500333',0);
+insert into employees (name, surname, date_of_birth, place_of_birth, pesel, email, msisdn, synchronized ) 
+values ('Marcin','Sliwka','1977-02-01','Szczecin','98744432101','etre@mail.pl','500500222',0);
+insert into employees (name, surname, date_of_birth, place_of_birth, pesel, email, msisdn, synchronized ) 
+values ('Wiola','Ananas','1975-12-01','Gniezno','98765432144','eewr@mail.pl','500500111',0);
+insert into employees (name, surname, date_of_birth, place_of_birth, pesel, email, msisdn, synchronized ) 
+values ('Ola','Morela','1984-01-06','Krakow','98765432444','eqww@mail.pl','500500444',0);
+insert into employees (name, surname, date_of_birth, place_of_birth, pesel, email, msisdn, synchronized ) 
+values ('Jola','Kiwi','1985-05-01','Poznan','98765432133','eqwe@mail.pl','500500555',0);
+insert into employees (name, surname, date_of_birth, place_of_birth, pesel, email, msisdn, synchronized ) 
+values ('Nina','Awokado','1986-01-04','Lublin','98765412301','ezxc@mail.pl','500500666',0);
+insert into employees (name, surname, date_of_birth, place_of_birth, pesel, email, msisdn, synchronized ) 
+values ('Joanna','Por','1987-03-01','Gdansk','98765433301','edsa@mail.pl','500500777',0);
+insert into employees (name, surname, date_of_birth, place_of_birth, pesel, email, msisdn, synchronized ) 
+values ('Hanna','Melon','1988-01-02','Katowice','98335432101','eqwe@mail.pl','500500888',0);
+insert into employees (name, surname, date_of_birth, place_of_birth, pesel, email, msisdn, synchronized ) 
+values ('Anna','Dynia','1989-02-01','Wroclaw','98763332131','easd@mail.pl','500500999',0);
+insert into equipment (brand, model, serial_number, synchronized) values ('Siemens','C50','S12czczxc4565',0);
+insert into equipment (brand, model, serial_number, synchronized) values ('Siemens','A21','S12asdas34565',0);
+insert into equipment (brand, model, serial_number, synchronized) values ('Siemens','QWE','S1234asdas565',0);
+insert into equipment (brand, model, serial_number, synchronized) values ('Sony','Xperia X8','S123asdewe4565',0);
+insert into equipment (brand, model, serial_number, synchronized) values ('Sony','Xperia X10','S1asdasd234565',0);
+insert into equipment (brand, model, serial_number, synchronized) values ('Sony','Xperia X10 Mini','S1dfsasd234565',0);
+insert into equipment (brand, model, serial_number, synchronized) values ('Fiat','Ducato','S123sdfwc4565',0);
+insert into equipment (brand, model, serial_number, synchronized) values ('Fiat','Seicento 900','S12werwerqw34565',0);
+insert into equipment (brand, model, serial_number, synchronized) values ('Fiat','Dublo','S1234rewerwe565',0);
+insert into equipment (brand, model, serial_number, synchronized) values ('Fiat','500','S12345dsce65',0);
+insert into equipment (brand, model, serial_number, synchronized) values ('Ford','Mondeo','S12ewe34565',0);
+insert into equipment (brand, model, serial_number, synchronized) values ('Ford','Fiesta','Sqwe1234565',0);
+insert into equipment (brand, model, serial_number, synchronized) values ('Ford','Escort','qqweS1234565',0);
+insert into equipment (brand, model, serial_number, synchronized) values ('Ford','Mustang','Sads1234565',0);
+insert into equipment (brand, model, serial_number, synchronized) values ('Ford','Ka','S12asd34565',0);
+insert into equipment (brand, model, serial_number, synchronized) values ('Lenovo','L50','S12asd34565',0);
+insert into equipment (brand, model, serial_number, synchronized) values ('Toshiba','A200','S123asd4565',0);
+insert into equipment (brand, model, serial_number, synchronized) values ('Toshiba','A300','S1dsds234565',0);
+insert into equipment (brand, model, serial_number, synchronized) values ('Toshiba','P850','asdaS1234565',0);
+insert into equipment (brand, model, serial_number, synchronized) values ('Sony','Vaio','23S12323424565',0);
+insert into equipment (brand, model, serial_number, synchronized) values ('Apple','MacBook Air','Sdwd1234565',0);
+insert into equipment (brand, model, serial_number, synchronized) values ('Apple','MacBook Pro','S1wedwed234565',0);
+insert into equipment (brand, model, serial_number, synchronized) values ('HP','DeskJet 3010','wqe12dedwe4565',0);
+insert into equipment (brand, model, serial_number, synchronized) values ('HP','LaserJet 5000','zS1czxczx234565',0);
+insert into places (country, province, city, postal_code, street, building, floor, room_number, synchronized) 
+values ('Polska','Slaskie','Katowice','44-000','Francuska','1A','I','1a',0);
+insert into places (country, province, city, postal_code, street, building, floor, room_number, synchronized) 
+values ('Polska','Slaskie','Katowice','44-000','Francuska','1A','I','1b',0);
+insert into places (country, province, city, postal_code, street, building, floor, room_number, synchronized) 
+values ('Polska','Slaskie','Katowice','44-000','Francuska','1A','I','1c',0);
+insert into places (country, province, city, postal_code, street, building, floor, room_number, synchronized) 
+values ('Polska','Slaskie','Katowice','44-000','Francuska','1A','I','2a',0);
+insert into places (country, province, city, postal_code, street, building, floor, room_number, synchronized) 
+values ('Polska','Slaskie','Katowice','44-000','Francuska','1A','I','2b',0);
+insert into places (country, province, city, postal_code, street, building, floor, room_number, synchronized) 
+values ('Polska','Slaskie','Katowice','44-000','Francuska','1A','I','2c',0);
+insert into places (country, province, city, postal_code, street, building, floor, room_number, synchronized) 
+values ('Polska','Slaskie','Katowice','44-000','Francuska','1A','II','101',0);
+insert into places (country, province, city, postal_code, street, building, floor, room_number, synchronized) 
+values ('Polska','Slaskie','Katowice','44-000','Francuska','1A','II','102',0);
+insert into places (country, province, city, postal_code, street, building, floor, room_number, synchronized) 
+values ('Polska','Slaskie','Katowice','44-000','Francuska','1A','II','103',0);
+insert into places (country, province, city, postal_code, street, building, floor, room_number, synchronized) 
+values ('Polska','Slaskie','Katowice','44-000','Francuska','1A','II','103a',0);
+insert into places (country, province, city, postal_code, street, building, floor, room_number, synchronized) 
+values ('Polska','Slaskie','Katowice','44-000','Francuska','1A','II','104',0);
+insert into places (country, province, city, postal_code, street, building, floor, room_number, synchronized) 
+values ('Polska','Slaskie','Katowice','44-000','Francuska','1A','II','105',0);
+insert into places (country, province, city, postal_code, street, building, floor, room_number, synchronized) 
+values ('Polska','Slaskie','Katowice','44-000','Francuska','1A','III','201',0);
+insert into places (country, province, city, postal_code, street, building, floor, room_number, synchronized) 
+values ('Polska','Slaskie','Katowice','44-000','Francuska','1A','III','202',0);
+insert into places (country, province, city, postal_code, street, building, floor, room_number, synchronized) 
+values ('Polska','Slaskie','Katowice','44-000','Francuska','1A','III','203',0);
+insert into places (country, province, city, postal_code, street, building, floor, room_number, synchronized) 
+values ('Polska','Slaskie','Katowice','44-000','Francuska','1A','III','204',0);
+insert into places (country, province, city, postal_code, street, building, floor, room_number, synchronized) 
+values ('Polska','Slaskie','Katowice','44-000','Francuska','1A','III','205',0);
+insert into places (country, province, city, postal_code, street, building, floor, room_number, synchronized) 
+values ('Polska','Slaskie','Katowice','44-000','Francuska','1A','III','206',0);
+insert into places (country, province, city, postal_code, street, building, floor, room_number, synchronized) 
+values ('Polska','Slaskie','Katowice','44-000','Francuska','1A','III','207',0);
+
+
+insert into fixed_assets_classification_symbols (name) values ('0 - GRUNTY');
+insert into fixed_assets_classification_symbols (name) values ('1 - BUDYNKI I LOKALE ORAZ SPOLDZIELCZE PRAWO DO LOKALU UZYTKOWEGO I SPOLDZIELCZE WLASNOSCIOWE PRAWO DO LOKALU MIESZKALNEGO');
+insert into fixed_assets_classification_symbols (name) values ('2 - OBIEKTY INZYNIERII LADOWEJ I WODNEJ');
+insert into fixed_assets_classification_symbols (name) values ('3 - KOTLY I MASZYNY ENERGETYCZNE');
+insert into fixed_assets_classification_symbols (name) values ('4 - MASZYNY, URZADZENIA I APARATY OGOLNEGO ZASTOSOWANIA');
+insert into fixed_assets_classification_symbols (name) values ('5 - MASZYNY, URZADZENIA I APARATY SPECJALISTYCZNE');
+insert into fixed_assets_classification_symbols (name) values ('6 - URZADZENIA TECHNICZNE');
+insert into fixed_assets_classification_symbols (name) values ('7 - SRODKI TRANSPORTU');
+insert into fixed_assets_classification_symbols (name) values ('8 - NARZEDZIA, PRZYRZADY, RUCHOMOSCI I WYPOSAZENIE, GDZIE INDZIEJ NIESKLASYFIKOWANE');
+insert into fixed_assets_classification_symbols (name) values ('9 - INWENTARZ ZYWY');
+
+insert into purchase_documents (name) values ('faktura VAT');
+insert into purchase_documents (name) values ('paragon');
+insert into purchase_documents (name) values ('faktura importowa');
+insert into purchase_documents (name) values ('faktura importowa EU');
+insert into purchase_documents (name) values ('faktura zaliczkowa');

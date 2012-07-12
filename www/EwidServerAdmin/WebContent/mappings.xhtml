@@ -1,0 +1,299 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    xmlns:a4j="http://richfaces.org/a4j"
+    template="layout/template.xhtml">
+
+    <ui:define name="body">
+
+        <h:form>
+        	<rich:simpleTogglePanel switchType="client" opened="false" label="Dodaj nowe mapowanie" rendered="#{identity.hasRole('mappings-rw')}">
+	        	<rich:dataTable rows="1" value="#{mappingsBean.mappingToAddFake}" var="mapping" width="650" id="mappingAddTable">
+					<f:facet name="header">
+		                <h:outputText value="Dodaj mapowanie" />
+		            </f:facet>
+		            <rich:column>
+		                <f:facet name="header">
+		                    <h:outputText value="Sprzęt" />
+		                </f:facet>
+		                <h:selectOneMenu value="#{mappingsBean.mappingToAdd.equipment}" id="mappingAddEquipment" style="width: 100%">
+		                	<s:selectItems value="#{mappingsBean.equipmentList}" var="equip" label="#{equip.brand} - #{equip.model}" id="equipmentAdd"/>
+		                	<f:converter for="equipmentAdd" converterId="com.ewid.ewidserveradmin.converters.EquipmentConverter"/>
+		                </h:selectOneMenu>
+		            </rich:column>
+		            <rich:column>
+		                <f:facet name="header">
+		                    <h:outputText value="Pracownik" />
+		                </f:facet>
+		                 <h:selectOneMenu value="#{mappingsBean.mappingToAdd.employee}" id="mappingAddEmployee" style="width: 100%">
+		                	<s:selectItems value="#{mappingsBean.employeesList}" var="employee" label="#{employee.name} #{employee.surname}" id="employeeAdd"/>
+		                	<f:converter for="employeeAdd" converterId="com.ewid.ewidserveradmin.converters.EmployeesConverter"/>
+		                </h:selectOneMenu>
+		            </rich:column>
+		            <rich:column>
+		                <f:facet name="header">
+		                    <h:outputText value="Lokalizacja" />
+		                </f:facet>
+		                 <h:selectOneMenu value="#{mappingsBean.mappingToAdd.place}" id="mappingAddPlace" style="width: 100%">
+		                	<s:selectItems value="#{mappingsBean.placesList}" var="place" label="#{place.city}, #{place.street}, #{place.building}, #{place.floor}, #{place.roomNumber}" id="placeAdd"/>
+		                	<f:converter for="placeAdd" converterId="com.ewid.ewidserveradmin.converters.PlacesConverter"/>
+		                </h:selectOneMenu>
+		            </rich:column>
+		            <rich:column>
+		                <f:facet name="header">
+		                    <h:outputText value="Operacje" />
+		                </f:facet>
+		                <a4j:commandLink  id="addlink"
+		                	action="#{mappingsBean.addMapping(mappingsBean.mappingToAdd)}"
+	                        reRender="mappingAddTable,mappingsTable,mappingsCountPanel">
+	                        <h:graphicImage value="/img/add_button.png" style="border:0" />
+	                    </a4j:commandLink>
+	                    <rich:toolTip for="addlink" value="Dodaj" />
+	                </rich:column>
+		    	</rich:dataTable>
+	        </rich:simpleTogglePanel>
+			<rich:spacer height="20px"/>
+			<h:panelGrid>
+				<a4j:outputPanel id="mappingsCountPanel">
+					<h:outputText value="Liczba mapowań: #{mappingsBean.mappings eq null ? 0 : mappingsBean.mappings.size() }" style="font-weight:bold;"/>
+				</a4j:outputPanel>
+			</h:panelGrid>
+			<rich:spacer height="20px"/>
+			<rich:dataTable rows="12" value="#{mappingsBean.mappings}" var="mapping" width="650" id="mappingsTable">
+				<f:facet name="header">
+	                <h:outputText value="Mapowania" />
+	            </f:facet>
+	            <rich:column sortBy="#{mapping.id}" filterBy="#{mapping.id}" filterEvent="onkeyup">
+	                <f:facet name="header">
+	                    <h:outputText value="ID" />
+	                </f:facet>
+	                <h:outputText value="#{mapping.id}" id="mappingId" />
+	            </rich:column>
+	            <rich:column sortBy="#{mapping.equipment.brand}" filterBy="#{mapping.equipment.brand}" filterEvent="onkeyup">
+	                <f:facet name="header">
+	                    <h:outputText value="Sprzęt" />
+	                </f:facet>
+	                <h:outputText value="#{mapping.equipment.brand} - #{mapping.equipment.model}" id="mappingEquipment" />
+	            </rich:column>
+	            <rich:column sortBy="#{mapping.place.city}" filterBy="#{mapping.place.city}" filterEvent="onkeyup">
+	                <f:facet name="header">
+	                    <h:outputText value="Lokalizacja" />
+	                </f:facet>
+	                <h:outputText value="#{mapping.place.city}, #{mapping.place.street}, #{mapping.place.building}, #{mapping.place.floor}, #{mapping.place.roomNumber}" id="mappingPlace" />
+	            </rich:column>
+	            <rich:column sortBy="#{mapping.employee.name}" filterBy="#{mapping.employee.name}" filterEvent="onkeyup">
+	                <f:facet name="header">
+	                    <h:outputText value="Pracownik" />
+	                </f:facet>
+	                <h:outputText value="#{mapping.employee.name}  #{mapping.employee.surname}" id="mappingEmployee" />
+	            </rich:column>
+	            <rich:column>
+	                <f:facet name="header">
+	                    <h:outputText value="Operacje" />
+	                </f:facet>
+	                <a4j:commandLink ajaxSingle="true" id="detailslink"
+                        oncomplete="#{rich:component('detailsPanel')}.show()"
+                        action="#{mappingsBean.setMappingToShowDetails(mapping)}">
+                        <h:graphicImage value="/img/details_button.png" style="border:0" />
+                    </a4j:commandLink>
+                    <rich:toolTip for="detailslink" value="Szczegóły" />
+	                <a4j:commandLink ajaxSingle="true" id="editlink" rendered="#{identity.hasRole('mappings-rw')}"
+                        oncomplete="#{rich:component('editPanel')}.show()"
+                        action="#{mappingsBean.setMappingToEdit(mapping)}">
+                        <h:graphicImage value="/img/edit_button.png" style="border:0" />
+                    </a4j:commandLink>
+                    <rich:toolTip for="editlink" value="Edytuj" />
+                    <a4j:commandLink ajaxSingle="true" id="deletelink" rendered="#{identity.hasRole('mappings-rw')}"
+                        oncomplete="#{rich:component('deletePanel')}.show()"
+                        action="#{mappingsBean.setMappingToDelete(mapping)}">
+                        <h:graphicImage value="/img/delete_button.png" style="border:0" />
+                    </a4j:commandLink>
+                    <rich:toolTip for="deletelink" value="Usuń" />
+	            </rich:column>
+	            <f:facet name="footer">
+                	<rich:datascroller id="datascroller" />
+            	</f:facet>
+			</rich:dataTable>
+		</h:form>
+
+		 <f:subview xmlns="http://www.w3.org/1999/xhtml"
+		      xmlns:ui="http://java.sun.com/jsf/facelets"
+		      xmlns:h="http://java.sun.com/jsf/html"
+		      xmlns:f="http://java.sun.com/jsf/core"
+		      xmlns:a4j="http://richfaces.org/a4j"
+		      xmlns:rich="http://richfaces.org/rich"> 
+		    <rich:modalPanel id="detailsPanel" width="650" height="375">
+		        <f:facet name="header">
+		            <h:panelGroup>
+		                <h:outputText value="Mapping details"></h:outputText>
+		            </h:panelGroup>
+		        </f:facet>
+		        <f:facet name="controls">
+		            <h:panelGroup>
+		                <h:graphicImage value="/img/close.png" id="hidelink"
+	                    	styleClass="hidelink"  onclick="#{rich:component('detailsPanel')}.hide();return false;"/>
+		               	<!-- rich:componentControl for="detailsPanel" attachTo="hidelink" operation="hide" event="onclick"/-->
+		            </h:panelGroup>
+		        </f:facet>
+		        <h:outputText value="Szczegóły mapowania" style="font-weight:bold;"></h:outputText>
+		        <br/>
+		        <h:form>
+		        <rich:messages style="color:red;"></rich:messages>
+		            <h:panelGrid columns="1">
+		                <a4j:outputPanel ajaxRendered="true">
+		                    <h:panelGrid columns="1">
+		                    	<h:panelGrid columns="2">
+			                        <h:outputText value="Id:" /><h:outputText value="#{mappingsBean.mappingToShowDetails.id}" />
+			                        <h:outputText value="Utworzone przez:"/><h:outputText value="#{mappingsBean.mappingToShowDetails.createdBy.login}" />
+			                        <h:outputText value="Data utworzenia:"/><h:outputText value="#{mappingsBean.mappingToShowDetails.creationDate}" />
+			                        <h:outputText value="Zmodyfikowane przez:"/><h:outputText value="#{mappingsBean.mappingToShowDetails.modifyBy.login}" />
+			                        <h:outputText value="Data zmodyfikowania:"/><h:outputText value="#{mappingsBean.mappingToShowDetails.lastModify}" />
+			                        <h:outputText value="Zsynchronizane"/><h:outputText value="#{mappingsBean.mappingToShowDetails.synchronizedWithMobeelizer}" />
+		                       	</h:panelGrid>
+		                       	<rich:separator />
+		                       	<h:panelGrid width="600px" columns="3">
+			                       	<h:panelGrid width="200px" columns="2"> 
+				                        <h:outputText value="Sprzęt" style="font-weight:bold;"/><h:outputText value=""/>
+				                        <h:outputText value="Id:"/><h:outputText value="#{mappingsBean.mappingToShowDetails.equipment.id}" />
+				                        <h:outputText value="Marka:"/><h:outputText value="#{mappingsBean.mappingToShowDetails.equipment.brand}" />
+				                        <h:outputText value="Model:"/><h:outputText value="#{mappingsBean.mappingToShowDetails.equipment.model}" />
+				                        <h:outputText value="Numer seryjny:"/><h:outputText value="#{mappingsBean.mappingToShowDetails.equipment.serialNumber}" />
+				                        <h:outputText value="Zsynchronizowany:"/><h:outputText value="#{mappingsBean.mappingToShowDetails.equipment.synchronizedWithMobeelizer}" />
+				                    </h:panelGrid>
+			                        <h:panelGrid width="200px" columns="2">
+			                        	<h:outputText value="Pracownik" style="font-weight:bold;"/><h:outputText value=""/>
+				                        <h:outputText value="Id:"/><h:outputText value="#{mappingsBean.mappingToShowDetails.employee.id}" />
+				                        <h:outputText value="Imię:"/><h:outputText value="#{mappingsBean.mappingToShowDetails.employee.name}" />
+				                        <h:outputText value="Nazwisko:"/><h:outputText value="#{mappingsBean.mappingToShowDetails.employee.surname}" />
+				                        <h:outputText value="Miejsce urodzenia:"/><h:outputText value="#{mappingsBean.mappingToShowDetails.employee.placeOfBirth}" />
+				                        <h:outputText value="Data urodzenia:"/><h:outputText value="#{mappingsBean.mappingToShowDetails.employee.dateOfBirth}" />
+				                        <h:outputText value="E-mail:"/><h:outputText value="#{mappingsBean.mappingToShowDetails.employee.email}" />
+				                        <h:outputText value="msisdn:"/><h:outputText value="#{mappingsBean.mappingToShowDetails.employee.msisdn}" />
+				                        <h:outputText value="PESEL:"/><h:outputText value="#{mappingsBean.mappingToShowDetails.employee.pesel}" />
+				                        <h:outputText value="Zsynchronizowany:"/><h:outputText value="#{mappingsBean.mappingToShowDetails.employee.synchronizedWithMobeelizer}" />
+			                        </h:panelGrid>
+			                        <h:panelGrid width="200px" columns="2">
+				                        <h:outputText value="Lokalizacja" style="font-weight:bold;"/><h:outputText value=""/>
+				                        <h:outputText value="Id:"/><h:outputText value="#{mappingsBean.mappingToShowDetails.place.id}" />
+				                        <h:outputText value="Kraj:"/><h:outputText value="#{mappingsBean.mappingToShowDetails.place.country}" />
+				                        <h:outputText value="Województwo:"/><h:outputText value="#{mappingsBean.mappingToShowDetails.place.province}" />
+				                        <h:outputText value="Miasto:"/><h:outputText value="#{mappingsBean.mappingToShowDetails.place.city}" />
+				                        <h:outputText value="Ulica:"/><h:outputText value="#{mappingsBean.mappingToShowDetails.place.street}" />
+				                        <h:outputText value="Budynek:"/><h:outputText value="#{mappingsBean.mappingToShowDetails.place.building}" />
+				                        <h:outputText value="Piętro:"/><h:outputText value="#{mappingsBean.mappingToShowDetails.place.floor}" />
+				                        <h:outputText value="Pokój:"/><h:outputText value="#{mappingsBean.mappingToShowDetails.place.roomNumber}" />
+				                        <h:outputText value="Zsynchronizowana:"/><h:outputText value="#{mappingsBean.mappingToShowDetails.place.synchronizedWithMobeelizer}" />
+			                        </h:panelGrid>
+		                        </h:panelGrid>
+		                    </h:panelGrid>
+		                    <rich:message showSummary="true" showDetail="false" for="price" />
+		                </a4j:outputPanel>
+		            </h:panelGrid>
+		        </h:form>
+		    </rich:modalPanel>
+		</f:subview>
+	
+		<f:subview xmlns="http://www.w3.org/1999/xhtml"
+		      xmlns:ui="http://java.sun.com/jsf/facelets"
+		      xmlns:h="http://java.sun.com/jsf/html"
+		      xmlns:f="http://java.sun.com/jsf/core"
+		      xmlns:a4j="http://richfaces.org/a4j"
+		      xmlns:rich="http://richfaces.org/rich"> 
+		    <rich:modalPanel id="editPanel" width="650" height="100">
+		        <f:facet name="header">
+		            <h:panelGroup>
+		                <h:outputText value="Mapping edit"></h:outputText>
+		            </h:panelGroup>
+		        </f:facet>
+		        <f:facet name="controls">
+		            <h:panelGroup>
+		                <h:graphicImage value="/img/close.png" id="hidelink"
+	                    	styleClass="hidelink"  onclick="#{rich:component('editPanel')}.hide();return false;"/>
+		               	<rich:componentControl for="editPanel" attachTo="hidelink" operation="hide" event="onclick"/>
+		            </h:panelGroup>
+		        </f:facet>
+		        <h:outputText value="Edycja mapowania" style="font-weight:bold;"></h:outputText>
+		        <br/>
+		        <h:form>
+		        <rich:messages style="color:red;">
+		        	<f:facet name="errorMarker">
+	                   	<h:graphicImage  value="/img/error.gif" />  
+	               	</f:facet>
+		        </rich:messages>
+		            <h:panelGrid columns="1">
+		                <a4j:outputPanel ajaxRendered="true">
+		                <h:panelGrid columns="4">
+		                <!-- h:outputText value="#{mappingsBean.mappingToEdit.equipment}" /-->
+		                <h:selectOneMenu value="#{mappingsBean.mappingToEdit.equipment}" id="mappingEditEquipment" style="width: 100%">
+		                	<s:selectItems value="#{mappingsBean.equipmentList}" var="equip" label="#{equip.brand} - #{equip.model}" id="equipmentEdit"/>
+		                	<f:converter for="equipmentEdit" converterId="com.ewid.ewidserveradmin.converters.EquipmentConverter"/>
+		                </h:selectOneMenu>
+		            
+		                 <h:selectOneMenu value="#{mappingsBean.mappingToEdit.employee}" id="mappingEditEmployee" style="width: 100%">
+		                	<s:selectItems value="#{mappingsBean.employeesList}" var="employee" label="#{employee.name} #{employee.surname}" id="employeeEdit"/>
+		                	<f:converter for="employeeEdit" converterId="com.ewid.ewidserveradmin.converters.EmployeesConverter"/>
+		                </h:selectOneMenu>
+		            
+		                <h:selectOneMenu value="#{mappingsBean.mappingToEdit.place}" id="mappingEditPlace" style="width: 100%">
+		                	<s:selectItems value="#{mappingsBean.placesList}" var="place" label="#{place.city}, #{place.street}, #{place.building}, #{place.floor}, #{place.roomNumber}" id="placeEdit"/>
+		                	<f:converter for="placeEdit" converterId="com.ewid.ewidserveradmin.converters.PlacesConverter"/>
+		                </h:selectOneMenu>
+		                
+		                <a4j:commandButton  id="addlink" value="Zapisz"
+		                	action="#{mappingsBean.editMapping(mappingsBean.mappingToEdit)}"
+	                        reRender="mappingAddTable,mappingsTable,mappingsCountPanel"
+	                        oncomplete="#{rich:component('editPanel')}.hide()">
+	                    </a4j:commandButton>
+	                    <rich:toolTip for="addlink" value="Zapisz" />
+	                	</h:panelGrid>
+		    	        </a4j:outputPanel>
+		            </h:panelGrid>
+		        </h:form>
+		    </rich:modalPanel>
+		</f:subview>
+		<f:subview xmlns="http://www.w3.org/1999/xhtml"
+		      xmlns:ui="http://java.sun.com/jsf/facelets"
+		      xmlns:h="http://java.sun.com/jsf/html"
+		      xmlns:f="http://java.sun.com/jsf/core"
+		      xmlns:a4j="http://richfaces.org/a4j"
+		      xmlns:rich="http://richfaces.org/rich"> 
+			<rich:modalPanel id="deletePanel" autosized="true" width="200">
+		        <f:facet name="header">
+		            <h:outputText value="Delete this mapping from list?"
+		                style="padding-right:15px;" />
+		        </f:facet>
+		        <f:facet name="controls">
+		            <h:panelGroup>
+		                <!-- h:graphicImage value="/images/modal/close.png"
+		                    styleClass="hidelink" id="hidelink2" /-->
+		                <h:outputText value="X" styleClass="hidelink" id="hidelink2" />
+		                <rich:componentControl for="deletePanel" attachTo="hidelink2" operation="hide" event="onclick" />
+		            </h:panelGroup>
+		        </f:facet>
+		        <h:form>
+		            <table width="100%">
+		                <tbody>
+		                    <tr>
+		                        <td align="center" width="50%">
+		                        	<a4j:commandButton value="Yes" ajaxSingle="true" 
+		                        	action="#{mappingsBean.deleteMapping(mappingsBean.mappingToDelete)}"
+		                            oncomplete="#{rich:component('deletePanel')}.hide();" 
+		                            reRender="mappingAddTable,mappingsTable,mappingsCountPanel" />
+		                        </td>
+		                        <td align="center" width="50%">
+		                        	<a4j:commandButton value="Cancel"
+		                            onclick="#{rich:component('deletePanel')}.hide();return false;" />
+		                        </td>
+		                    </tr>
+		                </tbody>
+		            </table>
+		        </h:form>
+	   		</rich:modalPanel>
+		</f:subview>
+    </ui:define>
+</ui:composition>

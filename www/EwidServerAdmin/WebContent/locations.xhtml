@@ -1,0 +1,336 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    xmlns:a4j="http://richfaces.org/a4j"
+    template="layout/template.xhtml">
+
+    <ui:define name="body">
+
+        <h:form>
+            <rich:simpleTogglePanel switchType="client" opened="false" label="Dodaj nową lokalizację" rendered="#{identity.hasRole('locations-rw')}">
+	        	<rich:dataTable rows="1" value="#{placesBean.placeToAddFake}" var="place" width="650" id="placesAddTable">
+					<f:facet name="header">
+		                <h:outputText value="Dodaj lokalizację" />
+		            </f:facet>
+		            <rich:column>
+		                <f:facet name="header">
+		                    <h:outputText value="Kraj" />
+		                </f:facet>
+		                <rich:message for="placeEditCountry" tooltip="true" style="color:red;">
+		                	<f:facet name="errorMarker">
+	                            <h:graphicImage value="/img/error.gif" />  
+	                        </f:facet>
+		                </rich:message>
+		                <h:inputText label="Kraj" value="#{placesBean.placeToAdd.country}" id="placeEditCountry" required="true">
+		                	<f:validateLength maximum="32"/>
+		                </h:inputText>
+		            </rich:column>
+		            <rich:column>
+		                <f:facet name="header">
+		                    <h:outputText value="Województwo" />
+		                </f:facet>
+		                <rich:message for="placeEditProvince" tooltip="true" style="color:red;">
+		                	<f:facet name="errorMarker">
+	                            <h:graphicImage  value="/img/error.gif" />  
+	                        </f:facet>
+		                </rich:message>
+		                <h:inputText label="Województwo" value="#{placesBean.placeToAdd.province}" id="placeEditProvince" required="true">
+		                	<f:validateLength maximum="32"/>
+		                </h:inputText>
+		            </rich:column>
+		            <rich:column>
+		                <f:facet name="header">
+		                    <h:outputText value="Miasto" />
+		                </f:facet>
+		                <rich:message for="placeEditCity" tooltip="true" style="color:red;">
+		                	<f:facet name="errorMarker">
+	                            <h:graphicImage  value="/img/error.gif" />  
+	                        </f:facet>
+		                </rich:message>
+		                <h:inputText label="Miasto" value="#{placesBean.placeToAdd.city}" id="placeEditCity" required="true">
+		                	<f:validateLength maximum="32"/>
+		                </h:inputText>
+		            </rich:column>
+		            <rich:column>
+		                <f:facet name="header">
+		                    <h:outputText value="Kod pocztowy" />
+		                </f:facet>
+		                <rich:message for="placeEditPostalCode" tooltip="true" style="color:red;">
+		                	<f:facet name="errorMarker">
+	                            <h:graphicImage  value="/img/error.gif" />  
+	                        </f:facet>
+		                </rich:message>
+		                <h:inputText label="Kod pocztowy" value="#{placesBean.placeToAdd.postalCode}" id="placeEditPostalCode" required="true">
+		                	<f:validateLength maximum="12"/>
+		                </h:inputText>
+		            </rich:column>
+		            <rich:column>
+		                <f:facet name="header">
+		                    <h:outputText value="Ulica" />
+		                </f:facet>
+		                <rich:message for="placeEditStreet" tooltip="true" style="color:red;">
+		                	<f:facet name="errorMarker">
+	                            <h:graphicImage  value="/img/error.gif" />  
+	                        </f:facet>
+		                </rich:message>
+		                <h:inputText label="Ulica" value="#{placesBean.placeToAdd.street}" id="placeEditStreet" required="true">
+		                	<f:validateLength maximum="32"/>
+		                </h:inputText>
+		            </rich:column>
+		            <rich:column>
+		                <f:facet name="header">
+		                    <h:outputText value="Nr domu" />
+		                </f:facet>
+		                <rich:message for="placeEditBuilding" tooltip="true" style="color:red;">
+		                	<f:facet name="errorMarker">
+	                            <h:graphicImage  value="/img/error.gif" />  
+	                        </f:facet>
+		                </rich:message>
+		                <h:inputText label="Nr domu" value="#{placesBean.placeToAdd.building}" id="placeEditBuilding" required="true">
+		                	<f:validateLength maximum="16"/>
+		                </h:inputText>
+		            </rich:column>
+		            <rich:column>
+		                <f:facet name="header">
+		                    <h:outputText value="Piętro" />
+		                </f:facet>
+		                <rich:message for="placeEditFloor" tooltip="true" style="color:red;">
+		                	<f:facet name="errorMarker">
+	                            <h:graphicImage value="/img/error.gif" />  
+	                        </f:facet>
+		                </rich:message>
+		                <h:inputText label="Piętro" value="#{placesBean.placeToAdd.floor}" id="placeEditFloor" required="true">
+		                	<!-- f:convertNumber maxFractionDigits="0"
+			                       maxIntegerDigits="11" integerOnly="true"
+			                       type="number"/-->
+			               	<f:converter for="placeEditFloor" converterId="com.ewid.ewidserveradmin.converters.PlaceFloorConverter"/>
+			               	<f:validateLength maximum="11"/>
+		                </h:inputText>
+		            </rich:column>
+		            <rich:column>
+		                <f:facet name="header">
+		                    <h:outputText value="Nr pokoju" />
+		                </f:facet>
+		                <rich:message for="placeEditRoomNumber" tooltip="true" style="color:red;">
+		                	<f:facet name="errorMarker">
+	                            <h:graphicImage  value="/img/error.gif" />  
+	                        </f:facet>
+		                </rich:message>
+		                <h:inputText label="Nr pokoju" value="#{placesBean.placeToAdd.roomNumber}" id="placeEditRoomNumber" required="true">
+		                	<f:validateLength maximum="16"/>
+		                </h:inputText>
+		            </rich:column>
+		            <rich:column>
+		                <f:facet name="header">
+		                    <h:outputText value="Operacje" />
+		                </f:facet>
+		                <a4j:commandLink  id="addlink"
+	                        action="#{placesBean.addPlace(placesBean.placeToAdd)}" reRender="placesAddTable,placesTablePanel,placesCountPanel">
+	                        <h:graphicImage value="/img/add_button.png" style="border:0" />
+	                    </a4j:commandLink>
+	                    <rich:toolTip for="addlink" value="Dodaj" />
+	                </rich:column>
+		    	</rich:dataTable>
+	        </rich:simpleTogglePanel>
+			<rich:spacer height="20px"/>
+			<h:panelGrid>
+				<a4j:outputPanel id="placesCountPanel">
+					<h:outputText value="Liczba lokalizacji: #{placesBean.places eq null ? 0 : placesBean.places.size() }"  style="font-weight:bold;"/>
+				</a4j:outputPanel>
+			</h:panelGrid>
+			<rich:spacer height="20px"/>
+			<a4j:outputPanel id="placesTablePanel">
+				<rich:dataTable rows="12" value="#{placesBean.places}" var="place" width="650" id="placesTable">
+					<f:facet name="header">
+		                <h:outputText value="Lokalizacje" />
+		            </f:facet>
+		            <rich:column sortBy="#{place.id}" filterBy="#{place.id}" filterEvent="onkeyup" width="10px">
+		                <f:facet name="header">
+		                    <h:outputText value="ID" />
+		                </f:facet>
+		                <h:outputText value="#{place.id}" id="placeId" />
+		            </rich:column>
+		            <rich:column sortBy="#{place.country}" filterBy="#{place.country}" filterEvent="onkeyup">
+		                <f:facet name="header">
+		                    <h:outputText value="Kraj" />
+		                </f:facet>
+		                <h:outputText value="#{place.country}" id="placeCountry" />
+		            </rich:column>
+		            <rich:column sortBy="#{place.province}" filterBy="#{place.province}" filterEvent="onkeyup">
+		                <f:facet name="header">
+		                    <h:outputText value="Województwo" />
+		                </f:facet>
+		                <h:outputText value="#{place.province}" id="placeProvince" />
+		            </rich:column>
+		            <rich:column sortBy="#{place.city}" filterBy="#{place.city}" filterEvent="onkeyup">
+		                <f:facet name="header">
+		                    <h:outputText value="Miasto" />
+		                </f:facet>
+		                <h:outputText value="#{place.city}" id="placeCity" />
+		            </rich:column>
+		            <rich:column sortBy="#{place.postalCode}" filterBy="#{place.postalCode}" filterEvent="onkeyup">
+		                <f:facet name="header">
+		                    <h:outputText value="Kod pocztowy" />
+		                </f:facet>
+		                <h:outputText value="#{place.postalCode}" id="placePostalCode" />
+		            </rich:column>
+					<rich:column sortBy="#{place.street}" filterBy="#{place.street}" filterEvent="onkeyup">
+		                <f:facet name="header">
+		                    <h:outputText value="Ulica" />
+		                </f:facet>
+		                <h:outputText value="#{place.street}" id="placeStreet" />
+		            </rich:column>
+		            <rich:column sortBy="#{place.building}" filterBy="#{place.building}" filterEvent="onkeyup">
+		                <f:facet name="header">
+		                    <h:outputText value="Nr domu" />
+		                </f:facet>
+		                <h:outputText value="#{place.building}" id="placeBuilding" />
+		            </rich:column>
+		            <rich:column sortBy="#{place.floor}" filterBy="#{place.floor}" filterEvent="onkeyup">
+		                <f:facet name="header">
+		                    <h:outputText value="Piętro" />
+		                </f:facet>
+		                <h:outputText value="#{place.floor}" id="placeFloor" />
+		            </rich:column>
+		            <rich:column sortBy="#{place.roomNumber}" filterBy="#{place.roomNumber}" filterEvent="onkeyup">
+		                <f:facet name="header">
+		                    <h:outputText value="Nr pokoju" />
+		                </f:facet>
+		                <h:outputText value="#{place.roomNumber}" id="placeRoomNumber" />
+		            </rich:column>
+		            <rich:column>
+		                <f:facet name="header">
+		                    <h:outputText value="Operacje" />
+		                </f:facet>
+		                <a4j:commandLink ajaxSingle="true" id="editlink" rendered="#{identity.hasRole('locations-rw')}"
+	                        oncomplete="#{rich:component('editPanel')}.show()"
+	                        action="#{placesBean.setPlaceToEdit(place)}">
+	                        <h:graphicImage value="/img/edit_button.png" style="border:0" />
+	                    </a4j:commandLink>
+	                    <rich:toolTip for="editlink" value="Edytuj" />
+	                    <a4j:commandLink ajaxSingle="true" id="deletelink" rendered="#{identity.hasRole('locations-rw')}"
+	                        oncomplete="#{rich:component('deletePanel')}.show()"
+	                        action="#{placesBean.setPlaceToDelete(place)}">
+	                        <h:graphicImage value="/img/delete_button.png" style="border:0" />
+	                    </a4j:commandLink>
+	                    <rich:toolTip for="deletelink" value="Usuń" />
+		            </rich:column>
+		            <f:facet name="footer">
+	                	<rich:datascroller id="datascroller" />
+	            	</f:facet>
+				</rich:dataTable>
+			</a4j:outputPanel>
+		</h:form>
+		
+		<rich:modalPanel id="editPanel" autosized="true">
+	        <f:facet name="header">
+	            <h:outputText value="Edytuj" />
+	        </f:facet>
+	        <f:facet name="controls">
+	            <h:panelGroup>
+	                <h:graphicImage value="/img/close.png" id="hidelink"
+	                    styleClass="hidelink"  onclick="#{rich:component('deletePanel')}.hide();return false;"/>
+	                <rich:componentControl for="editPanel" attachTo="hidelink"
+	                    operation="hide" event="onclick" />
+	            </h:panelGroup>
+	        </f:facet>   
+	        <h:outputText value="Edycja pracownika" style="font-weight:bold;" />
+		        <br/>
+		        <h:form>
+		        <rich:messages style="color:red;">
+		        	<f:facet name="errorMarker">
+	                   	<h:graphicImage  value="/img/error.gif" />  
+	               	</f:facet>
+		        </rich:messages>
+		            <h:panelGrid columns="1">
+		                <a4j:outputPanel ajaxRendered="true">
+		                <h:panelGrid columns="2">  
+	                		<h:outputText value="Id" />
+	                		<h:inputText value="#{placesBean.placeToEdit.id}" disabled="true"/>
+	                		<h:outputText value="Kraj" />
+		                	<h:inputText label="Kraj" value="#{placesBean.placeToEdit.country}" id="placeEditCountry" required="true">
+		             	   		<f:validateLength maximum="32"/>
+		             	   	</h:inputText>
+		                    <h:outputText value="Województwo" />
+		            	    <h:inputText label="Województwo" value="#{placesBean.placeToEdit.province}" id="placeEditProvince" required="true">
+		             	   		<f:validateLength maximum="32"/>
+		             	   	</h:inputText>
+		                    <h:outputText value="Miasto" />
+		                	<h:inputText label="Miasto" value="#{placesBean.placeToEdit.city}" id="placeEditCity" required="true">
+		             	   		<f:validateLength maximum="32"/>
+		             	   	</h:inputText>
+		                    <h:outputText value="Kod pocztowy" />
+		            	    <h:inputText label="Kod pocztowy" value="#{placesBean.placeToEdit.postalCode}" id="placeEditPostalCode" required="true">
+		             	   		<f:validateLength maximum="12"/>
+		             	   	</h:inputText>
+		                    <h:outputText value="Ulica" />
+		            	    <h:inputText label="Ulica" value="#{placesBean.placeToEdit.street}" id="placeEditStreet" required="true">
+		             	   		<f:validateLength maximum="32"/>
+		             	   	</h:inputText>
+			                <h:outputText value="Nr domu" />
+		                	<h:inputText label="Nr domu" value="#{placesBean.placeToEdit.building}" id="placeEditBuilding" required="true">
+		             	   		<f:validateLength maximum="16"/>
+		             	   	</h:inputText>
+		                    <h:outputText value="Piętro" />
+		            	    <h:inputText label="Piętro" value="#{placesBean.placeToEdit.floor}" id="placeEditFloor" required="true">
+		            	    	<f:validateLongRange />
+		                		<f:validateLength maximum="11"/>
+		                	</h:inputText>
+		                    <h:outputText value="Nr pokoju" />
+		             	   	<h:inputText label="Nr pokoju" value="#{placesBean.placeToEdit.roomNumber}" id="placeEditRoomNumber" required="true">
+		             	   		<f:validateLength maximum="16"/>
+		             	   	</h:inputText>
+		             	   	
+		             	   	<a4j:commandButton  id="savelink" value="Zapisz"
+			                	action="#{placesBean.editPlace(placesBean.placeToEdit)}"
+		                        reRender="placesTablePanel,placesCountPanel"
+		                        oncomplete="if ('#{facesContext.maximumSeverity}' == '') Richfaces.hideModalPanel('editPanel')">
+	                    	</a4j:commandButton>
+	                    <rich:toolTip for="savelink" value="Zapisz" />
+		            	</h:panelGrid>            
+	        		</a4j:outputPanel>
+	        	</h:panelGrid>
+	        </h:form>
+	        
+	        
+	    </rich:modalPanel>
+	    <rich:modalPanel id="deletePanel" autosized="true" width="200">
+	        <f:facet name="header">
+	            <h:outputText value="Jesteś pewny?"
+	                style="padding-right:15px;" />
+	        </f:facet>
+	        <f:facet name="controls">
+	            <h:panelGroup>
+	                <h:graphicImage value="/img/close.png"
+	                    styleClass="hidelink" id="hidelink2"  onclick="#{rich:component('deletePanel')}.hide();return false;"/>
+	                <rich:componentControl for="deletePanel" attachTo="hidelink2"
+	                    operation="hide" event="onclick" />
+	            </h:panelGroup>
+	        </f:facet>
+	       	<h:form>
+	            <table width="100%">
+	                <tbody>
+	                    <tr>
+	                        <td align="center" width="50%">
+	                        	<a4j:commandButton value="Yes"
+	                            	ajaxSingle="true" action="#{placesBean.deletePlace(placesBean.placeToDelete)}"
+	                            	oncomplete="#{rich:component('deletePanel')}.hide();"
+	                            	reRender="placesTablePanel,placesCountPanel" />
+	                        </td>
+	                        <td align="center" width="50%">
+	                        	<a4j:commandButton value="Cancel"
+	                            	onclick="#{rich:component('deletePanel')}.hide();return false;" />
+	                        </td>
+	                    </tr>
+	                </tbody>
+	            </table>
+       	 	</h:form>
+	    </rich:modalPanel>
+
+    </ui:define>
+</ui:composition>

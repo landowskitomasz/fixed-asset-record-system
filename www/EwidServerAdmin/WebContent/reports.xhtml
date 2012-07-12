@@ -1,0 +1,208 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+    <ui:define name="body">
+    	<rich:messages layout="table" tooltip="true" showDetail="false" showSummary="true" />
+
+        <rich:simpleTogglePanel switchType="client" opened="false" label="Ostatni miesiąc">
+        	<rich:dataTable value="#{reportsBean.lastMonthReport}" var="report">
+        		<rich:column>
+	                <f:facet name="header">
+	                    <h:outputText value="Pracownicy" />
+	                </f:facet>
+	                <h:panelGrid columns="2">
+		                <h:outputText value="Dodani:" /><h:outputText value="#{report.employeeAdd}" id="addEmployee" />
+		                <h:outputText value="Edytowani:" /><h:outputText value="#{report.employeeEdit}" id="editEmployee" />
+		                <h:outputText value="Usunięci:" /><h:outputText value="#{report.employeeDelete}" id="deleteEmployee" />
+	                </h:panelGrid>
+	            </rich:column>
+	            <rich:column>
+	                <f:facet name="header">
+	                    <h:outputText value="Sprzęt" />
+	                </f:facet>
+	                <h:panelGrid columns="2">
+		                <h:outputText value="Dodany:" /><h:outputText value="#{report.equipmentAdd}" id="addEquipment" />
+		                <h:outputText value="Edytowany:" /><h:outputText value="#{report.equipmentEdit}" id="editEquipment" />
+		                <h:outputText value="Usunięty:" /><h:outputText value="#{report.equipmentDelete}" id="deleteEquipment" />
+	                </h:panelGrid>
+	            </rich:column>
+	            <rich:column>
+	                <f:facet name="header">
+	                    <h:outputText value="Lokalizacje" />
+	                </f:facet>
+	                <h:panelGrid columns="2">
+		                <h:outputText value="Dodane:" /><h:outputText value="#{report.localizationAdd}" id="addLocalization" />
+		                <h:outputText value="Edytowane:" /><h:outputText value="#{report.localizationEdit}" id="editLocalization" />
+		                <h:outputText value="Usunięte:" /><h:outputText value="#{report.localizationDelete}" id="deleteLocalization" />
+		           	</h:panelGrid>
+	            </rich:column>
+	            <rich:column>
+	                <f:facet name="header">
+	                    <h:outputText value="Wpisy do EŚT" />
+	                </f:facet>
+	                <h:panelGrid columns="2">
+		                <h:outputText value="Dodane:" /><h:outputText value="#{report.fixedAssetAdd}" id="addRecords" />
+		                <h:outputText value="Edytowane:" /><h:outputText value="#{report.fixedAssetEdit}" id="editRecords" />
+		            </h:panelGrid>
+	            </rich:column>
+	            <rich:column>
+	                <f:facet name="header">
+	                    <h:outputText value="Mapowania" />
+	                </f:facet>
+	                <h:panelGrid columns="2">
+		                <h:outputText value="Dodane:" /><h:outputText value="#{report.mappingAdd}" id="addMappings" />
+		                <h:outputText value="Edytowane:" /><h:outputText value="#{report.mappingEdit}" id="editMappings" />
+		                <h:outputText value="Usunięte:" /><h:outputText value="#{report.mappingDelete}" id="deleteMappings" />
+	                </h:panelGrid>
+	            </rich:column>
+	            <rich:column>
+	                <f:facet name="header">
+	                    <h:outputText value="Użytkownicy" />
+	                </f:facet>
+	                <h:panelGrid columns="2">
+		                <h:outputText value="Dodani:" /><h:outputText value="#{report.userAdd}" id="addUsers" />
+		                <h:outputText value="Edytowani:" /><h:outputText value="#{report.userEdit}" id="editUsers" />
+		                <h:outputText value="Usunięci:" /><h:outputText value="#{report.userDelete}" id="deleteUsers" />
+	                </h:panelGrid>
+	            </rich:column>
+	        </rich:dataTable>
+        </rich:simpleTogglePanel>
+        
+        <rich:simpleTogglePanel switchType="client" opened="false" label="Ostatni rok">
+        	 	<rich:dataTable value="#{reportsBean.lastYearReport}" var="report">
+        		<rich:column>
+	                <f:facet name="header">
+	                    <h:outputText value="Pracownicy" />
+	                </f:facet>
+	                <h:panelGrid columns="2">
+		                <h:outputText value="Dodani:" /><h:outputText value="#{report.employeeAdd}" id="addEmployee" />
+		                <h:outputText value="Edytowani:" /><h:outputText value="#{report.employeeEdit}" id="editEmployee" />
+		                <h:outputText value="Usunięci:" /><h:outputText value="#{report.employeeDelete}" id="deleteEmployee" />
+	                </h:panelGrid>
+	            </rich:column>
+	            <rich:column>
+	                <f:facet name="header">
+	                    <h:outputText value="Sprzęt" />
+	                </f:facet>
+	                <h:panelGrid columns="2">
+		                <h:outputText value="Dodany:" /><h:outputText value="#{report.equipmentAdd}" id="addEquipment" />
+		                <h:outputText value="Edytowany:" /><h:outputText value="#{report.equipmentEdit}" id="editEquipment" />
+		                <h:outputText value="Usunięty:" /><h:outputText value="#{report.equipmentDelete}" id="deleteEquipment" />
+	                </h:panelGrid>
+	            </rich:column>
+	            <rich:column>
+	                <f:facet name="header">
+	                    <h:outputText value="Lokalizacje" />
+	                </f:facet>
+	                <h:panelGrid columns="2">
+		                <h:outputText value="Dodane:" /><h:outputText value="#{report.localizationAdd}" id="addLocalization" />
+		                <h:outputText value="Edytowane:" /><h:outputText value="#{report.localizationEdit}" id="editLocalization" />
+		                <h:outputText value="Usunięte:" /><h:outputText value="#{report.localizationDelete}" id="deleteLocalization" />
+		           	</h:panelGrid>
+	            </rich:column>
+	            <rich:column>
+	                <f:facet name="header">
+	                    <h:outputText value="Wpisy do EŚT" />
+	                </f:facet>
+	                <h:panelGrid columns="2">
+		                <h:outputText value="Dodane:" /><h:outputText value="#{report.fixedAssetAdd}" id="addRecords" />
+		                <h:outputText value="Edytowane:" /><h:outputText value="#{report.fixedAssetEdit}" id="editRecords" />
+		            </h:panelGrid>
+	            </rich:column>
+	            <rich:column>
+	                <f:facet name="header">
+	                    <h:outputText value="Mapowania" />
+	                </f:facet>
+	                <h:panelGrid columns="2">
+		                <h:outputText value="Dodane:" /><h:outputText value="#{report.mappingAdd}" id="addMappings" />
+		                <h:outputText value="Edytowane:" /><h:outputText value="#{report.mappingEdit}" id="editMappings" />
+		                <h:outputText value="Usunięte:" /><h:outputText value="#{report.mappingDelete}" id="deleteMappings" />
+	                </h:panelGrid>
+	            </rich:column>
+	            <rich:column>
+	                <f:facet name="header">
+	                    <h:outputText value="Użytkownicy" />
+	                </f:facet>
+	                <h:panelGrid columns="2">
+		                <h:outputText value="Dodani:" /><h:outputText value="#{report.userAdd}" id="addUsers" />
+		                <h:outputText value="Edytowani:" /><h:outputText value="#{report.userEdit}" id="editUsers" />
+		                <h:outputText value="Usunięci:" /><h:outputText value="#{report.userDelete}" id="deleteUsers" />
+	                </h:panelGrid>
+	            </rich:column>
+	        </rich:dataTable>
+        </rich:simpleTogglePanel>
+        
+        <rich:simpleTogglePanel switchType="client" opened="false" label="Wszystkie">
+        	 	<rich:dataTable value="#{reportsBean.summaryReport}" var="report">
+        		<rich:column>
+	                <f:facet name="header">
+	                    <h:outputText value="Pracownicy" />
+	                </f:facet>
+	                <h:panelGrid columns="2">
+		                <h:outputText value="Dodani:" /><h:outputText value="#{report.employeeAdd}" id="addEmployee" />
+		                <h:outputText value="Edytowani:" /><h:outputText value="#{report.employeeEdit}" id="editEmployee" />
+		                <h:outputText value="Usunięci:" /><h:outputText value="#{report.employeeDelete}" id="deleteEmployee" />
+	                </h:panelGrid>
+	            </rich:column>
+	            <rich:column>
+	                <f:facet name="header">
+	                    <h:outputText value="Sprzęt" />
+	                </f:facet>
+	                <h:panelGrid columns="2">
+		                <h:outputText value="Dodany:" /><h:outputText value="#{report.equipmentAdd}" id="addEquipment" />
+		                <h:outputText value="Edytowany:" /><h:outputText value="#{report.equipmentEdit}" id="editEquipment" />
+		                <h:outputText value="Usunięty:" /><h:outputText value="#{report.equipmentDelete}" id="deleteEquipment" />
+	                </h:panelGrid>
+	            </rich:column>
+	            <rich:column>
+	                <f:facet name="header">
+	                    <h:outputText value="Lokalizacje" />
+	                </f:facet>
+	                <h:panelGrid columns="2">
+		                <h:outputText value="Dodane:" /><h:outputText value="#{report.localizationAdd}" id="addLocalization" />
+		                <h:outputText value="Edytowane:" /><h:outputText value="#{report.localizationEdit}" id="editLocalization" />
+		                <h:outputText value="Usunięte:" /><h:outputText value="#{report.localizationDelete}" id="deleteLocalization" />
+		           	</h:panelGrid>
+	            </rich:column>
+	            <rich:column>
+	                <f:facet name="header">
+	                    <h:outputText value="Wpisy do EŚT" />
+	                </f:facet>
+	                <h:panelGrid columns="2">
+		                <h:outputText value="Dodane:" /><h:outputText value="#{report.fixedAssetAdd}" id="addRecords" />
+		                <h:outputText value="Edytowane:" /><h:outputText value="#{report.fixedAssetEdit}" id="editRecords" />
+		            </h:panelGrid>
+	            </rich:column>
+	            <rich:column>
+	                <f:facet name="header">
+	                    <h:outputText value="Mapowania" />
+	                </f:facet>
+	                <h:panelGrid columns="2">
+		                <h:outputText value="Dodane:" /><h:outputText value="#{report.mappingAdd}" id="addMappings" />
+		                <h:outputText value="Edytowane:" /><h:outputText value="#{report.mappingEdit}" id="editMappings" />
+		                <h:outputText value="Usunięte:" /><h:outputText value="#{report.mappingDelete}" id="deleteMappings" />
+	                </h:panelGrid>
+	            </rich:column>
+	            <rich:column>
+	                <f:facet name="header">
+	                    <h:outputText value="Użytkownicy" />
+	                </f:facet>
+	                <h:panelGrid columns="2">
+		                <h:outputText value="Dodani:" /><h:outputText value="#{report.userAdd}" id="addUsers" />
+		                <h:outputText value="Edytowani:" /><h:outputText value="#{report.userEdit}" id="editUsers" />
+		                <h:outputText value="Usunięci:" /><h:outputText value="#{report.userDelete}" id="deleteUsers" />
+	                </h:panelGrid>
+	            </rich:column>
+	        </rich:dataTable>
+        </rich:simpleTogglePanel>
+        
+        
+    </ui:define>
+</ui:composition>

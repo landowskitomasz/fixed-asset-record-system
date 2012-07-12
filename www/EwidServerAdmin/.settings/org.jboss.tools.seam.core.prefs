@@ -1,0 +1,17 @@
+#Sat May 19 11:43:43 CEST 2012
+action.package=com.ewid.ewidserveradmin.session
+action.sources=/EwidServerAdmin-ejb/ejbModule
+eclipse.preferences.version=1
+model.package=com.ewid.ewidserveradmin.entity
+model.sources=/EwidServerAdmin-ejb/ejbModule
+seam.ear.project=EwidServerAdmin-ear
+seam.ejb.project=EwidServerAdmin-ejb
+seam.project.connection.profile=MySQL_conn_profile
+seam.project.deployment.type=ear
+seam.project.settings.version=1.1
+seam.project.web.root.folder=/EwidServerAdmin/WebContent
+seam.runtime.name=jboss-seam-2.2.2.Final
+seam.test.creating=true
+seam.test.project=EwidServerAdmin-test
+test.package=org.domain.ewidserveradmin.test
+test.sources=/EwidServerAdmin-test/test-src

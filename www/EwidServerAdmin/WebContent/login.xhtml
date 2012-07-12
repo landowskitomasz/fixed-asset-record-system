@@ -1,0 +1,50 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view	xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:a="http://richfaces.org/a4j"
+   xmlns:s="http://jboss.com/products/seam/taglib"
+   xmlns:rich="http://richfaces.org/rich"
+   contentType="text/html">
+    <!-- template="layout/template.xhtml"-->
+
+<html>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+      <title>EwidServerAdmin</title>
+      <link rel="shortcut icon" href="#{request.contextPath}/favicon.ico"/>
+      <a:loadStyle src="/stylesheet/theme.xcss"/>
+      <a:loadStyle src="/stylesheet/theme.css"/>
+      <ui:insert name="head"/>
+   </head>
+   <body>
+<!-- ui:define name="body"-->
+
+    <h:form id="loginForm">
+		<rich:messages layout="table" tooltip="true" showDetail="false" showSummary="true" />
+		<rich:panel styleClass="loginFormClass">
+            <f:facet name="header">Login</f:facet>
+			<div class="dialog">
+                <h:panelGrid columns="2" rowClasses="prop" columnClasses="name,value">
+                    <h:outputLabel for="username">Username</h:outputLabel>
+                    <h:inputText id="username" value="#{credentials.username}"/>
+                    <h:outputLabel for="password">Password</h:outputLabel>
+                    <h:inputSecret id="password" value="#{credentials.password}"/>
+                </h:panelGrid> 
+                    <div class="actionButtons">
+			            <h:commandButton id="submit" value="Login" action="#{identity.login}"/>
+			        </div>
+                
+            </div>
+		
+        </rich:panel>
+
+    </h:form>
+
+ <!-- /ui:define>
+</ui:composition-->
+	</body>
+</html>
+</f:view>
