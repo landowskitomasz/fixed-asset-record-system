@@ -20,17 +20,21 @@ Dane pomiêdzy tymi 2 modu³ami wymieniane s¹ za pomoca synchronizatora danych Mob
  * www/ddl.sql.txt
  * www/reports_ddl.sql.txt
 3. Zmieñ ustawienia pliku dostêpu do Ÿród³a danych - www/EwidServerAdmin-ear/resources/EwidServerAdmin-ds.xml tak aby wskazywa³ na Twoj¹ bazê danych.
-4. Skopiuj skonfigurowany plik o do folderu deploy serwera jBoss.
-5. Zaimportuj projekty z katalogu www do œrodowiska pracy eclips'a i uruchom je na serwerze jBoss
+4. Skopiuj skonfigurowany plik do folderu deploy serwera jBoss.
+5. Zaimportuj projekty z katalogu www do œrodowiska pracy eclips'a.
+6. Uruchom serwer jBosss u¿ywaj¹c perspektywy Java EE i okna Servers. 
+7. Uruchom projekty na serwerze klikaj¹c prawym przyciskiem i wybieraj¹æ Run>Run on Server lub dodaj¹c je do serwera w oknie Servers.
+8. Aplikacja zostanie uruchomiona na porcie 8080.
 
 # Uruchomienie aplikacji android
 
 1. Zaimportuj projekt z katalogu AndroidApp do eclipsa.
 2. Uruchom projekt w emulatorze lub zbuduj go i zainstaluj na telefonie. (Pamiêtaj ¿e aplikacja wymaga sdk w wersji minimum 2.2 oraz ¿e emulator musi byœ skonfigurowany tak aby mia³ dostêp do internetu oraz zewnetrznej pamiêci)
 
-# Synchronizator
+# Uruchomienie synchronizacji
 
-Do synchronizacji danych serwera z Mobeelizerem stworzyliœmy osobn¹ aplikacjê konsolow¹ www/Synchronizator, powodem by³y konflikty na serwerze jBoss. Jest to zwyk³a aplikacja konsolowa i uruchomienie nie wymaga wiêkszego objaœnienia. 
+Do synchronizacji danych serwera z Mobeelizerem stworzyliœmy osobn¹ aplikacjê konsolow¹ www/Synchronizator, powodem by³y konflikty na serwerze jBoss. 
+
 
 # Dokumentacja projektu 
 
