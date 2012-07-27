@@ -23,7 +23,7 @@ Dane pomiêdzy tymi 2 modu³ami wymieniane s¹ za pomoca synchronizatora danych Mob
 4. Skopiuj skonfigurowany plik do folderu deploy serwera jBoss.
 5. Zaimportuj projekty z katalogu www do œrodowiska pracy eclips'a.
 6. Uruchom serwer jBosss u¿ywaj¹c perspektywy Java EE i okna Servers. 
-7. Uruchom projekty na serwerze klikaj¹c prawym przyciskiem i wybieraj¹æ Run>Run on Server lub dodaj¹c je do serwera w oknie Servers.
+7. Uruchom projekty na serwerze klikaj¹c na nie prawym przyciskiem w Exploratorze pakietów i wybieraj¹æ Run as>Run on Server lub dodaj¹c je do serwera w oknie Servers.
 8. Aplikacja zostanie uruchomiona na porcie 8080.
 
 # Uruchomienie aplikacji android
