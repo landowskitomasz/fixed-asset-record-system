@@ -20,13 +20,13 @@ Dane pomiêdzy tymi 2 modu³ami wymieniane s¹ za pomoca synchronizatora danych Mob
  * www/ddl.sql.txt
  * www/reports_ddl.sql.txt
 3. Zmieñ ustawienia pliku dostêpu do Ÿród³a danych - www/EwidServerAdmin-ear/resources/EwidServerAdmin-ds.xml tak aby wskazywa³ na Twoj¹ bazê danych.
-4. Skopiuj skonfigurowany o do folderu deploy serwera jBoss.
+4. Skopiuj skonfigurowany plik o do folderu deploy serwera jBoss.
 5. Zaimportuj projekty z katalogu www do œrodowiska pracy eclips'a i uruchom je na serwerze jBoss
 
 # Uruchomienie aplikacji android
 
 1. Zaimportuj projekt z katalogu AndroidApp do eclipsa.
-2. Uruchom projekt w emulatorze lub zbuduj go i zainstaluj na telefonie. 
+2. Uruchom projekt w emulatorze lub zbuduj go i zainstaluj na telefonie. (Pamiêtaj ¿e aplikacja wymaga sdk w wersji minimum 2.2 oraz ¿e emulator musi byœ skonfigurowany tak aby mia³ dostêp do internetu oraz zewnetrznej pamiêci)
 
 # Copyright
 
