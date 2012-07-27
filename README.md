@@ -28,6 +28,10 @@ Dane pomiêdzy tymi 2 modu³ami wymieniane s¹ za pomoca synchronizatora danych Mob
 1. Zaimportuj projekt z katalogu AndroidApp do eclipsa.
 2. Uruchom projekt w emulatorze lub zbuduj go i zainstaluj na telefonie. (Pamiêtaj ¿e aplikacja wymaga sdk w wersji minimum 2.2 oraz ¿e emulator musi byœ skonfigurowany tak aby mia³ dostêp do internetu oraz zewnetrznej pamiêci)
 
+# Synchronizator
+
+Do synchronizacji danych serwera z Mobeelizerem stworzyliœmy osobn¹ aplikacjê konsolow¹ www/Synchronizator, powodem by³y konflikty na serwerze jBoss. Jest to zwyk³a aplikacja konsolowa i uruchomienie nie wymaga wiêkszego objaœnienia. 
+
 # Dokumentacja projektu 
 
 Pe³n¹ dokumentacje projektu znajdziesz pod adresem: http://ai.ia.agh.edu.pl/wiki/pl:dydaktyka:ztb:2012:projekty:srodki_trwale
