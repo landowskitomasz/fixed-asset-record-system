@@ -38,7 +38,7 @@ Pe³n¹ dokumentacje projektu znajdziesz pod adresem: http://ai.ia.agh.edu.pl/wiki
 
 # Copyright
 
-Copyright 2012 - Marcin Hajduczek, Tomasz Landowski
+Copyright 2012 - Marcin Hajduczek(mhajduczek@wp.pl), Tomasz Landowski(landowskitomasz@gmail.com)
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
