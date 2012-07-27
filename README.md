@@ -4,7 +4,7 @@ Aplikacja do ewidencji œrodków trwa³ych umo¿liwia wprowadzanie oraz edycjê œrodk
 System sk³ada siê z dwych modu³ow www oraz aplikacji mobilnej. Interfejs www umo¿liwia wprowadzanie danych do bazy oraz zarz¹danie nimi natomiast aplikacja mobilna s³u¿y do tworzenia powi¹zañ pracownika z pomieszczeniami i sprzêtem.
 Dane pomiêdzy tymi 2 modu³ami wymieniane s¹ za pomoca synchronizatora danych Mobeelizer.
 
-![Model systemu.](EwidencjaSrodkowTrwalych/model.png)
+![Model systemu.](EwidencjaSrodkowTrwalych/master/model.png)
 
 #Œrodowisko pracy
 
