@@ -34,7 +34,7 @@ Dane pomiêdzy tymi 2 modu³ami wymieniane s¹ za pomoca synchronizatora danych Mob
 # Uruchomienie synchronizacji
 
 Do synchronizacji danych serwera z Mobeelizerem stworzyliœmy osobn¹ aplikacjê konsolow¹ www/Synchronizator, powodem by³y konflikty na serwerze jBoss. 
-
+Aby uruchomiæ proces synchronizacji aplikacja www musi byæ uruchomiona na serwerze jboss. Synchronizacje uruchamiamy za pomoca skryptu run.bat który znajduje siê w katalogu Synchronizator_bin.
 
 # Dokumentacja projektu 
 
