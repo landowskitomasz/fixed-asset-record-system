@@ -1,44 +1,42 @@
-# Ewidencja œrodków trwa³ych
+# Fixed asset record
 
-Aplikacja do ewidencji œrodków trwa³ych umo¿liwia wprowadzanie oraz edycjê œrodków trwa³ych oraz mo¿liwoœæ przypisania sprzêtu do pracowników oraz lokalizacji co u³atwia zarz¹dzanie tym sprzêtem.
-System sk³ada siê z dwych modu³ow www oraz aplikacji mobilnej. Interfejs www umo¿liwia wprowadzanie danych do bazy oraz zarz¹danie nimi natomiast aplikacja mobilna s³u¿y do tworzenia powi¹zañ pracownika z pomieszczeniami i sprzêtem.
-Dane pomiêdzy tymi 2 modu³ami wymieniane s¹ za pomoca synchronizatora danych Mobeelizer.
+Fixed asset record application allows you to enter and edit assets, and give you ability to asign equipment to employees and the location for, easier management of this equipment. The system consists of two modules, web and mobile applications. Web interface allows you to enter data into the database and management of it, and the mobile application allows you to create an employee relationship with the rooms and equipment. Data between these two modules are exchanged with Mobeelizer data synchronizer.
 
 ![Model systemu.](EwidencjaSrodkowTrwalych/raw/master/model.png)
 
-#Œrodowisko pracy
+#Work Environment
 
-* baza danych MySql
-* serwer aplikacyjny jBoss 6.1.0
-* eclipse indigo
+* MySQL database
+* jBoss application server 6.1.0
+* indigo eclipse
 * android sdk 2.2 
 
-# Uruchomienie aplikacji www
+# Run web applications
 
-1. Utwórz bazê danych na serwerze MySql (np. CREATE DATABASE ewidencja;)
-2. Uruchom skrypty SQL w utworzonej bazie danych
- * www/ddl.sql.txt
+1. Create a database on a MySQL server (for example, CREATE DATABASE record;)
+2. Run the SQL scripts in created database
+ * www/ddl.sql.txt  
  * www/reports_ddl.sql.txt
-3. Zmieñ ustawienia pliku dostêpu do Ÿród³a danych - www/EwidServerAdmin-ear/resources/EwidServerAdmin-ds.xml tak aby wskazywa³ na Twoj¹ bazê danych.
-4. Skopiuj skonfigurowany plik do folderu deploy serwera jBoss.
-5. Zaimportuj projekty z katalogu www do œrodowiska pracy eclips'a.
-6. Uruchom serwer jBosss u¿ywaj¹c perspektywy Java EE i okna Servers. 
-7. Uruchom projekty na serwerze klikaj¹c na nie prawym przyciskiem w Exploratorze pakietów i wybieraj¹æ Run as>Run on Server lub dodaj¹c je do serwera w oknie Servers.
-8. Aplikacja zostanie uruchomiona na porcie 8080.
+3. Change access file settings to the data source - www/EwidServerAdmin-ear/resources/EwidServerAdmin-ds.xml so that it points to your database
+4. Copy configured file to the JBoss deploy folder
+5. Import projects from web folder to the elipse working environment
+6. Start the JBoss server using the Java EE perspective and Servers window
+7. Run project on server by clicking the right mouse button on package explorer  and selecting Run as> Run on Server or adding them to the server in the Servers widnow
+8. The application will be running on port 8080
 
-# Uruchomienie aplikacji android
+# Run Android Application 
 
-1. Zaimportuj projekt z katalogu AndroidApp do eclipsa.
-2. Uruchom projekt w emulatorze lub zbuduj go i zainstaluj na telefonie. (Pamiêtaj ¿e aplikacja wymaga sdk w wersji minimum 2.2 oraz ¿e emulator musi byœ skonfigurowany tak aby mia³ dostêp do internetu oraz zewnetrznej pamiêci)
+1. Import the projekt from catalogue Android App to elipse
+2. Run the project in the emulator or build it and install on your phone. (Remember that your application requires a SDK version 2.2  minimum, and the emulator you must configure in order to have access to the Internet and external memory).
 
-# Uruchomienie synchronizacji
+# Starting synchronization
 
-Do synchronizacji danych serwera z Mobeelizerem stworzyliœmy osobn¹ aplikacjê konsolow¹ www/Synchronizator, powodem by³y konflikty na serwerze jBoss. 
-Aby uruchomiæ proces synchronizacji aplikacja www musi byæ uruchomiona na serwerze jboss. Synchronizacje uruchamiamy za pomoca skryptu run.bat który znajduje siê w katalogu Synchronizator_bin.
+To synchronize the server with Mobeelizer we created a separate console www application / synchronizer, becouse of  the conflict on JBoss.
+To run synchronization process web application must runing on jBoss server. There is a run.bat file in Synchronizator_bin directory which  starts synchronization process.
 
-# Dokumentacja projektu 
+# Project documentation
 
-Pe³n¹ dokumentacje projektu znajdziesz pod adresem: http://ai.ia.agh.edu.pl/wiki/pl:dydaktyka:ztb:2012:projekty:srodki_trwale
+Full project documentation you will found at: http://ai.ia.agh.edu.pl/wiki/pl:dydaktyka:ztb:2012:projekty:srodki_trwale
 
 # Copyright
 
