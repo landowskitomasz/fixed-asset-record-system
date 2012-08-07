@@ -32,7 +32,7 @@ Fixed asset record application allows you to enter and edit assets, and give you
 # Starting synchronization
 
 To synchronize the server with Mobeelizer we created a separate console www application / synchronizer, becouse of  the conflict on JBoss.
-To run synchronization process web application must runing on jBoss server. There is a run.bat file in Synchronizator_bin directory which  starts synchronization process.
+To run synchronization process web application must be up and running on jBoss server. There is a run.bat file in Synchronizator_bin directory which  starts synchronization process.
 
 # Project documentation
 
